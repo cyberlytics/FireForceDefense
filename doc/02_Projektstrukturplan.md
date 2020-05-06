@@ -19,7 +19,7 @@
  - Menü als Startbildschirm erstellen
  - Gesamt-Kartenansicht für Level erstellen (Idee: Vom Ufer zum Vulkan)
  
-## Spielinhalt
+### Spielinhalt
  - Spielansicht erstellen (Graphstruktur für Kartenzellen)
  - Verschiedene Zelltypen erstellen (Wasser, Gras, dürres Land, ...)
  - Verschiedene Inhaltstypen für Zellen erstellen (Basis, Haus, Turm, Brunnen, ...)
@@ -30,6 +30,6 @@
  - Währung (Gold/XP/?) -> Startkapital, Belohnung pro gelöschtem Feuer, kann für Baumaßnahmen und Effekte verwendet werden
  - Wasserlogik (Wasserspeichernde Zell-/Inhaltstypen, Schläuche, ...)
  
-## Graphik
+### Graphik
  - Graphiken erstellen
  - Graphik aufpolieren (Animationen, Transitions)
