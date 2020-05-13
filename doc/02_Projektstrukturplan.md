@@ -6,30 +6,33 @@
  - Use Cases
  
 ## Entwurf
- - BO-Spezifikation
- - Interaktionsdiagramm hinzufügen
+ - Benutzeroberflächen-Spezifikation
+ - Interaktionsdiagramme erstellen
  
 ## Implementierung und Test
 ### Initialisierung
- - Über Frameworks/Bibliotheken informieren
+ - Frameworks/Bibliotheken auswählen
  - Entwicklungsumgebung einrichten
  - Testumgebung einrichten
 
 ### Spielverwaltung
- - Menü als Startbildschirm erstellen
- - Gesamt-Kartenansicht für Level erstellen (Idee: Vom Ufer zum Vulkan)
+ - Menü/Startbildschirm erstellen
+ - Einfaches Backend zur Spielstand-Speicherung implementieren
+ - Gesamt-Kartenansicht für Levelauswahl erstellen
+ 
+### Artwork
+ - Graphiken erstellen
+ - Soundeffekte/Musik auswählen
+ - Graphik aufpolieren (Animationen, Transitions)
  
 ### Spielinhalt
- - Spielansicht erstellen (Graphstruktur für Kartenzellen)
- - Verschiedene Zelltypen erstellen (Wasser, Gras, dürres Land, ...)
- - Verschiedene Inhaltstypen für Zellen erstellen (Basis, Haus, Turm, Brunnen, ...)
- - Logik für Levelablauf (Basis im Zentrum platzieren, Sterne, ...)
- - Bauen
- - Fire Spreading
- - Verschiedene Effekte (Wind, Feuerpfeile, Monster, Bomben, Regen)
- - Währung (Gold/XP/?) -> Startkapital, Belohnung pro gelöschtem Feuer, kann für Baumaßnahmen und Effekte verwendet werden
- - Wasserlogik (Wasserspeichernde Zell-/Inhaltstypen, Schläuche, ...)
- 
-### Graphik
- - Graphiken erstellen
- - Graphik aufpolieren (Animationen, Transitions)
+ - Spielansicht erstellen (hexagonale Kartenzellen)
+ - Verschiedene Zelltypen definieren (Wasser, Gras, dürres Land, ...)
+ - Verschiedene Inhaltstypen für Zellen definieren (Basis, Haus, Turm, Brunnen, Löschschiffe, ...)
+ - Levelablauf-Logik implementieren (Leveldaten laden, Basis im Zentrum platzieren, Sterne, ...)
+ - Bau-Funktionalität implementieren
+ - Feuer-Logik implementieren (Löschen, Ausbreiten)
+ - Verschiedene Effekte definieren (Wind, Feuerpfeile, Monster, Bomben, Regen, ...)
+ - Währung hinzufügen
+ - Verschiedene Level erstellen
+ - Systemtest
