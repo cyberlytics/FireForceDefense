@@ -9,10 +9,10 @@ Bisher wurden folgende Entscheidungen getroffen:
  * **Programmierumgebung** \
    Die meisten Projektteilnehmer verwenden PhpStorm, es können allerdings auch andere Programme verwendet werden.
  * **Frameworks** \
-   Bezüglich der Verwendung von Game-Engines oder Frameworks gibt es noch keine endgültige Entscheidung, 
-   es werden aber verschiedene Möglichkeiten evaluiert. \
-   Für den Fall, dass keine dezidierte Game-Engine verwendet wird,
-   wird die Verwendung von Vue.js als Framework in Betracht gezogen.
+   Als Framework wird Vue.js verwendet. Auf eine Game-Engine wird verzichtet.
+   Weitere (kleinere) Bibliotheken können bei Bedarf hinzugefügt werden.
+ * **Testumgebung** \
+   Als Testumgebung wird `ts-jest` verwendet.
  * **Tools für die Dokumentation** \
    Aus dem Punkt der Plattformunabhängigkeit ergibt sich, 
    dass für die Dokumentation keine Microsoft Office Programme verwendet werden. \
