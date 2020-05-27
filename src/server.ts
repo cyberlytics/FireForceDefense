@@ -25,7 +25,7 @@ export default class Server {
             res.sendFile(path.join(__dirname, '../static/index.html'));
         });
 
-        this.app.listen(this.httpPort, 'localhost', () => {
+        this.app.listen(this.httpPort, '0.0.0.0', () => {
             console.log(`server started at http://localhost:${ this.httpPort }`);
         })
     }
