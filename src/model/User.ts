@@ -4,7 +4,10 @@
 export default class User {
 
     private constructor() {
-        // TODO: Try to read nickname from localStorage
+        const nickname = localStorage.getItem('nickname');
+        if (nickname) {
+            this.login(nickname);
+        }
     }
 
     private static instance: User;
@@ -12,7 +15,7 @@ export default class User {
     // TODO Store this in a configuration file.
     private readonly backendURL = 'https://pmaem20b.uber.space/';
 
-    public nickname: string|null;
+    private nickname: string|null;
 
     public static getInstance(): User {
         if (!User.instance) {
@@ -21,12 +24,18 @@ export default class User {
         return User.instance;
     }
 
+    public getNickname(): string {
+        return this.nickname;
+    }
+
     public login(nickname: string) {
         this.nickname = nickname;
+        localStorage.setItem('nickname', nickname);
     }
 
     public logout() {
         this.nickname = null;
+        localStorage.removeItem('nickname');
     }
 
     public getScore() {
