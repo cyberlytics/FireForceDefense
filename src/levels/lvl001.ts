@@ -6,13 +6,13 @@ import Feuer1 from '../effects/Feuer1';
 
 const lvl001: LevelDefinition = {
     cellDefinitions: [
-        { cellType: Wiese, pos: new HexPosition(/* TODO: Insert coordinates here*/) },
+        { cellType: Wiese, pos: new HexPosition(0, 0) },
     ],
     contentDefinitions: [
-        { contentType: Steinbrocken, pos: new HexPosition(/* TODO: Insert coordinates here*/) },
+        { contentType: Steinbrocken, pos: new HexPosition(0, 0) },
     ],
     effectDefinitions: [
-        { effectType: Feuer1, pos: new HexPosition(/* TODO: Insert coordinates here*/), after: 0 }
+        { effectType: Feuer1, pos: new HexPosition(0, 0), after: 0 }
     ],
     levelID: 'lvl001',
 };
