@@ -1,10 +1,10 @@
 import LevelManager from './LevelManager';
 import type LevelDefinition from './LevelDefinition';
-import Map from './Map';
+import LevelMap from './LevelMap';
 
 export default class Game {
     private levelDefinition: LevelDefinition;
-    private map: Map;
+    private levelMap: LevelMap;
 
     constructor(levelID: string) {
         const lm = LevelManager.getInstance();
@@ -14,6 +14,10 @@ export default class Game {
         }
         this.levelDefinition = ld;
         // TODO fetch user score and check if level is unlocked
-        this.map = new Map(this.levelDefinition.cellDefinitions);
+        this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
+    }
+
+    getLevelMap() {
+        return this.levelMap;
     }
 }

@@ -7,12 +7,14 @@ import messages from './lang';
 import locale from './locale';
 import app from './app.vue';
 import index from './components/index.vue';
+import level from './components/level.vue';
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
 
 const routes = [
-     { path: '/', component: index},
+    { path: '/', component: index},
+    { path: '/level/:levelID', component: level, props: true },
 ];
 
 export const router = new VueRouter({

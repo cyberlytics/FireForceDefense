@@ -55,4 +55,9 @@ describe('HexPosition', () => {
         expect(pos.q).toBe(0);
         expect(pos.r).toBe(-1);
     });
+
+    test('To String', () => {
+        const pos = new HexPosition(-1, 0);
+        expect(pos.toString()).toBe('(-1,0)');
+    });
 });
