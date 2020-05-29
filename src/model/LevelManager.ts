@@ -12,7 +12,7 @@ export default class LevelManager {
 
     private static instance: LevelManager;
     private levels: LevelDefinition[] = [];
-    private levelIdToIndex: { [id: string]: number };
+    private levelIdToIndex: { [id: string]: number } = {};
 
     public static getInstance(): LevelManager {
         if (!LevelManager.instance) {
@@ -29,6 +29,13 @@ export default class LevelManager {
         // TODO: Get User singleton instance
         // TODO: Gest score from user
         // TODO: Combine level IDs (from `this.levels`) with scores and return the result
+    }
+
+    public getLevelDefinition(levelID: string) {
+        if (!this.levelIdToIndex.hasOwnProperty(levelID)) {
+            return null;
+        }
+        return this.levels[this.levelIdToIndex[levelID]];
     }
 
     private registerLevel(def: LevelDefinition) {
