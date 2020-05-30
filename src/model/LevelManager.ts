@@ -3,6 +3,7 @@
  */
 import type LevelDefinition from './LevelDefinition';
 import lvl001 from '../levels/lvl001';
+import User from './User';
 
 export default class LevelManager {
 
@@ -13,6 +14,7 @@ export default class LevelManager {
     private static instance: LevelManager;
     private levels: LevelDefinition[] = [];
     private levelIdToIndex: { [id: string]: number } = {};
+    private user: User;
 
     public static getInstance(): LevelManager {
         if (!LevelManager.instance) {
@@ -26,9 +28,8 @@ export default class LevelManager {
     }
 
     public getLevelIdsWithScore() {
-        // TODO: Get User singleton instance
-        // TODO: Gest score from user
-        // TODO: Combine level IDs (from `this.levels`) with scores and return the result
+        this.user = User.getInstance();
+        return this.user.getScores();
     }
 
     public getLevelDefinition(levelID: string) {
@@ -47,6 +48,4 @@ export default class LevelManager {
         this.levels.push(def);
         this.levelIdToIndex[id] = this.levels.indexOf(def);
     }
-
-
 }

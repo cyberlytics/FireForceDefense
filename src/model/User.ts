@@ -1,7 +1,16 @@
+import Axios from 'axios';
+import type Scores from './Scores';
+
 /**
  * @pattern Singleton (GoF:127)
  */
 export default class User {
+
+    private static instance: User;
+    private nickname: string|null;
+    private levelScores: Scores = {};
+    // TODO: Store this in a configuration file.
+    private readonly backendURL = 'https://pmaem20b.uber.space/';
 
     private constructor() {
         const nickname = localStorage.getItem('nickname');
@@ -9,13 +18,6 @@ export default class User {
             this.login(nickname);
         }
     }
-
-    private static instance: User;
-
-    // TODO Store this in a configuration file.
-    private readonly backendURL = 'https://pmaem20b.uber.space/';
-
-    private nickname: string|null;
 
     public static getInstance(): User {
         if (!User.instance) {
@@ -28,21 +30,39 @@ export default class User {
         return this.nickname;
     }
 
-    public login(nickname: string) {
+    public login(nickname: string): void {
         this.nickname = nickname;
         localStorage.setItem('nickname', nickname);
     }
 
-    public logout() {
+    public logout(): void {
         this.nickname = null;
         localStorage.removeItem('nickname');
     }
 
-    public getScore() {
-        // TODO: HTTP GET request to backend; return results as score
+    private async getScoresFromServer() {
+        return await Axios.get(`${this.backendURL}api/${this.nickname}`);
     }
 
-    public postScore(key: string, value: number) {
-        // TODO: HTTP POST request to backend with scores (key and value parameters) as request body
+    public getScores(): Scores {
+        this.getScoresFromServer()
+            .then(response => {
+                Object.assign(this.levelScores, response.data.scores);
+            })
+            .catch(err => console.error(err));
+        return this.levelScores;
+    }
+
+    private async postScoreToServer(levelID: string, score: number) {
+        return await Axios.post(`${this.backendURL}api/${this.nickname}`, { [levelID]: score });
+    }
+
+    public postScore(levelID: string, score: number): boolean {
+        this.postScoreToServer(levelID, score)
+            .catch(err => {
+                console.error(err);
+                return false;
+            });
+        return true;
     }
 }
