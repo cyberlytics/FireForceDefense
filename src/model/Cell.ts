@@ -1,5 +1,6 @@
 import FireIntensity from './FireIntensity';
 import type Content from './Content';
+import type HexPosition from './HexPosition';
 
 export default abstract class Cell {
     static readonly DAMAGE_MAX_LOW = 20;
@@ -36,4 +37,9 @@ export default abstract class Cell {
     content: Content|null = null;
     damage = 0;
     fireIntensity: FireIntensity = FireIntensity.INTENSITY_0;
+    readonly position: HexPosition;
+
+    constructor(position: HexPosition) {
+        this.position = position;
+    }
 }
