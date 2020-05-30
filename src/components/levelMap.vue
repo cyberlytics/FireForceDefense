@@ -4,7 +4,7 @@
              width="100%" height="500px" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet">
             <cellPatterns />
             <cell v-for="cell in levelMap.getAllCells()" v-bind:cell="cell" v-bind:key="cell.position.toString()"
-                  v-bind:size="size" />
+                  v-bind:size="size" v-on:cell-clicked="cellClicked" />
         </svg>
     </div>
 </template>
@@ -13,6 +13,7 @@
     import Vue from 'vue';
     import cell from './cell.vue'
     import cellPatterns from './cellPatterns.vue';
+    import type HexPosition from '../model/HexPosition';
 
     export default Vue.extend({
         data() {
@@ -20,7 +21,14 @@
                 size: 70
             }
         },
-        methods: {},
+        methods: {
+            cellClicked: function (position: HexPosition) {
+                // TODO Replace with real code
+                console.log('Level map observed cell click at ' + position.toString());
+
+                this.$emit('cell-clicked', position);
+            }
+        },
         components: {
             cell,
             cellPatterns

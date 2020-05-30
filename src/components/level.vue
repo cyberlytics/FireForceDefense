@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>{{ $t('FireForceDefense') }}</h1>
-        <levelMap v-bind:level-map="game.getLevelMap()" />
+        <levelMap v-bind:level-map="game.getLevelMap()" v-on:cell-clicked="cellClicked" />
     </div>
 </template>
 
@@ -10,6 +10,7 @@
     import Game from '../model/Game';
     import { router } from '../index';
     import levelMap from './levelMap.vue';
+    import type HexPosition from '../model/HexPosition';
 
     export default Vue.extend({
         data() {
@@ -24,7 +25,12 @@
                 game,
             }
         },
-        methods: {},
+        methods: {
+            cellClicked: function (position: HexPosition) {
+                // TODO Replace with real code
+                console.log('Level observed cell click at ' + position.toString());
+            }
+        },
         components: {
             levelMap,
         },
