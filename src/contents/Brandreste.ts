@@ -1,13 +1,13 @@
 import Content from '../model/Content';
 import ContentCategory from '../model/ContentCategory';
 
-export default class Steinbrocken extends Content {
-    readonly description = 'Steinbrocken: Description';
-    readonly name = 'Steinbrocken';
-    readonly id = 'Steinbrocken';
+export default class Brandreste extends Content {
+    readonly description = 'Brandreste: Description';
+    readonly name = 'Brandreste';
+    readonly id = 'Brandreste';
     readonly buildCosts: null = null;
     readonly damageMax = +Infinity;
-    readonly removeCosts: null = null;
+    readonly removeCosts: number = 5;
     readonly extinguishRange = 0;
     readonly extinguishRate = 0;
     readonly contentCategory = ContentCategory.CONTENT_NATURE;
