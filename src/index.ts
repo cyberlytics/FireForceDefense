@@ -7,7 +7,6 @@ new Storage().setup().close();
 const server = new Server();
 
 function sendUserScores(nickname: string, res: express.Response) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Content-Type', 'application/json');
     new Storage().get(nickname, (rows) => {
         res.send({
