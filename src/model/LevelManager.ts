@@ -29,7 +29,16 @@ export default class LevelManager {
 
     public getLevelIdsWithScore() {
         this.user = User.getInstance();
-        return this.user.getScores();
+        const scores = this.user.getScores();
+        const levelIdsWithScore: { [x: string]: number } = {};
+        this.levels.forEach(levelDef => {
+            if (scores.hasOwnProperty(levelDef.levelID)) {
+                levelIdsWithScore[levelDef.levelID] = scores[levelDef.levelID];
+            } else {
+                levelIdsWithScore[levelDef.levelID] = 0;
+            }
+        });
+        return levelIdsWithScore;
     }
 
     public getLevelDefinition(levelID: string) {
