@@ -1,5 +1,5 @@
 <template>
-    <g v-bind:transform="'translate(' + x + ',' + y + ')'" @click="log(cell.position.toString())">
+    <g v-bind:transform="'translate(' + x + ',' + y + ')'" @click="click">
         <polygon class="hex" v-bind:points="pathString" v-bind:fill="'url(#cell-' + cell.id + ')'" stroke="#000" />
         <text text-anchor="middle" dominant-baseline="middle" font-size="28" font-weight="bold"
               style="text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;">
@@ -16,7 +16,12 @@
             return {}
         },
         methods: {
-            log: console.log,
+            click: function () {
+                // TODO Replace with real code
+                console.log('Clicked cell at ' + this.cell.position.toString());
+
+                this.$emit('cell-clicked', this.cell.position);
+            },
         },
         components: {},
         computed: {
