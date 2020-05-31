@@ -1,7 +1,7 @@
 <template>
     <div>
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
-             width="100%" height="500px" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet">
+             width="100%" height="100%" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet">
             <cellPatterns />
             <cell v-for="cell in levelMap.getAllCells()" v-bind:cell="cell" v-bind:key="cell.position.toString()"
                   v-bind:size="size" v-on:cell-clicked="cellClicked" />
@@ -18,7 +18,7 @@
     export default Vue.extend({
         data() {
             return {
-                size: 70
+                size: 60
             }
         },
         methods: {
