@@ -9,6 +9,7 @@ $theme-colors: (
 
 
 @import "~bootstrap/scss/bootstrap";
+@import "~leaflet/dist/leaflet.css";
 
 #level-view-container {
     display: grid;

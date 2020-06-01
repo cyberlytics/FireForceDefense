@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -11,7 +12,13 @@ module.exports = {
             // both options are optional
             filename: 'main.css',
         }),
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new CopyPlugin({
+            patterns: [
+                { from: path.resolve(__dirname, 'assets'), to: path.resolve(__dirname, 'dist/assets') },
+                { from: path.resolve(__dirname, 'src/index.html'), to: path.resolve(__dirname, 'dist/index.html') },
+            ]
+        }),
     ],
     module: {
         rules: [
@@ -59,6 +66,26 @@ module.exports = {
                     'postcss-loader', // post process the compiled CSS
                     'sass-loader' // compiles Sass to CSS, using Node Sass by default
                 ]
+            },
+            {
+                test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                use: {
+                    loader: "file-loader",
+                    options: {
+                        name: "[name].[ext]",
+                        outputPath: "assets/fonts/"
+                    }
+                }
+            },
+            {
+                test: /.png$/,
+                use: {
+                    loader: "file-loader",
+                    options: {
+                        name: "[name].[ext]",
+                        outputPath: "assets/img/"
+                    }
+                }
             }
         ],
     },
