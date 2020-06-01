@@ -1,7 +1,8 @@
 <template>
-    <div>
-        <h1>{{ $t('FireForceDefense') }}</h1>
+    <div id="level-view-container">
+        <level-sidebar />
         <levelMap v-bind:level-map="game.getLevelMap()" v-on:cell-clicked="cellClicked" />
+        <level-modal />
     </div>
 </template>
 
@@ -9,8 +10,10 @@
     import Vue from 'vue';
     import Game from '../model/Game';
     import { router } from '../index';
-    import levelMap from './levelMap.vue';
     import type HexPosition from '../model/HexPosition';
+    import levelMap from './levelMap.vue';
+    import levelSidebar from './levelSidebar.vue';
+    import levelModal from './levelModal.vue';
 
     export default Vue.extend({
         data() {
@@ -33,6 +36,8 @@
         },
         components: {
             levelMap,
+            levelSidebar,
+            levelModal,
         },
         props: ['levelID']
     })
