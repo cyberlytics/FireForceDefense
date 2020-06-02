@@ -7,4 +7,8 @@ export default class World {
     constructor() {
         this.levelManager = LevelManager.getInstance();
     }
+
+    public getLevelData() {
+        return this.levelManager.getLevelIdsWithScore();
+    }
 }
