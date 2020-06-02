@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 1000px;">
+    <div style="height: 100vh;">
         <l-map
             style="height: 100%; width: 100%; margin: 0"
             :zoom="zoom"
@@ -17,7 +17,7 @@
             </l-tile-layer>
             <l-marker :lat-lng="[35, -130]" :icon="enabledMarker" @click="goToLevel()"></l-marker>
             <l-control position="topleft">
-                <button @click="back">
+                <button @click="back" class="btn btn-primary">
                     Zum Menü
                 </button>
             </l-control>
@@ -65,7 +65,8 @@
                 layerOptions: {
                     minZoom: 3,
                     maxZoom: 5,
-                }
+                },
+                world,
             };
         },
         components: {
@@ -85,6 +86,7 @@
                 this.$router.push(`/level/lvl001`); // TODO: Change this to any level.
             },
             back () {
+                this.world.leaveWorld();
                 this.$router.push('/');
             }
         }
