@@ -4,6 +4,8 @@
             style="height: 100%; width: 100%; margin: 0"
             :zoom="zoom"
             :center="center"
+            @update:zoom="zoomUpdated"
+            @update:center="centerUpdated"
         >
             <l-tile-layer :url="url" :noWrap="noWrap"></l-tile-layer>
         </l-map>
@@ -35,6 +37,13 @@
             LMap,
             LTileLayer,
         },
-        methods: {}
+        methods: {
+            zoomUpdated (zoom: any) {
+                this.zoom = zoom;
+            },
+            centerUpdated (center: any) {
+                this.center = center;
+            },
+        }
     }
 </script>
