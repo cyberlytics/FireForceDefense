@@ -65,4 +65,8 @@ export default class User {
             });
         return true;
     }
+
+    public isLoggedIn() {
+        return this.nickname !== null;
+    }
 }
