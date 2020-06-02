@@ -4,6 +4,7 @@
             style="height: 100%; width: 100%; margin: 0"
             :zoom="zoom"
             :center="center"
+            :options="mapOptions"
             @update:zoom="zoomUpdated"
             @update:center="centerUpdated"
         >
@@ -31,6 +32,10 @@
                 zoom: 3,
                 center: [0,0],
                 noWrap: true,
+                mapOptions: {
+                    zoomControl: false,
+                    attributionControl: false,
+                },
             };
         },
         components: {
