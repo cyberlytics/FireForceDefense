@@ -9,7 +9,7 @@
             @update:center="centerUpdated"
         >
             <l-tile-layer :url="url" :noWrap="noWrap"></l-tile-layer>
-            <l-marker :lat-lng="[35, -130]" :icon="enabledMarker"></l-marker>
+            <l-marker :lat-lng="[35, -130]" :icon="enabledMarker" @click="goToLevel()"></l-marker>
         </l-map>
     </div>
 </template>
@@ -65,6 +65,9 @@
             },
             centerUpdated (center: any) {
                 this.center = center;
+            },
+            goToLevel () {
+                this.$router.push(`/level/lvl001`); // TODO: Change this to any level.
             },
         }
     }
