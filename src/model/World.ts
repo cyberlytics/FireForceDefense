@@ -11,4 +11,9 @@ export default class World {
     public getLevelData() {
         return this.levelManager.getLevelIdsWithScore();
     }
+
+    public leaveWorld() {
+        const user = User.getInstance();
+        user.logout();
+    }
 }
