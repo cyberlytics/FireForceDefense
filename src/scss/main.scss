@@ -29,3 +29,21 @@ $theme-colors: (
         text-align: center;
     }
 }
+
+.main-menu-bg {
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background: gray('300');
+    padding: map_get($spacers, 4);
+}
+
+.main-menu {
+    background: theme-color('light');
+    max-width: 700px;
+    margin: 0 auto;
+    padding: map_get($spacers, 4);
+    border-radius: $border-radius;
+    text-align: center;
+    border: 1px solid gray('700');
+}
