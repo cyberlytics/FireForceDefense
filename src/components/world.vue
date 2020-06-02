@@ -48,15 +48,15 @@
             return {
                 url: '../../assets/world/{z}/{x}/{y}.png',
                 zoom: 3,
-                center: [0,0],
                 noWrap: true,
+                center: bounds.getCenter(),
                 maxBounds: bounds,
                 maxBoundsViscosity: 1.0,
+                enabledMarker: enabledMarker,
                 mapOptions: {
                     zoomControl: false,
                     attributionControl: false,
                 },
-                enabledMarker: enabledMarker,
             };
         },
         components: {
