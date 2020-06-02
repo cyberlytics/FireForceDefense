@@ -8,12 +8,14 @@ import locale from './locale';
 import app from './app.vue';
 import index from './components/index.vue';
 import level from './components/level.vue';
+import world from './components/world.vue';
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
 
 const routes = [
     { path: '/', component: index},
+    { path: '/world', component: world},
     { path: '/level/:levelID', component: level, props: true },
 ];
 
