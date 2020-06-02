@@ -4,13 +4,19 @@
             style="height: 100%; width: 100%; margin: 0"
             :zoom="zoom"
             :center="center"
+            :maxBounds="maxBounds"
+            :maxBoundsViscosity=1.0
             :options="mapOptions"
             @update:zoom="zoomUpdated"
             @update:center="centerUpdated"
         >
-            <l-tile-layer :url="url" :noWrap="noWrap"></l-tile-layer>
+            <l-tile-layer
+                :url="url"
+                :noWrap="noWrap"
+                :options="layerOptions">
+            </l-tile-layer>
             <l-marker :lat-lng="[35, -130]" :icon="enabledMarker" @click="goToLevel()"></l-marker>
-            <l-control position="bottomleft" >
+            <l-control position="topleft">
                 <button @click="back">
                     Zum Menü
                 </button>
@@ -51,12 +57,15 @@
                 noWrap: true,
                 center: bounds.getCenter(),
                 maxBounds: bounds,
-                maxBoundsViscosity: 1.0,
                 enabledMarker: enabledMarker,
                 mapOptions: {
                     zoomControl: false,
                     attributionControl: false,
                 },
+                layerOptions: {
+                    minZoom: 3,
+                    maxZoom: 5,
+                }
             };
         },
         components: {
