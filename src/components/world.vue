@@ -27,11 +27,19 @@
             } catch (e) {
                 router.push('/');
             }
+
+            const bounds = new L.LatLngBounds(
+                new L.LatLng(-70, -150),
+                new L.LatLng(70, 150)
+            );
+
             return {
                 url: '../../assets/world/{z}/{x}/{y}.png',
                 zoom: 3,
                 center: [0,0],
                 noWrap: true,
+                maxBounds: bounds,
+                maxBoundsViscosity: 1.0,
                 mapOptions: {
                     zoomControl: false,
                     attributionControl: false,
