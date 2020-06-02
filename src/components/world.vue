@@ -9,6 +9,7 @@
             @update:center="centerUpdated"
         >
             <l-tile-layer :url="url" :noWrap="noWrap"></l-tile-layer>
+            <l-marker :lat-lng="[35, -130]" :icon="enabledMarker"></l-marker>
         </l-map>
     </div>
 </template>
@@ -16,7 +17,7 @@
 <script lang="ts">
     import { router } from '../index';
     import L from 'leaflet';
-    import {LMap, LTileLayer} from 'vue2-leaflet';
+    import {LMap, LTileLayer, LMarker} from 'vue2-leaflet';
     import World from '../model/World';
 
     export default {
@@ -33,6 +34,12 @@
                 new L.LatLng(70, 150)
             );
 
+            const enabledMarker = L.icon({
+                iconUrl: '../../assets/markers/enabled.png',
+                iconSize: [154, 142],
+                iconAnchor: [77, 71],
+            });
+
             return {
                 url: '../../assets/world/{z}/{x}/{y}.png',
                 zoom: 3,
@@ -44,11 +51,13 @@
                     zoomControl: false,
                     attributionControl: false,
                 },
+                enabledMarker: enabledMarker,
             };
         },
         components: {
             LMap,
             LTileLayer,
+            LMarker,
         },
         methods: {
             zoomUpdated (zoom: any) {
