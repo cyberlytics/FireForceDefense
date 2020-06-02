@@ -10,6 +10,11 @@
         >
             <l-tile-layer :url="url" :noWrap="noWrap"></l-tile-layer>
             <l-marker :lat-lng="[35, -130]" :icon="enabledMarker" @click="goToLevel()"></l-marker>
+            <l-control position="bottomleft" >
+                <button @click="back">
+                    Zum Menü
+                </button>
+            </l-control>
         </l-map>
     </div>
 </template>
@@ -17,7 +22,7 @@
 <script lang="ts">
     import { router } from '../index';
     import L from 'leaflet';
-    import {LMap, LTileLayer, LMarker} from 'vue2-leaflet';
+    import {LMap, LTileLayer, LMarker, LControl} from 'vue2-leaflet';
     import World from '../model/World';
 
     export default {
@@ -58,6 +63,7 @@
             LMap,
             LTileLayer,
             LMarker,
+            LControl
         },
         methods: {
             zoomUpdated (zoom: any) {
@@ -69,6 +75,9 @@
             goToLevel () {
                 this.$router.push(`/level/lvl001`); // TODO: Change this to any level.
             },
+            back () {
+                this.$router.push('/');
+            }
         }
     }
 </script>
