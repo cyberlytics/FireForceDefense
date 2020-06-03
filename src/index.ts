@@ -29,7 +29,7 @@ export const router = new VueRouter({
 
 // Redirect to '/' when user is not logged in
 router.beforeEach((to, from, next) => {
-    if (User.getInstance().isLoggedIn() || to.path === '/') {
+    if (User.getInstance().isLoggedIn() || to.path === '/' || to.path === '/credits') {
         next();
     } else {
         next('/');
