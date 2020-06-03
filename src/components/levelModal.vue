@@ -55,7 +55,7 @@
                 this.confirm = false;
             },
             back: function () {
-                this.$router.push('/'); // TODO Insert link to level selection here
+                this.$router.push('/world');
             }
         },
         components: {},
