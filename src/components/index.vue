@@ -1,11 +1,7 @@
 <template>
     <div class="main-menu-bg">
         <div class="main-menu">
-            <h1>{{ $t('FireForceDefense') }}</h1>
-            <svg width="100px" height="100px" class="mt-2 mb-4">
-                <circle r="50%" cx="50%" cy="50%" stroke="#000" fill="transparent" />
-                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">Logo</text>
-            </svg>
+            <logo />
             <div class="text-danger" v-if="requiredMessage">{{ $t('Please enter nickname') }}</div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -27,6 +23,7 @@
 <script lang="ts">
     import Vue from 'vue';
     import User from '../model/User';
+    import logo from './logo.vue';
 
     export default Vue.extend({
         data() {
@@ -46,6 +43,8 @@
                 }
             }
         },
-        components: {},
+        components: {
+            logo,
+        },
     })
 </script>
