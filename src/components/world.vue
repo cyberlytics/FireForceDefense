@@ -83,8 +83,8 @@
             centerUpdated (center: any) {
                 this.center = center;
             },
-            goToLevel () {
-                this.$router.push(`/level/lvl001`); // TODO: Change this to any level.
+            goToLevel (levelId: String) {
+                this.$router.push(`/level/${levelId}`);
             },
             goToStartMenu () {
                 this.world.leaveWorld();
