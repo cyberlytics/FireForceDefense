@@ -71,17 +71,17 @@
                 L.latLng(50.5, 110),
             ];
 
-            let i = 0;
+            let index = 0;
             const markers = []
             for(const [level, score] of Object.entries(world.getLevelData())){
                 markers.push({
-                    id: 1,
+                    id: index,
                     level: level,
                     score: score,
-                    coordinates: coordinates[i],
+                    coordinates: coordinates[index],
                     levelUnlocked: (score != 0) || (level == 'lvl001'),
                 });
-                i++;
+                index++;
             }
 
             const currentLevel = markers.find(element => element.levelUnlocked == true); // TODO: CHANGE LOGIC!
