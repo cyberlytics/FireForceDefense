@@ -19,7 +19,7 @@
             <l-marker
                 v-for="marker in markers"
                 :key="marker.id"
-                :lat-lng="marker.latlng"
+                :lat-lng="marker.coordinates"
                 @click="goToLevel(marker.level)"
             >
                 <l-icon
@@ -64,32 +64,25 @@
                 new L.LatLng(70, 150)
             );
 
-            const enabledIcon: String = "../../assets/markers/enabled.png";
-            const disabledIcon: String = "../../assets/markers/disabled.png";
+            const coordinates = [
+                L.latLng(35, -130),
+                L.latLng(0, 5),
+                L.latLng(-29, 90),
+                L.latLng(50.5, 110),
+            ];
 
-            const markers = [
-                {
+            let i = 0;
+            const markers = []
+            for(const [level, score] of Object.entries(world.getLevelData())){
+                markers.push({
                     id: 1,
-                    level: 'lvl001',
-                    levelUnlocked: true,
-                    latlng: L.latLng(35, -130)
-                }, {
-                    id: 2,
-                    level: 'lvl002',
-                    levelUnlocked: true,
-                    latlng: L.latLng(0, 5)
-                }, {
-                    id: 3,
-                    level: 'lvl003',
-                    levelUnlocked: false,
-                    latlng: L.latLng(-29, 90)
-                }, {
-                    id: 4,
-                    level: 'lvl004',
-                    levelUnlocked: false,
-                    latlng: L.latLng(50.5, 110)
-                }
-            ]
+                    level: level,
+                    score: score,
+                    coordinates: coordinates[i],
+                    levelUnlocked: score == 0 ? false : true,
+                });
+                i++;
+            }
 
             return {
                 url: '../../assets/world/{z}/{x}/{y}.png',
@@ -97,8 +90,8 @@
                 noWrap: true,
                 center: bounds.getCenter(),
                 maxBounds: bounds,
-                enabledIcon: enabledIcon,
-                disabledIcon: disabledIcon,
+                enabledIcon: "../../assets/markers/enabled.png",
+                disabledIcon: "../../assets/markers/disabled.png",
                 iconSize: [154, 142],
                 iconAnchor: [77, 71],
                 markers: markers,
