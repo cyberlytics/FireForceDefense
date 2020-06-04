@@ -79,10 +79,12 @@
                     level: level,
                     score: score,
                     coordinates: coordinates[i],
-                    levelUnlocked: score == 0 ? false : true,
+                    levelUnlocked: (score != 0) || (level == 'lvl001'),
                 });
                 i++;
             }
+
+            const currentLevel = markers.find(element => element.levelUnlocked == true); // TODO: CHANGE LOGIC!
 
             return {
                 url: '../../assets/world/{z}/{x}/{y}.png',
@@ -104,6 +106,7 @@
                     maxZoom: 5,
                 },
                 world,
+                currentLevel
             };
         },
         components: {
@@ -128,7 +131,7 @@
                 this.$router.push('/');
             },
             centerMapToCurrentLevel () {
-                this.$refs.map.mapObject.flyTo([0, 5],4) // TODO: Change this to current level.
+                this.$refs.map.mapObject.flyTo(this.currentLevel.coordinates,4)
             }
         }
     }
