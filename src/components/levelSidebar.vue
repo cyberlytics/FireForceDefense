@@ -5,11 +5,7 @@
             <button class="btn btn-light" data-toggle="modal" data-target="#level-menu-modal">Menü</button>
         </div>
         <div class="text-center">
-            <h1>FireForceDefense</h1>
-            <svg width="100px" height="100px" class="mt-2 mb-4">
-                <circle r="50%" cx="50%" cy="50%" stroke="#000" fill="transparent" />
-                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">Logo</text>
-            </svg>
+            <logo />
         </div>
         <div class="card my-2">
             <div class="card-body">
@@ -26,13 +22,16 @@
 
 <script lang="ts">
     import Vue from 'vue';
+    import logo from './logo.vue';
 
     export default Vue.extend({
         data() {
             return {}
         },
         methods: {},
-        components: {},
+        components: {
+            logo,
+        },
         props: []
     })
 </script>
