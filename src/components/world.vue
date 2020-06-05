@@ -23,29 +23,26 @@
                 @click="goToLevel(marker.level)"
             >
                 <l-icon v-if="marker.score === Score.UNLOCKED" :icon-anchor="iconAnchor">
-                    <div>
-                        <svg v-if="marker.score === Score.ONE_STAR" width="64" height="64"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <image href="assets/stars/stars_1.svg" height="64" width="64"/>
-                        </svg>
-                        <svg v-else-if="marker.score === Score.TWO_STARS" width="64" height="64"
-                             xmlns="http://www.w3.org/2000/svg" >
-                            <image href="assets/stars/stars_2.svg" height="64" width="64"/>
-                        </svg>
-                        <svg v-else-if="marker.score === Score.THREE_STARS" width="64" height="64"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <image href="assets/stars/stars_3.svg" height="64" width="64"/>
-                        </svg>
-                        <svg v-else width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                            <image href="assets/stars/stars_0.svg" height="64" width="64"/>
-                        </svg>
-                        <img src="assets/markers/enabled.png" width="64" height="64" alt="Enabled marker">
-                    </div>
+                    <svg v-if="marker.score === Score.ONE_STAR" width="105" height="137"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <image href="assets/one_star.svg" width="105" height="137"/>
+                    </svg>
+                    <svg v-else-if="marker.score === Score.TWO_STARS" width="105" height="137"
+                         xmlns="http://www.w3.org/2000/svg" >
+                        <image href="assets/two_stars.svg" width="105" height="137"/>
+                    </svg>
+                    <svg v-else-if="marker.score === Score.THREE_STARS" width="105" height="137"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <image href="assets/three_stars.svg" width="105" height="137"/>
+                    </svg>
+                    <svg v-else width="105" height="135" xmlns="http://www.w3.org/2000/svg">
+                        <image href="assets/unlocked.svg" width="105" height="137"/>
+                    </svg>
                 </l-icon>
                 <l-icon v-else :icon-anchor="iconAnchor">
-                    <div>
-                        <img src="assets/markers/disabled.png" width="64" height="64" alt="Disabled marker">
-                    </div>
+                    <svg width="105" height="135" xmlns="http://www.w3.org/2000/svg">
+                        <image href="assets/locked.svg" width="105" height="137"/>
+                    </svg>
                 </l-icon>
             </l-marker>
             <l-control position="topleft">
