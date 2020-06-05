@@ -22,17 +22,30 @@
                 :lat-lng="marker.coordinates"
                 @click="goToLevel(marker.level)"
             >
-                <l-icon
-                    v-if="marker.levelUnlocked"
-                    :icon-url=enabledIcon
-                    :icon-size="iconSize"
-                    :icon-anchor="iconAnchor">
+                <l-icon v-if="marker.score === Score.UNLOCKED" :icon-anchor="iconAnchor">
+                    <div>
+                        <svg v-if="marker.score === Score.ONE_STAR" width="64" height="64"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <image href="assets/stars/stars_1.svg" height="64" width="64"/>
+                        </svg>
+                        <svg v-else-if="marker.score === Score.TWO_STARS" width="64" height="64"
+                             xmlns="http://www.w3.org/2000/svg" >
+                            <image href="assets/stars/stars_2.svg" height="64" width="64"/>
+                        </svg>
+                        <svg v-else-if="marker.score === Score.THREE_STARS" width="64" height="64"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <image href="assets/stars/stars_3.svg" height="64" width="64"/>
+                        </svg>
+                        <svg v-else width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+                            <image href="assets/stars/stars_0.svg" height="64" width="64"/>
+                        </svg>
+                        <img src="assets/markers/enabled.png" width="64" height="64" alt="Enabled marker">
+                    </div>
                 </l-icon>
-                <l-icon
-                    v-else
-                    :icon-url=disabledIcon
-                    :icon-size="iconSize"
-                    :icon-anchor="iconAnchor">
+                <l-icon v-else :icon-anchor="iconAnchor">
+                    <div>
+                        <img src="assets/markers/disabled.png" width="64" height="64" alt="Disabled marker">
+                    </div>
                 </l-icon>
             </l-marker>
             <l-control position="topleft">
@@ -49,6 +62,7 @@
     import L from 'leaflet';
     import { LMap, LTileLayer, LMarker, LControl, LIcon } from 'vue2-leaflet';
     import World from '../model/World';
+    import Score from "../model/Score";
 
     export default {
         data () {
@@ -79,12 +93,11 @@
                     level: level,
                     score: score,
                     coordinates: coordinates[index],
-                    levelUnlocked: (score != 0) || (level == 'lvl001'),
                 });
                 index++;
             }
 
-            const currentLevel = markers.find(element => element.levelUnlocked == true); // TODO: CHANGE LOGIC!
+            const currentLevel = markers.find(element => element.score === Score.UNLOCKED);
 
             return {
                 url: '../../assets/world/{z}/{x}/{y}.png',
@@ -92,10 +105,7 @@
                 noWrap: true,
                 center: bounds.getCenter(),
                 maxBounds: bounds,
-                enabledIcon: "../../assets/markers/enabled.png",
-                disabledIcon: "../../assets/markers/disabled.png",
-                iconSize: [154, 142],
-                iconAnchor: [77, 71],
+                iconAnchor: [32, 80],
                 markers: markers,
                 mapOptions: {
                     zoomControl: false,
@@ -106,6 +116,7 @@
                     maxZoom: 5,
                 },
                 world,
+                Score,
                 currentLevel
             };
         },
