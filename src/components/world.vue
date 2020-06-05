@@ -97,7 +97,10 @@
                 index++;
             }
 
-            const currentLevel = markers.find(element => element.score === Score.UNLOCKED);
+            let currentLevel = markers.find(element => element.score === Score.UNLOCKED);
+            if (currentLevel === undefined) {
+                currentLevel = markers[markers.length - 1];
+            }
 
             return {
                 url: '../../assets/world/{z}/{x}/{y}.png',
