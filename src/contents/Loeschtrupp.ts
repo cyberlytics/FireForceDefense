@@ -1,5 +1,6 @@
 import Content from '../model/Content';
 import ContentCategory from '../model/ContentCategory';
+import type Cell from '../model/Cell';
 
 export default class Loeschtrupp extends Content {
     readonly description = 'Loeschtrupp: Description';
@@ -11,4 +12,8 @@ export default class Loeschtrupp extends Content {
     readonly extinguishRange = 2;
     readonly extinguishRate = 1;
     readonly contentCategory = ContentCategory.CONTENT_EXTINGUISHER;
+
+    isPlaceableOn(cell: Cell): boolean {
+        return cell.groups.includes('land');
+    }
 }

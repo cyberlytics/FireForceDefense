@@ -1,8 +1,9 @@
 <template>
-    <div id="level-view-container" @click="selfClick">
-        <level-sidebar v-bind:buildable-contents="buildableContents" v-on:content-selected="contentSelected" />
-        <levelMap v-bind:level-map="game.getLevelMap()" v-bind:content-to-build="game.contentToBuild" v-on:cell-clicked="cellClicked" />
-        <level-modal />
+    <div id="level-view-container" @click="selfClick" @mousemove="mousemove">
+        <levelSidebar v-bind:buildable-contents="buildableContents" v-on:content-selected="contentSelected" />
+        <levelMap v-bind:level-map="game.getLevelMap()" v-on:cell-clicked="cellClicked" />
+        <levelModal />
+        <previewCursor v-bind:content-to-build="game.contentToBuild" v-bind:mouse-x="mouseX" v-bind:mouse-y="mouseY" />
     </div>
 </template>
 
@@ -11,10 +12,11 @@
     import Game from '../model/Game';
     import { router } from '../index';
     import type HexPosition from '../model/HexPosition';
+    import type Content from '../model/Content';
     import levelMap from './levelMap.vue';
     import levelSidebar from './levelSidebar.vue';
     import levelModal from './levelModal.vue';
-    import type Content from '../model/Content';
+    import previewCursor from './previewCursor.vue';
 
     export default Vue.extend({
         data() {
@@ -28,13 +30,22 @@
             return {
                 game,
                 buildableContents: Game.getBuildableContents(),
+                mouseX: 0,
+                mouseY: 0,
             }
         },
         methods: {
             selfClick: function() {
                 this.game.contentToBuild = null;
             },
+            mousemove: function(ev: MouseEvent) {
+                this.mouseX = ev.clientX;
+                this.mouseY = ev.clientY;
+            },
             cellClicked: function (position: HexPosition) {
+                this.game.placeAt(position);
+                this.game.contentToBuild = null;
+
                 // TODO Replace with real code
                 console.log('Level observed cell click at ' + position.toString());
             },
@@ -46,6 +57,7 @@
             levelMap,
             levelSidebar,
             levelModal,
+            previewCursor,
         },
         props: ['levelID'],
         created() {
