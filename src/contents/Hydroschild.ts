@@ -1,5 +1,6 @@
 import Content from '../model/Content';
 import ContentCategory from '../model/ContentCategory';
+import type Cell from '../model/Cell';
 
 export default class Hydroschild extends Content {
     readonly description = 'Hydroschild: Description';
@@ -11,4 +12,8 @@ export default class Hydroschild extends Content {
     readonly extinguishRange = 1;
     readonly extinguishRate = 2;
     readonly contentCategory = ContentCategory.CONTENT_EXTINGUISHER;
+
+    isPlaceableOn(cell: Cell): boolean {
+        return cell.groups.includes('land');
+    }
 }

@@ -1,4 +1,5 @@
 import type ContentCategory from './ContentCategory';
+import type Cell from './Cell';
 
 export default abstract class Content {
     static readonly DAMAGE_MAX_LOW = 20;
@@ -16,4 +17,6 @@ export default abstract class Content {
     abstract readonly extinguishRate: number;
 
     damage = 0;
+
+    abstract isPlaceableOn(cell: Cell): boolean;
 }

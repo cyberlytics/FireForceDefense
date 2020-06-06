@@ -1,5 +1,6 @@
 import Content from '../model/Content';
 import ContentCategory from '../model/ContentCategory';
+import type Cell from '../model/Cell';
 
 export default class Baumgruppe extends Content {
     readonly description = 'Baumgruppe: Description';
@@ -11,4 +12,8 @@ export default class Baumgruppe extends Content {
     readonly extinguishRange = 0;
     readonly extinguishRate = 0;
     readonly contentCategory = ContentCategory.CONTENT_NATURE;
+
+    isPlaceableOn(cell: Cell): boolean {
+        return cell.groups.includes('land');
+    }
 }
