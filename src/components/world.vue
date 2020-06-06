@@ -23,20 +23,15 @@
                 @click="goToLevel(marker.level)"
             >
                 <l-icon v-if="marker.score === Score.UNLOCKED" :icon-anchor="iconAnchor">
-                    <svg v-if="marker.score === Score.ONE_STAR" width="105" height="137"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <image href="assets/one_star.svg" width="105" height="137"/>
-                    </svg>
-                    <svg v-else-if="marker.score === Score.TWO_STARS" width="105" height="137"
-                         xmlns="http://www.w3.org/2000/svg" >
-                        <image href="assets/two_stars.svg" width="105" height="137"/>
-                    </svg>
-                    <svg v-else-if="marker.score === Score.THREE_STARS" width="105" height="137"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <image href="assets/three_stars.svg" width="105" height="137"/>
-                    </svg>
-                    <svg v-else width="105" height="135" xmlns="http://www.w3.org/2000/svg">
-                        <image href="assets/unlocked.svg" width="105" height="137"/>
+                    <svg width="105" height="137" xmlns="http://www.w3.org/2000/svg">
+                        <image v-if="marker.score === Score.ONE_STAR"
+                               href="assets/one_star.svg" width="105" height="137"/>
+                        <image v-else-if="marker.score === Score.TWO_STARS"
+                               href="assets/two_stars.svg" width="105" height="137"/>
+                        <image v-else-if="marker.score === Score.THREE_STARS"
+                               href="assets/three_stars.svg" width="105" height="137"/>
+                        <image v-else
+                               href="assets/unlocked.svg" width="105" height="137"/>
                     </svg>
                 </l-icon>
                 <l-icon v-else :icon-anchor="iconAnchor">
@@ -105,7 +100,7 @@
                 noWrap: true,
                 center: bounds.getCenter(),
                 maxBounds: bounds,
-                iconAnchor: [32, 80],
+                iconAnchor: [40, 70],
                 markers: markers,
                 mapOptions: {
                     zoomControl: false,
