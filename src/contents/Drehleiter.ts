@@ -1,5 +1,6 @@
 import Content from '../model/Content';
 import ContentCategory from '../model/ContentCategory';
+import type Cell from '../model/Cell';
 
 export default class Drehleiter extends Content {
     readonly description = 'Drehleiter: Description';
@@ -11,4 +12,8 @@ export default class Drehleiter extends Content {
     readonly extinguishRange = 3;
     readonly extinguishRate = 2;
     readonly contentCategory = ContentCategory.CONTENT_EXTINGUISHER;
+
+    isPlaceableOn(cell: Cell): boolean {
+        return cell.groups.includes('land');
+    }
 }

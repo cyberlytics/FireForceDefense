@@ -3,6 +3,7 @@ import Wiese from '../cells/Wiese';
 import HexPosition from '../model/HexPosition';
 import Steinbrocken from '../contents/Steinbrocken';
 import Feuer1 from '../effects/Feuer1';
+import See from '../cells/See';
 
 const lvl001: LevelDefinition = {
     cellDefinitions: [
@@ -34,8 +35,8 @@ const lvl001: LevelDefinition = {
         { cellType: Wiese, pos: new HexPosition(-3, 3) },
         { cellType: Wiese, pos: new HexPosition(-3, 2) },
         { cellType: Wiese, pos: new HexPosition(-3, 1) },
-        { cellType: Wiese, pos: new HexPosition(-3, 0) },
-        { cellType: Wiese, pos: new HexPosition(-2, -1) },
+        { cellType: See, pos: new HexPosition(-3, 0) },
+        { cellType: See, pos: new HexPosition(-2, -1) },
         { cellType: Wiese, pos: new HexPosition(-1, -2) },
         { cellType: Wiese, pos: new HexPosition(0, -3) },
         { cellType: Wiese, pos: new HexPosition(1, -3) },
@@ -55,9 +56,9 @@ const lvl001: LevelDefinition = {
         { cellType: Wiese, pos: new HexPosition(-4, 3) },
         { cellType: Wiese, pos: new HexPosition(-4, 2) },
         { cellType: Wiese, pos: new HexPosition(-4, 1) },
-        { cellType: Wiese, pos: new HexPosition(-4, 0) },
-        { cellType: Wiese, pos: new HexPosition(-3, -1) },
-        { cellType: Wiese, pos: new HexPosition(-2, -2) },
+        { cellType: See, pos: new HexPosition(-4, 0) },
+        { cellType: See, pos: new HexPosition(-3, -1) },
+        { cellType: See, pos: new HexPosition(-2, -2) },
         { cellType: Wiese, pos: new HexPosition(-1, -3) },
         { cellType: Wiese, pos: new HexPosition(0, -4) },
         { cellType: Wiese, pos: new HexPosition(1, -4) },

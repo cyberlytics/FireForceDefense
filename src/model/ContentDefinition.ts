@@ -1,11 +1,7 @@
 import type HexPosition from './HexPosition';
-import type Content from './Content';
-
-// See https://stackoverflow.com/a/52358194
-type ContentClass = typeof Content;
-interface ContentDerived extends ContentClass {}
+import type ContentDerivedType from './ContentDerivedType';
 
 export default interface ContentDefinition {
-    contentType: ContentDerived;
+    contentType: ContentDerivedType;
     pos: HexPosition;
 }

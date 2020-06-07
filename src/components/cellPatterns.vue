@@ -1,7 +1,8 @@
 <template>
     <defs>
-        <pattern id="cell-Wiese" width="1" height="1" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
-            <image x="0" y="0" xlink:href="/assets/cell-Wiese.svg" width="100" height="100" />
+        <pattern v-for="cell in ['Wiese', 'See']"
+                 v-bind:id="'cell-' + cell" width="1" height="1" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+            <image x="0" y="0" v-bind:xlink:href="'/assets/cell-' + cell + '.svg'" width="100" height="100" />
         </pattern>
     </defs>
 </template>

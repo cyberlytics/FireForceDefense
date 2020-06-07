@@ -6,13 +6,24 @@ import Hydroschild from '../contents/Hydroschild';
 import Loeschpanzer from '../contents/Loeschpanzer';
 import Loeschschiff from '../contents/Loeschschiff';
 import Loeschtrupp from '../contents/Loeschtrupp';
-import type Content from './Content';
+import type Cell from './Cell';
+import type ContentDerivedType from './ContentDerivedType';
+import type HexPosition from './HexPosition';
 
 export default class Game {
     private levelDefinition: LevelDefinition;
     private levelMap: LevelMap;
 
-    public contentToBuild: Content = null;
+    private _contentToBuild: ContentDerivedType = null;
+
+    get contentToBuild() {
+        return this._contentToBuild;
+    }
+
+    set contentToBuild(value) {
+        this._contentToBuild = value;
+        this.markDisabledCells();
+    }
 
     constructor(levelID: string) {
         const lm = LevelManager.getInstance();
@@ -35,7 +46,29 @@ export default class Game {
         ];
     }
 
-    getLevelMap() {
+    public getLevelMap() {
         return this.levelMap;
+    }
+
+    public placeAt(position: HexPosition): boolean {
+        if (this.contentToBuild === null) {
+            return false;
+        }
+        const content = new (this.contentToBuild)();
+        if (content.isPlaceableOn(this.levelMap.getCellAt(position))) {
+            // TODO Place content on cell
+        } else {
+            return false;
+        }
+    }
+
+    private markDisabledCells() {
+        let func = (cell: Cell) => true;
+        if (this.contentToBuild !== null) {
+            func = new (this.contentToBuild)().isPlaceableOn;
+        }
+        this.levelMap.getAllCells().forEach((cell: Cell) => {
+            cell.disabled = !func(cell);
+        });
     }
 }
