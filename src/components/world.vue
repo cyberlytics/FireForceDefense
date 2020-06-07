@@ -1,23 +1,47 @@
 <template>
     <div style="height: 100vh;">
         <l-map
+            ref="map"
             style="height: 100%; width: 100%; margin: 0"
             :zoom="zoom"
             :center="center"
             :maxBounds="maxBounds"
             :maxBoundsViscosity=1.0
             :options="mapOptions"
+            @ready="centerMapToCurrentLevel"
             @update:zoom="zoomUpdated"
             @update:center="centerUpdated"
         >
             <l-tile-layer
                 :url="url"
-                :noWrap="noWrap"
                 :options="layerOptions">
             </l-tile-layer>
-            <l-marker :lat-lng="[35, -130]" :icon="enabledMarker" @click="goToLevel()"></l-marker>
+            <l-marker
+                v-for="marker in markers"
+                :key="marker.id"
+                :lat-lng="marker.coordinates"
+                @click="goToLevel(marker.level)"
+            >
+                <l-icon v-if="marker.score === Score.UNLOCKED" :icon-anchor="iconAnchor">
+                    <svg width="105" height="137" xmlns="http://www.w3.org/2000/svg">
+                        <image v-if="marker.score === Score.ONE_STAR"
+                               href="assets/one_star.svg" width="105" height="137"/>
+                        <image v-else-if="marker.score === Score.TWO_STARS"
+                               href="assets/two_stars.svg" width="105" height="137"/>
+                        <image v-else-if="marker.score === Score.THREE_STARS"
+                               href="assets/three_stars.svg" width="105" height="137"/>
+                        <image v-else
+                               href="assets/unlocked.svg" width="105" height="137"/>
+                    </svg>
+                </l-icon>
+                <l-icon v-else :icon-anchor="iconAnchor">
+                    <svg width="105" height="135" xmlns="http://www.w3.org/2000/svg">
+                        <image href="assets/locked.svg" width="105" height="137"/>
+                    </svg>
+                </l-icon>
+            </l-marker>
             <l-control position="topleft">
-                <button @click="back" class="btn btn-primary">
+                <button @click="goToStartMenu" class="btn btn-primary">
                     Zum Menü
                 </button>
             </l-control>
@@ -28,8 +52,9 @@
 <script lang="ts">
     import { router } from '../index';
     import L from 'leaflet';
-    import {LMap, LTileLayer, LMarker, LControl} from 'vue2-leaflet';
+    import { LMap, LTileLayer, LMarker, LControl, LIcon } from 'vue2-leaflet';
     import World from '../model/World';
+    import Score from "../model/Score";
 
     export default {
         data () {
@@ -45,11 +70,29 @@
                 new L.LatLng(70, 150)
             );
 
-            const enabledMarker = L.icon({
-                iconUrl: '../../assets/markers/enabled.png',
-                iconSize: [154, 142],
-                iconAnchor: [77, 71],
-            });
+            const coordinates = [
+                L.latLng(35, -130),
+                L.latLng(0, 5),
+                L.latLng(-29, 90),
+                L.latLng(50.5, 110),
+            ];
+
+            let index = 0;
+            const markers = []
+            for(const [level, score] of Object.entries(world.getLevelData())){
+                markers.push({
+                    id: index,
+                    level: level,
+                    score: score,
+                    coordinates: coordinates[index],
+                });
+                index++;
+            }
+
+            let currentLevel = markers.find(element => element.score === Score.UNLOCKED);
+            if (currentLevel === undefined) {
+                currentLevel = markers[markers.length - 1];
+            }
 
             return {
                 url: '../../assets/world/{z}/{x}/{y}.png',
@@ -57,7 +100,8 @@
                 noWrap: true,
                 center: bounds.getCenter(),
                 maxBounds: bounds,
-                enabledMarker: enabledMarker,
+                iconAnchor: [40, 70],
+                markers: markers,
                 mapOptions: {
                     zoomControl: false,
                     attributionControl: false,
@@ -67,13 +111,16 @@
                     maxZoom: 5,
                 },
                 world,
+                Score,
+                currentLevel
             };
         },
         components: {
             LMap,
             LTileLayer,
             LMarker,
-            LControl
+            LControl,
+            LIcon
         },
         methods: {
             zoomUpdated (zoom: any) {
@@ -82,12 +129,15 @@
             centerUpdated (center: any) {
                 this.center = center;
             },
-            goToLevel () {
-                this.$router.push(`/level/lvl001`); // TODO: Change this to any level.
+            goToLevel (levelId: String) {
+                this.$router.push(`/level/${levelId}`);
             },
-            back () {
+            goToStartMenu () {
                 this.world.leaveWorld();
                 this.$router.push('/');
+            },
+            centerMapToCurrentLevel () {
+                this.$refs.map.mapObject.flyTo(this.currentLevel.coordinates,4)
             }
         }
     }
