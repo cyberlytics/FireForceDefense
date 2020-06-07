@@ -22,7 +22,7 @@ $theme-colors: (
     background: theme-color('secondary');
     padding: 20px;
     display: grid;
-    grid-template-rows: auto auto 1fr 1fr;
+    grid-template-rows: auto auto auto 1fr;
     grid-template-columns: 100%;
     h1 {
         font-size: 1.4rem;
@@ -46,4 +46,25 @@ $theme-colors: (
     border-radius: $border-radius;
     text-align: center;
     border: 1px solid gray('700');
+}
+
+.build-menu-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: map_get($spacers, 2)
+}
+
+.build-menu-card {
+    border: 5px solid theme-color('primary');
+    border-radius: 8px;
+    background: radial-gradient(circle at 50% 33.3%, lighten(theme-color('secondary'), 10), darken(theme-color('secondary'), 10));
+}
+
+.build-costs{
+    background: theme-color('primary');
+    color: theme-color('light');
+    padding-top: 3px;
+    padding-left: 5px;
+    font-weight: bold;
+    border-top-left-radius: 5px;
 }

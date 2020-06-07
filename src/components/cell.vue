@@ -1,5 +1,5 @@
 <template>
-    <g v-bind:transform="'translate(' + x + ',' + y + ')'" @click="click">
+    <g v-bind:transform="'translate(' + x + ',' + y + ')'" @click.stop="click">
         <polygon class="hex" v-bind:points="pathString" v-bind:fill="'url(#cell-' + cell.id + ')'" stroke="#000" />
         <text text-anchor="middle" dominant-baseline="middle" font-size="28" font-weight="bold"
               style="text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;">
