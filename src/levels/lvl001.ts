@@ -4,6 +4,7 @@ import HexPosition from '../model/HexPosition';
 import Steinbrocken from '../contents/Steinbrocken';
 import Feuer1 from '../effects/Feuer1';
 import See from '../cells/See';
+import Baumgruppe from '../contents/Baumgruppe';
 
 const lvl001: LevelDefinition = {
     cellDefinitions: [
@@ -71,6 +72,8 @@ const lvl001: LevelDefinition = {
     ],
     contentDefinitions: [
         { contentType: Steinbrocken, pos: new HexPosition(0, 0) },
+        { contentType: Steinbrocken, pos: new HexPosition(-2, -2) }, // Should not be placed because it's on a lake
+        { contentType: Baumgruppe, pos: new HexPosition(1, 0) },
     ],
     effectDefinitions: [
         { effectType: Feuer1, pos: new HexPosition(0, 0), after: 0 }
