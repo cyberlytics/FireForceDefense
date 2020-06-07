@@ -9,6 +9,7 @@ import Loeschtrupp from '../contents/Loeschtrupp';
 import type Cell from './Cell';
 import type ContentDerivedType from './ContentDerivedType';
 import type HexPosition from './HexPosition';
+import type ContentDefinition from './ContentDefinition';
 
 export default class Game {
     private levelDefinition: LevelDefinition;
@@ -34,6 +35,10 @@ export default class Game {
         this.levelDefinition = ld;
         // TODO fetch user score and check if level is unlocked
         this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
+
+        ld.contentDefinitions.forEach((contentDefinition: ContentDefinition) => {
+            this.placeContentAt(contentDefinition.contentType, contentDefinition.pos);
+        });
     }
 
     public static getBuildableContents() {
@@ -54,9 +59,21 @@ export default class Game {
         if (this.contentToBuild === null) {
             return false;
         }
-        const content = new (this.contentToBuild)();
-        if (content.isPlaceableOn(this.levelMap.getCellAt(position))) {
-            // TODO Place content on cell
+        if (this.placeContentAt(this.contentToBuild, position)) {
+            // TODO Remove build costs from money here
+            return true;
+        }
+        return false;
+    }
+
+    private placeContentAt(content: ContentDerivedType, position: HexPosition): boolean {
+        const contentInstance = new content();
+        const cell = this.levelMap.getCellAt(position);
+        if (cell.content !== null) {
+            return false;
+        }
+        if (contentInstance.isPlaceableOn(cell)) {
+            cell.content = contentInstance;
         } else {
             return false;
         }
@@ -65,7 +82,7 @@ export default class Game {
     private markDisabledCells() {
         let func = (cell: Cell) => true;
         if (this.contentToBuild !== null) {
-            func = new (this.contentToBuild)().isPlaceableOn;
+            func = (cell: Cell) => new (this.contentToBuild)().isPlaceableOn(cell) && cell.content === null;
         }
         this.levelMap.getAllCells().forEach((cell: Cell) => {
             cell.disabled = !func(cell);
