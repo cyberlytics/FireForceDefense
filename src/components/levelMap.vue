@@ -4,7 +4,6 @@
              width="100%" height="100%" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet">
             <cellPatterns />
             <contentPatterns />
-            <text x="-500" y="-400" v-if="contentToBuild !== null">{{ new contentToBuild().name }}</text>
             <cell v-for="cell in levelMap.getAllCells()" v-bind:cell="cell" v-bind:key="cell.position.toString()"
                   v-bind:size="size" v-on:cell-clicked="cellClicked" />
         </svg>
@@ -37,6 +36,6 @@
             cellPatterns,
             contentPatterns,
         },
-        props: ['levelMap', 'contentToBuild']
+        props: ['levelMap']
     })
 </script>
