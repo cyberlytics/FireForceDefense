@@ -29,18 +29,8 @@ export default class LevelManager {
         return this.levels;
     }
 
-    private getUserScores() {
-        const scores = this.user.getScores();
-        if (!scores.hasOwnProperty('lvl001')) {
-            // First user login
-            this.user.postScore('lvl001', Score.UNLOCKED);
-            scores.lvl001 = Score.UNLOCKED;
-        }
-        return scores;
-    }
-
     public getLevelIdsWithScore() {
-        const scores = this.getUserScores();
+        const scores = this.user.getScores();
         const levelIdsWithScore: { [x: string]: Score } = {};
         this.levels.forEach(levelDef => {
             if (scores.hasOwnProperty(levelDef.levelID)) {
@@ -49,6 +39,12 @@ export default class LevelManager {
                 levelIdsWithScore[levelDef.levelID] = Score.LOCKED;
             }
         });
+
+        for (const [key, value] of Object.entries(levelIdsWithScore)) {
+            if (value === Score.LOCKED) {
+                levelIdsWithScore[key] = Score.UNLOCKED;
+            }
+        }
         return levelIdsWithScore;
     }
 
