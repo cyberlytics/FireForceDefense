@@ -1,8 +1,9 @@
 <template>
     <div>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              width="100%" height="100%" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet">
             <cellPatterns />
+            <contentPatterns />
             <cell v-for="cell in levelMap.getAllCells()" v-bind:cell="cell" v-bind:key="cell.position.toString()"
                   v-bind:size="size" v-on:cell-clicked="cellClicked" />
         </svg>
@@ -13,6 +14,7 @@
     import Vue from 'vue';
     import cell from './cell.vue'
     import cellPatterns from './cellPatterns.vue';
+    import contentPatterns from './contentPatterns.vue';
     import type HexPosition from '../model/HexPosition';
 
     export default Vue.extend({
@@ -31,7 +33,8 @@
         },
         components: {
             cell,
-            cellPatterns
+            cellPatterns,
+            contentPatterns,
         },
         props: ['levelMap']
     })
