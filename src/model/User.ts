@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import type Scores from './Scores';
-import type Score from './Score';
+import Score from './Score';
 
 /**
  * @pattern Singleton (GoF:127)
@@ -48,7 +48,20 @@ export default class User {
     public getScores(): Scores {
         this.getScoresFromServer()
             .then(response => {
-                Object.assign(this.levelScores, response.data.scores);
+                for (const [key, value] of Object.entries(response.data.scores)) {
+                    if (value >= 0 && value <= 4) {
+                        switch (value) {
+                            case 0: { this.levelScores[key] = Score.UNLOCKED; break; }
+                            case 1: { this.levelScores[key] = Score.ONE_STAR; break; }
+                            case 2: { this.levelScores[key] = Score.TWO_STARS; break; }
+                            case 3: { this.levelScores[key] = Score.THREE_STARS; break; }
+                            default: {
+                                this.levelScores[key] = Score.LOCKED;
+                                break;
+                            }
+                        }
+                    }
+                }
             })
             .catch(err => console.error(err));
         return this.levelScores;
