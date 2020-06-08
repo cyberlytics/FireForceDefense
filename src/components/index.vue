@@ -7,7 +7,7 @@
                 <div class="input-group-prepend">
                     <label for="nickname" class="input-group-text">Nickname:</label>
                 </div>
-                <input id="nickname" class="form-control" v-model="nickname" />
+                <input id="nickname" v-on:keyup.enter="setNickname" class="form-control" v-model="nickname" />
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary btn-block btn-lg" @click="setNickname">Anmelden</button>
