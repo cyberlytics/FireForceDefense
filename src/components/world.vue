@@ -60,7 +60,7 @@
         data () {
             let world: World;
             try {
-                world = new World();
+                world = World.getInstance();
             } catch (e) {
                 router.push('/');
             }
