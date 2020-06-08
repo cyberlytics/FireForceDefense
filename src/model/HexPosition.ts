@@ -58,6 +58,14 @@ export default class HexPosition implements AxialCoordinates, CubeCoordinates {
         return HexPosition.directionVectors[direction];
     }
 
+    public static getDistance(p1: HexPosition, p2: HexPosition) {
+        return Math.max(
+            Math.abs(p1.x - p2.x),
+            Math.abs(p1.y - p2.y),
+            Math.abs(p1.z - p2.z),
+        );
+    }
+
     public getNeighborPosition(direction: HexDirection) {
         return HexPosition.add(this, HexPosition.getDirectionVector(direction));
     }
