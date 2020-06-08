@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import type Scores from './Scores';
+import type Score from './Score';
 
 /**
  * @pattern Singleton (GoF:127)
@@ -53,11 +54,11 @@ export default class User {
         return this.levelScores;
     }
 
-    private async postScoreToServer(levelID: string, score: number) {
+    private async postScoreToServer(levelID: string, score: Score) {
         return await Axios.post(`${this.backendURL}api/${this.nickname}`, { [levelID]: score });
     }
 
-    public postScore(levelID: string, score: number): boolean {
+    public postScore(levelID: string, score: Score): boolean {
         this.postScoreToServer(levelID, score)
             .catch(err => {
                 console.error(err);
