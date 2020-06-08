@@ -5,11 +5,22 @@
             <button class="btn btn-light" data-toggle="modal" data-target="#level-menu-modal">Menü</button>
         </div>
         <div class="text-center">
-            <logo />
+            <h1>FireForceDefense</h1>
         </div>
         <div class="card my-2">
             <div class="card-body">
                 <h2 class="card-title h5">Baumenü</h2>
+                <div class="build-menu-cards">
+                    <div v-for="content in buildableContents" class="build-menu-card" @click.stop="$emit('content-selected', content)">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                             width="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" class="p-1">
+                            <rect v-bind:fill="'url(#content-' + new content().id + ')'" height="100" width="100" x="0" y="0" />
+                        </svg>
+                        <div class="d-flex justify-content-end mt-1">
+                            <div class="build-costs">{{ new content().buildCosts }}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card my-2">
@@ -32,6 +43,6 @@
         components: {
             logo,
         },
-        props: []
+        props: ['buildableContents']
     })
 </script>

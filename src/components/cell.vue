@@ -1,6 +1,9 @@
 <template>
-    <g v-bind:transform="'translate(' + x + ',' + y + ')'" @click="click">
-        <polygon class="hex" v-bind:points="pathString" v-bind:fill="'url(#cell-' + cell.id + ')'" stroke="#000" />
+    <g v-bind:transform="'translate(' + x + ',' + y + ')'" @click.stop="click">
+        <polygon v-bind:points="pathString" v-bind:fill="'url(#cell-' + cell.id + ')'" stroke="#000" />
+        <rect v-if="cell.content !== null" v-bind:fill="'url(#content-' + cell.content.id + ')'"
+              v-bind:width="sizeRect" v-bind:height="sizeRect" v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect" />
+        <polygon v-bind:points="pathString" v-if="cell.disabled" fill="#000" fill-opacity=".5" />
         <text text-anchor="middle" dominant-baseline="middle" font-size="28" font-weight="bold"
               style="text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;">
             {{ cell.position }}
@@ -41,7 +44,13 @@
             },
             y: function () {
                 return this.size * (1.5 * this.cell.position.r);
-            }
+            },
+            sizeRect: function() {
+                return 1.224744871 * this.size; // sqrt(6)/2 * size
+            },
+            halfSizeRect: function () {
+                return 0.6123724357 * this.size // sqrt(6)/4 * size
+            },
         },
         props: ['cell', 'size']
     })
