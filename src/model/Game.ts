@@ -10,18 +10,23 @@ import type Cell from './Cell';
 import type ContentDerivedType from './ContentDerivedType';
 import type HexPosition from './HexPosition';
 import type ContentDefinition from './ContentDefinition';
+import Basis from '../contents/Basis';
 
 export default class Game {
     private levelDefinition: LevelDefinition;
     private levelMap: LevelMap;
 
     private _contentToBuild: ContentDerivedType = null;
+    private isBaseBuilt = false;
 
     get contentToBuild() {
         return this._contentToBuild;
     }
 
     set contentToBuild(value) {
+        if (!this.isBaseBuilt && value !== Basis) {
+            return;
+        }
         this._contentToBuild = value;
         this.markDisabledCells();
     }
@@ -39,6 +44,10 @@ export default class Game {
         ld.contentDefinitions.forEach((contentDefinition: ContentDefinition) => {
             this.placeContentAt(contentDefinition.contentType, contentDefinition.pos);
         });
+
+        if (!this.isBaseBuilt) {
+            this.contentToBuild = Basis;
+        }
     }
 
     public static getBuildableContents() {
@@ -73,6 +82,9 @@ export default class Game {
             return false;
         }
         if (contentInstance.isPlaceableOn(cell)) {
+            if (content === Basis) {
+                this.isBaseBuilt = true;
+            }
             cell.content = contentInstance;
         } else {
             return false;
