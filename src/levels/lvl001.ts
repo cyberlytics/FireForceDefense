@@ -7,6 +7,7 @@ import See from '../cells/See';
 import Baumgruppe from '../contents/Baumgruppe';
 import Haus from '../contents/Haus';
 
+
 const lvl001: LevelDefinition = {
     cellDefinitions: [
         { cellType: Wiese, pos: new HexPosition(0, 0) }, // ring 0
