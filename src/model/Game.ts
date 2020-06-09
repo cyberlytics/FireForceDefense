@@ -1,27 +1,32 @@
 import LevelManager from './LevelManager';
 import type LevelDefinition from './LevelDefinition';
 import LevelMap from './LevelMap';
-import Drehleiter from '../contents/Drehleiter';
-import Hydroschild from '../contents/Hydroschild';
-import Loeschpanzer from '../contents/Loeschpanzer';
+import Loeschkran from '../contents/Loeschkran';
+import Loeschturm from '../contents/Loeschturm';
+import Loeschzeppelin from '../contents/Loeschzeppelin';
 import Loeschschiff from '../contents/Loeschschiff';
 import Loeschtrupp from '../contents/Loeschtrupp';
 import type Cell from './Cell';
 import type ContentDerivedType from './ContentDerivedType';
 import type HexPosition from './HexPosition';
 import type ContentDefinition from './ContentDefinition';
+import Basis from '../contents/Basis';
 
 export default class Game {
     private levelDefinition: LevelDefinition;
     private levelMap: LevelMap;
 
     private _contentToBuild: ContentDerivedType = null;
+    private isBaseBuilt = false;
 
     get contentToBuild() {
         return this._contentToBuild;
     }
 
     set contentToBuild(value) {
+        if (!this.isBaseBuilt && value !== Basis) {
+            return;
+        }
         this._contentToBuild = value;
         this.markDisabledCells();
     }
@@ -39,13 +44,17 @@ export default class Game {
         ld.contentDefinitions.forEach((contentDefinition: ContentDefinition) => {
             this.placeContentAt(contentDefinition.contentType, contentDefinition.pos);
         });
+
+        if (!this.isBaseBuilt) {
+            this.contentToBuild = Basis;
+        }
     }
 
     public static getBuildableContents() {
         return [
-            Drehleiter,
-            Hydroschild,
-            Loeschpanzer,
+            Loeschkran,
+            Loeschturm,
+            Loeschzeppelin,
             Loeschschiff,
             Loeschtrupp,
         ];
@@ -73,6 +82,9 @@ export default class Game {
             return false;
         }
         if (contentInstance.isPlaceableOn(cell)) {
+            if (content === Basis) {
+                this.isBaseBuilt = true;
+            }
             cell.content = contentInstance;
         } else {
             return false;
