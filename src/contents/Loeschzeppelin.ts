@@ -2,10 +2,10 @@ import Content from '../model/Content';
 import ContentCategory from '../model/ContentCategory';
 import type Cell from '../model/Cell';
 
-export default class Loeschpanzer extends Content {
-    readonly description = 'Loeschpanzer: Description';
-    readonly name = 'Loeschpanzer';
-    readonly id = 'Loeschpanzer';
+export default class Loeschzeppelin extends Content {
+    readonly description = 'Loeschzeppelin: Description';
+    readonly name = 'Loeschzeppelin';
+    readonly id = 'Loeschzeppelin';
     readonly buildCosts: number = 150;
     readonly damageMax = Content.DAMAGE_MAX_HIGH;
     readonly removeCosts: number = -90;

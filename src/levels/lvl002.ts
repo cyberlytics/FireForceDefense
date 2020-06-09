@@ -5,10 +5,8 @@ import Steinbrocken from '../contents/Steinbrocken';
 import Feuer1 from '../effects/Feuer1';
 import See from '../cells/See';
 import Baumgruppe from '../contents/Baumgruppe';
-import Haus from '../contents/Haus';
 
-
-const lvl001: LevelDefinition = {
+const lvl002: LevelDefinition = {
     cellDefinitions: [
         { cellType: Wiese, pos: new HexPosition(0, 0) }, // ring 0
         { cellType: Wiese, pos: new HexPosition(1, 0) }, // ring 1
@@ -76,13 +74,11 @@ const lvl001: LevelDefinition = {
         { contentType: Steinbrocken, pos: new HexPosition(0, 0) },
         { contentType: Steinbrocken, pos: new HexPosition(-2, -2) }, // Should not be placed because it's on a lake
         { contentType: Baumgruppe, pos: new HexPosition(1, 0) },
-        { contentType: Haus, pos: new HexPosition(3, 0) },
-        { contentType: Haus, pos: new HexPosition(0, -3) },
     ],
     effectDefinitions: [
         { effectType: Feuer1, pos: new HexPosition(0, 0), after: 0 }
     ],
-    levelID: 'lvl001',
+    levelID: 'lvl002',
 };
 
-export default lvl001;
+export default lvl002;
