@@ -3,7 +3,7 @@
         <polygon v-bind:points="pathString" v-bind:fill="'url(#cell-' + cell.id + ')'" stroke="#000" />
         <rect v-if="cell.content !== null" v-bind:fill="'url(#content-' + cell.content.id + ')'"
               v-bind:width="sizeRect" v-bind:height="sizeRect" v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect" />
-        <polygon v-bind:points="pathString" v-if="cell.disabled" fill="#000" fill-opacity=".5" />
+        <polygon v-bind:points="pathString" v-if="disabled" fill="#000" fill-opacity=".5" />
         <text text-anchor="middle" dominant-baseline="middle" font-size="28" font-weight="bold"
               style="text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;">
             {{ cell.position }}
@@ -52,6 +52,6 @@
                 return 0.6123724357 * this.size // sqrt(6)/4 * size
             },
         },
-        props: ['cell', 'size']
+        props: ['cell', 'size', 'disabled']
     })
 </script>
