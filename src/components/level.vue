@@ -1,7 +1,7 @@
 <template>
     <div id="level-view-container" @click="selfClick" @mousemove="mousemove">
         <levelSidebar v-bind:buildable-contents="buildableContents" v-on:content-selected="contentSelected" />
-        <levelMap v-bind:level-map="game.getLevelMap()" v-on:cell-clicked="cellClicked" />
+        <levelMap v-bind:level-map="game.getLevelMap()" v-on:cell-clicked="cellClicked" v-bind:game="game" />
         <levelModal />
         <previewCursor v-bind:content-to-build="game.contentToBuild" v-bind:mouse-x="mouseX" v-bind:mouse-y="mouseY" />
     </div>
