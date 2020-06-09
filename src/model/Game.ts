@@ -1,9 +1,9 @@
 import LevelManager from './LevelManager';
 import type LevelDefinition from './LevelDefinition';
 import LevelMap from './LevelMap';
-import Drehleiter from '../contents/Drehleiter';
-import Hydroschild from '../contents/Hydroschild';
-import Loeschpanzer from '../contents/Loeschpanzer';
+import Loeschkran from '../contents/Loeschkran';
+import Loeschturm from '../contents/Loeschturm';
+import Loeschzeppelin from '../contents/Loeschzeppelin';
 import Loeschschiff from '../contents/Loeschschiff';
 import Loeschtrupp from '../contents/Loeschtrupp';
 import type Cell from './Cell';
@@ -52,9 +52,9 @@ export default class Game {
 
     public static getBuildableContents() {
         return [
-            Drehleiter,
-            Hydroschild,
-            Loeschpanzer,
+            Loeschkran,
+            Loeschturm,
+            Loeschzeppelin,
             Loeschschiff,
             Loeschtrupp,
         ];
