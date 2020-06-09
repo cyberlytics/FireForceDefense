@@ -49,16 +49,13 @@ export default class User {
         this.getScoresFromServer()
             .then(response => {
                 for (const [key, value] of Object.entries(response.data.scores)) {
-                    if (value >= 0 && value <= 4) {
-                        switch (value) {
-                            case 0: { this.levelScores[key] = Score.UNLOCKED; break; }
-                            case 1: { this.levelScores[key] = Score.ONE_STAR; break; }
-                            case 2: { this.levelScores[key] = Score.TWO_STARS; break; }
-                            case 3: { this.levelScores[key] = Score.THREE_STARS; break; }
-                            default: {
-                                this.levelScores[key] = Score.LOCKED;
-                                break;
-                            }
+                    switch (value) {
+                        case 1: { this.levelScores[key] = Score.ONE_STAR; break; }
+                        case 2: { this.levelScores[key] = Score.TWO_STARS; break; }
+                        case 3: { this.levelScores[key] = Score.THREE_STARS; break; }
+                        default: {
+                            this.levelScores[key] = Score.LOCKED;
+                            break;
                         }
                     }
                 }
@@ -67,12 +64,18 @@ export default class User {
         return this.levelScores;
     }
 
-    private async postScoreToServer(levelID: string, score: Score) {
-        return await Axios.post(`${this.backendURL}api/${this.nickname}`, { [levelID]: score });
+    private async postScoreToServer(levelID: string, stars: number) {
+        return await Axios.post(`${this.backendURL}api/${this.nickname}`, { [levelID]: stars });
     }
 
     public postScore(levelID: string, score: Score): boolean {
-        this.postScoreToServer(levelID, score)
+        let stars = 0;
+        switch (score) {
+            case Score.ONE_STAR: { stars = 1; break; }
+            case Score.TWO_STARS: { stars = 2; break; }
+            case Score.THREE_STARS: { stars = 3; break; }
+        }
+        this.postScoreToServer(levelID, stars)
             .catch(err => {
                 console.error(err);
                 return false;
