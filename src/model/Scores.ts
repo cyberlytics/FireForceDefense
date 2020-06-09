@@ -1,3 +1,5 @@
+import type Score from './Score';
+
 export default interface Scores {
-    [levelID: string]: number;
+    [levelID: string]: Score;
 }

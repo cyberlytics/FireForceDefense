@@ -4,17 +4,21 @@
 import type LevelDefinition from './LevelDefinition';
 import lvl001 from '../levels/lvl001';
 import User from './User';
+import Score from './Score';
+import lvl002 from '../levels/lvl002';
 
 export default class LevelManager {
-
-    private constructor() {
-        this.registerLevel(lvl001);
-    }
 
     private static instance: LevelManager;
     private levels: LevelDefinition[] = [];
     private levelIdToIndex: { [id: string]: number } = {};
     private user: User;
+
+    private constructor() {
+        this.registerLevel(lvl001);
+        this.registerLevel(lvl002);
+        this.user = User.getInstance();
+    }
 
     public static getInstance(): LevelManager {
         if (!LevelManager.instance) {
@@ -28,16 +32,20 @@ export default class LevelManager {
     }
 
     public getLevelIdsWithScore() {
-        this.user = User.getInstance();
         const scores = this.user.getScores();
-        const levelIdsWithScore: { [x: string]: number } = {};
+        const levelIdsWithScore: { levelID: string, score: Score }[] = [];
         this.levels.forEach(levelDef => {
-            if (scores.hasOwnProperty(levelDef.levelID)) {
-                levelIdsWithScore[levelDef.levelID] = scores[levelDef.levelID];
-            } else {
-                levelIdsWithScore[levelDef.levelID] = 0;
-            }
+            levelIdsWithScore.push({
+                levelID: levelDef.levelID,
+                score: scores.hasOwnProperty(levelDef.levelID) ? scores[levelDef.levelID] : Score.LOCKED,
+            });
         });
+
+        const firstLockedIndex = levelIdsWithScore.findIndex((element) => element.score === Score.LOCKED);
+        if (firstLockedIndex !== -1) {
+            levelIdsWithScore[firstLockedIndex].score = Score.UNLOCKED;
+        }
+
         return levelIdsWithScore;
     }
 
