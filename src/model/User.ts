@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import type Scores from './Scores';
+import Score from './Score';
 
 /**
  * @pattern Singleton (GoF:127)
@@ -47,18 +48,34 @@ export default class User {
     public getScores(): Scores {
         this.getScoresFromServer()
             .then(response => {
-                Object.assign(this.levelScores, response.data.scores);
+                for (const [key, value] of Object.entries(response.data.scores)) {
+                    switch (value) {
+                        case 1: { this.levelScores[key] = Score.ONE_STAR; break; }
+                        case 2: { this.levelScores[key] = Score.TWO_STARS; break; }
+                        case 3: { this.levelScores[key] = Score.THREE_STARS; break; }
+                        default: {
+                            this.levelScores[key] = Score.LOCKED;
+                            break;
+                        }
+                    }
+                }
             })
             .catch(err => console.error(err));
         return this.levelScores;
     }
 
-    private async postScoreToServer(levelID: string, score: number) {
-        return await Axios.post(`${this.backendURL}api/${this.nickname}`, { [levelID]: score });
+    private async postScoreToServer(levelID: string, stars: number) {
+        return await Axios.post(`${this.backendURL}api/${this.nickname}`, { [levelID]: stars });
     }
 
-    public postScore(levelID: string, score: number): boolean {
-        this.postScoreToServer(levelID, score)
+    public postScore(levelID: string, score: Score): boolean {
+        let stars = 0;
+        switch (score) {
+            case Score.ONE_STAR: { stars = 1; break; }
+            case Score.TWO_STARS: { stars = 2; break; }
+            case Score.THREE_STARS: { stars = 3; break; }
+        }
+        this.postScoreToServer(levelID, stars)
             .catch(err => {
                 console.error(err);
                 return false;

@@ -20,7 +20,7 @@
                 v-for="marker in markers"
                 :key="marker.id"
                 :lat-lng="marker.coordinates"
-                @click="goToLevel(marker.level)"
+                @click="goToLevel(marker.level, marker.score)"
             >
                 <l-icon v-if="marker.score === Score.UNLOCKED" :icon-anchor="iconAnchor">
                     <svg width="105" height="137" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,7 @@
 <script lang="ts">
     import { router } from '../index';
     import L from 'leaflet';
-    import { LMap, LTileLayer, LMarker, LControl, LIcon } from 'vue2-leaflet';
+    import { LControl, LIcon, LMap, LMarker, LTileLayer } from 'vue2-leaflet';
     import World from '../model/World';
     import Score from "../model/Score";
 
@@ -60,7 +60,7 @@
         data () {
             let world: World;
             try {
-                world = new World();
+                world = World.getInstance();
             } catch (e) {
                 router.push('/');
             }
@@ -77,17 +77,15 @@
                 L.latLng(50.5, 110),
             ];
 
-            let index = 0;
-            const markers = []
-            for(const [level, score] of Object.entries(world.getLevelData())){
+            const markers: { id: number, level: string, score: Score, coordinates: L.LatLng }[] = []
+            world.getLevelData().forEach((element, index) => {
                 markers.push({
                     id: index,
-                    level: level,
-                    score: score,
+                    level: element.levelID,
+                    score: element.score,
                     coordinates: coordinates[index],
                 });
-                index++;
-            }
+            });
 
             let currentLevel = markers.find(element => element.score === Score.UNLOCKED);
             if (currentLevel === undefined) {
@@ -129,7 +127,11 @@
             centerUpdated (center: any) {
                 this.center = center;
             },
-            goToLevel (levelId: String) {
+            goToLevel (levelId: String, score: Score) {
+                if (score === Score.LOCKED) {
+                    // TODO Maybe show feedback to the user
+                    return;
+                }
                 this.$router.push(`/level/${levelId}`);
             },
             goToStartMenu () {
