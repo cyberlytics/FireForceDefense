@@ -34,4 +34,12 @@ export default class LevelMap {
     getAllCells() {
         return this.cellsFlat;
     }
+
+    getCellsAround(center: HexPosition, radius: number) {
+        // See https://www.redblobgames.com/grids/hexagons/#range
+        return this.positions.filter((p) =>
+            p.q >= center.q - radius && p.q <= center.q + radius &&
+            p.r >= center.r - Math.min(radius, radius + (p.q - center.q)) && p.r <= center.r + Math.min(radius, radius - (p.q - center.q))
+        ).map((pos) => this.getCellAt(pos));
+    }
 }
