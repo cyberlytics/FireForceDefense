@@ -6,6 +6,13 @@ import Feuer1 from '../effects/Feuer1';
 import See from '../cells/See';
 import Baumgruppe from '../contents/Baumgruppe';
 import Haus from '../contents/Haus';
+import Abgebrannt from '../cells/Abgebrannt';
+import Feld from '../cells/Feld';
+import Gebirge from '../cells/Gebirge';
+import Lavasee from '../cells/Lavasee';
+import Vulkangestein from '../cells/Vulkangestein';
+import Waldboden from '../cells/Waldboden';
+import Wueste from '../cells/Wueste';
 
 
 const lvl001: LevelDefinition = {
@@ -29,15 +36,15 @@ const lvl001: LevelDefinition = {
         { cellType: Wiese, pos: new HexPosition(1, -2) },
         { cellType: Wiese, pos: new HexPosition(2, -2) },
         { cellType: Wiese, pos: new HexPosition(2, -1) },
-        { cellType: Wiese, pos: new HexPosition(3, 0) }, // ring 3
-        { cellType: Wiese, pos: new HexPosition(2, 1) },
-        { cellType: Wiese, pos: new HexPosition(1, 2) },
-        { cellType: Wiese, pos: new HexPosition(0, 3) },
-        { cellType: Wiese, pos: new HexPosition(-1, 3) },
-        { cellType: Wiese, pos: new HexPosition(-2, 3) },
-        { cellType: Wiese, pos: new HexPosition(-3, 3) },
+        { cellType: Abgebrannt, pos: new HexPosition(3, 0) }, // ring 3
+        { cellType: Feld, pos: new HexPosition(2, 1) },
+        { cellType: Gebirge, pos: new HexPosition(1, 2) },
+        { cellType: Lavasee, pos: new HexPosition(0, 3) },
+        { cellType: See, pos: new HexPosition(-1, 3) },
+        { cellType: Vulkangestein, pos: new HexPosition(-2, 3) },
+        { cellType: Waldboden, pos: new HexPosition(-3, 3) },
         { cellType: Wiese, pos: new HexPosition(-3, 2) },
-        { cellType: Wiese, pos: new HexPosition(-3, 1) },
+        { cellType: Wueste, pos: new HexPosition(-3, 1) },
         { cellType: See, pos: new HexPosition(-3, 0) },
         { cellType: See, pos: new HexPosition(-2, -1) },
         { cellType: Wiese, pos: new HexPosition(-1, -2) },
