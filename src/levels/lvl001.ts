@@ -87,7 +87,7 @@ const lvl001: LevelDefinition = {
         { contentType: Haus, pos: new HexPosition(0, -3) },
     ],
     effectDefinitions: [
-        { effectType: Feuer1, pos: new HexPosition(0, 0), after: 0 }
+        { effectType: Feuer1, pos: new HexPosition(0, 0), mustBeExecuted: (step) => step === 0 }
     ],
     levelID: 'lvl001',
 };
