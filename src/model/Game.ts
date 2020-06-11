@@ -14,10 +14,42 @@ import Basis from '../contents/Basis';
 
 export default class Game {
     private levelDefinition: LevelDefinition;
-    private levelMap: LevelMap;
+    private readonly levelMap: LevelMap;
 
     private _contentToBuild: ContentDerivedType = null;
-    private isBaseBuilt = false;
+    private _isBaseBuilt = false;
+
+    private get isBaseBuilt() {
+        return this._isBaseBuilt;
+    }
+
+    private set isBaseBuilt(value) {
+        if (!this._isBaseBuilt && value) {
+            this.start();
+        } else if (this._isBaseBuilt && !value) {
+            // This could be used to rebuild the base after it was removed in some non-level-ending way.
+            // As of now, no such use case exists.
+            // This is mainly implemented as a symmetrical counterpart to the if-statement above.
+            this.pause();
+            this.contentToBuild = Basis;
+        }
+        this._isBaseBuilt = value;
+    }
+
+    // How long a game step should last in milliseconds
+    private gameStepDuration = 1000;
+
+    // Milliseconds since 1970-01-01 at the time the current game step timeout was started
+    private gameStepTimeoutStart: number|null = null;
+
+    // Remaining time for the game step timeout
+    private gameStepRemainingTime: number|null = null;
+
+    // ID for the game step timeout as returned by setTimeout
+    private gameStepTimeoutID: number|null = null;
+
+    // Number of fully executed game steps
+    private gameStepCounter = 0;
 
     get contentToBuild() {
         return this._contentToBuild;
@@ -103,5 +135,45 @@ export default class Game {
 
     public getCellDisabledFunction() {
         return this._isCellDisabled;
+    }
+
+    private step() {
+        // TODO Apply fire damage to cells and contents
+
+        // TODO Check if the base still exists and end the level if not
+
+        // TODO Calculate fire spread to neighbor cells
+
+        // TODO Apply fire spread to neighbor cells
+
+        // TODO Reduce fire intensity according to the fire extinguishing contents
+
+        // TODO Apply own fire intensity change
+
+        // TODO Check if there are still fires burning and end the level if not
+
+        // TODO Execute effects
+    }
+
+    private timeoutHandler() {
+        this.start();
+        this.step();
+        this.gameStepCounter++;
+    }
+
+    public start() {
+        this.gameStepTimeoutID = window.setTimeout(
+            () => this.timeoutHandler(),
+            this.gameStepRemainingTime === null ? this.gameStepDuration : this.gameStepRemainingTime
+        );
+        this.gameStepTimeoutStart = Date.now();
+        this.gameStepRemainingTime = null;
+    }
+
+    public pause() {
+        window.clearTimeout(this.gameStepTimeoutID);
+        this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
+        this.gameStepTimeoutID = null;
+        this.gameStepTimeoutStart = null;
     }
 }
