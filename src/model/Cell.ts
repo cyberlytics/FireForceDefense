@@ -37,7 +37,6 @@ export default abstract class Cell {
     content: Content|null = null;
     damage = 0;
     fireIntensity: FireIntensity = FireIntensity.INTENSITY_0;
-    disabled = false;
     readonly position: HexPosition;
 
     constructor(position: HexPosition) {
