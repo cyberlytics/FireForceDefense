@@ -5,7 +5,7 @@
             <cellPatterns />
             <contentPatterns />
             <cell v-for="cell in levelMap.getAllCells()" v-bind:cell="cell" v-bind:key="cell.position.toString()"
-                  v-bind:size="size" v-on:cell-clicked="cellClicked" />
+                  v-bind:size="size" v-on:cell-clicked="cellClicked" v-bind:disabled="game.getCellDisabledFunction()(cell)" />
         </svg>
     </div>
 </template>
@@ -36,6 +36,6 @@
             cellPatterns,
             contentPatterns,
         },
-        props: ['levelMap']
+        props: ['levelMap', 'game']
     })
 </script>

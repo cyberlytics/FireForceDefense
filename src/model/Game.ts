@@ -92,12 +92,16 @@ export default class Game {
     }
 
     private markDisabledCells() {
-        let func = (cell: Cell) => true;
+        let func = (cell: Cell) => false;
         if (this.contentToBuild !== null) {
-            func = (cell: Cell) => new (this.contentToBuild)().isPlaceableOn(cell) && cell.content === null;
+            func = (cell: Cell) => !new (this.contentToBuild)().isPlaceableOn(cell) || cell.content !== null;
         }
-        this.levelMap.getAllCells().forEach((cell: Cell) => {
-            cell.disabled = !func(cell);
-        });
+        this._isCellDisabled = func;
+    }
+
+    private _isCellDisabled: (cell: Cell) => boolean = () => false;
+
+    public getCellDisabledFunction() {
+        return this._isCellDisabled;
     }
 }
