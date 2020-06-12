@@ -16,9 +16,9 @@ export default abstract class Cell {
     static readonly SPREAD_AMOUNT_MEDIUM = 2;
     static readonly SPREAD_AMOUNT_HIGH = 3;
 
-    static readonly IGNITION_CHANCE_LOW = 0.15;
-    static readonly IGNITION_CHANCE_MEDIUM = 0.4;
-    static readonly IGNITION_CHANCE_HIGH = 0.8;
+    static readonly IGNITION_CHANCE_LOW = 0.05;
+    static readonly IGNITION_CHANCE_MEDIUM = 0.15;
+    static readonly IGNITION_CHANCE_HIGH = 0.3;
 
     static readonly IGNITION_THRESHOLD_LOW = FireIntensity.INTENSITY_2;
     static readonly IGNITION_THRESHOLD_MEDIUM = FireIntensity.INTENSITY_5;
@@ -38,6 +38,7 @@ export default abstract class Cell {
     content: Content|null = null;
     damage = 0;
     fireIntensity: FireIntensity = FireIntensity.INTENSITY_0;
+    neighborSpreadTmp: number;
     readonly position: HexPosition;
 
     constructor(position: HexPosition) {
