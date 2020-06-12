@@ -15,7 +15,6 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import FireIntensity from '../model/FireIntensity';
     import Fire from '../model/Fire';
 
     export default Vue.extend({
@@ -56,7 +55,7 @@
                 return 0.6123724357 * this.size // sqrt(6)/4 * size
             },
             visualFireIntensity: function () {
-                return Fire.IntensityToFireCategory(this.cell.fireIntensity);
+                return Fire.intensityToFireCategory(this.cell.fireIntensity);
             }
         },
         props: ['cell', 'size', 'disabled']
