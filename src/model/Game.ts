@@ -11,6 +11,10 @@ import type ContentDerivedType from './ContentDerivedType';
 import type HexPosition from './HexPosition';
 import type ContentDefinition from './ContentDefinition';
 import Basis from '../contents/Basis';
+import Abgebrannt from '../cells/Abgebrannt';
+import type Content from './Content';
+import Brandreste from '../contents/Brandreste';
+import Fire from './Fire';
 
 export default class Game {
     private levelDefinition: LevelDefinition;
@@ -74,7 +78,7 @@ export default class Game {
         this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
 
         ld.contentDefinitions.forEach((contentDefinition: ContentDefinition) => {
-            this.placeContentAt(contentDefinition.contentType, contentDefinition.pos);
+            this.placeContentAt(new contentDefinition.contentType(), contentDefinition.pos);
         });
 
         if (!this.isBaseBuilt) {
@@ -100,24 +104,23 @@ export default class Game {
         if (this.contentToBuild === null) {
             return false;
         }
-        if (this.placeContentAt(this.contentToBuild, position)) {
+        if (this.placeContentAt(new this.contentToBuild(), position)) {
             // TODO Remove build costs from money here
             return true;
         }
         return false;
     }
 
-    private placeContentAt(content: ContentDerivedType, position: HexPosition): boolean {
-        const contentInstance = new content();
+    private placeContentAt(content: Content, position: HexPosition): boolean {
         const cell = this.levelMap.getCellAt(position);
         if (cell.content !== null) {
             return false;
         }
-        if (contentInstance.isPlaceableOn(cell)) {
-            if (content === Basis) {
+        if (content.isPlaceableOn(cell)) {
+            if (content.id === 'Basis') {
                 this.isBaseBuilt = true;
             }
-            cell.content = contentInstance;
+            cell.content = content;
         } else {
             return false;
         }
@@ -137,8 +140,32 @@ export default class Game {
         return this._isCellDisabled;
     }
 
+    private fireDamage() {
+        this.levelMap.getAllCells().forEach((cell) => {
+            if (cell.content && cell.content.applyDamage(cell.fireIntensity)) {
+                cell.content = new Brandreste();
+            }
+            if (cell.applyDamage()) {
+                const content = cell.content;
+                const intensity = cell.fireIntensity;
+                const burnt = new Abgebrannt(cell.position);
+                this.levelMap.replaceCell(burnt);
+                this.levelMap.getCellAt(cell.position).fireIntensity = intensity;
+                if (content) {
+                    this.placeContentAt(content, cell.position);
+                }
+            }
+        });
+    }
+
+    private ownFireChange() {
+        this.levelMap.getAllCells().forEach((cell) => {
+            cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.fireGrowAmount, cell.maxFireIntensity, true);
+        });
+    }
+
     private step() {
-        // TODO Apply fire damage to cells and contents
+        this.fireDamage();
 
         // TODO Check if the base still exists and end the level if not
 
@@ -148,7 +175,7 @@ export default class Game {
 
         // TODO Reduce fire intensity according to the fire extinguishing contents
 
-        // TODO Apply own fire intensity change
+        this.ownFireChange();
 
         // TODO Check if there are still fires burning and end the level if not
 
