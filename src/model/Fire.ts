@@ -1,7 +1,7 @@
 import FireIntensity from './FireIntensity';
 
 export default class Fire {
-    static IntensityToDamage(intensity: FireIntensity): number {
+    static IntensityToFireCategory(intensity: FireIntensity): number {
         switch (intensity) {
             case FireIntensity.INTENSITY_0:
                 return 0;

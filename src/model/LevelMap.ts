@@ -1,6 +1,8 @@
 import type CellDefinition from './CellDefinition';
 import type Cell from './Cell';
-import type HexPosition from './HexPosition';
+import HexPosition from './HexPosition';
+import FireIntensity from './FireIntensity';
+import See from '../cells/See';
 
 export default class LevelMap {
     private cells: {
@@ -10,7 +12,6 @@ export default class LevelMap {
     } = {};
 
     private positions: HexPosition[] = [];
-    private cellsFlat: Cell[] = [];
 
     constructor(cellDefinitions: CellDefinition[]) {
         cellDefinitions.forEach((cellDefinition) => {
@@ -21,7 +22,20 @@ export default class LevelMap {
             this.cells[pos.r][pos.q] = new cellDefinition.cellType(pos);
             this.positions.push(pos);
         });
-        this.cellsFlat = this.positions.map((pos) => this.getCellAt(pos));
+
+        // TODO Remove, this is only to demonstrate cell reactivity
+        setTimeout(() => {
+            this.cells[0][-1] = new See(new HexPosition(-1, 0));
+        }, 5000);
+
+        // TODO Remove; this is just to show the fire intensities.
+        setTimeout(() => {
+            this.getCellAt(new HexPosition(0, -4)).fireIntensity = FireIntensity.INTENSITY_0;
+            this.getCellAt(new HexPosition(1, -4)).fireIntensity = FireIntensity.INTENSITY_1;
+            this.getCellAt(new HexPosition(2, -4)).fireIntensity = FireIntensity.INTENSITY_4;
+            this.getCellAt(new HexPosition(3, -4)).fireIntensity = FireIntensity.INTENSITY_7;
+            this.getCellAt(new HexPosition(4, -4)).fireIntensity = FireIntensity.INTENSITY_10;
+        }, 3000);
     }
 
     getCellAt(pos: HexPosition): Cell|null {
@@ -32,7 +46,7 @@ export default class LevelMap {
     }
 
     getAllCells() {
-        return this.cellsFlat;
+        return this.positions.map((pos) => this.getCellAt(pos));
     }
 
     getCellsAround(center: HexPosition, radius: number) {
