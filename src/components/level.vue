@@ -1,6 +1,11 @@
 <template>
     <div id="level-view-container" @click="selfClick" @mousemove="mousemove">
-        <levelSidebar v-bind:buildable-contents="buildableContents" v-on:content-selected="contentSelected" />
+        <levelSidebar
+            v-bind:buildable-contents="buildableContents"
+            v-bind:relief-got-activated="game.reliefGotActivated"
+            v-on:content-selected="contentSelected"
+            v-on:relief-clicked="emergencyReliefClicked"
+        />
         <levelMap v-bind:level-map="game.getLevelMap()" v-on:cell-clicked="cellClicked" v-bind:game="game" />
         <levelModal />
         <previewCursor v-bind:content-to-build="game.contentToBuild" v-bind:mouse-x="mouseX" v-bind:mouse-y="mouseY" />
@@ -51,6 +56,9 @@
             },
             contentSelected: function (content: Content) {
                 this.game.contentToBuild = content;
+            },
+            emergencyReliefClicked: function () {
+                this.game.emergencyRelief();
             },
         },
         components: {
