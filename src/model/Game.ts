@@ -15,6 +15,7 @@ import Abgebrannt from '../cells/Abgebrannt';
 import type Content from './Content';
 import Brandreste from '../contents/Brandreste';
 import Fire from './Fire';
+import FireIntensity from './FireIntensity';
 
 export default class Game {
     private levelDefinition: LevelDefinition;
@@ -164,16 +165,54 @@ export default class Game {
         });
     }
 
+    private calculateNeighborSpread() {
+        this.levelMap.getAllCells().forEach((cell) => {
+            if (cell.fireIntensity === FireIntensity.INTENSITY_0) {
+                return;
+            }
+            this.levelMap.getCellsAround(cell.position, 1).forEach((neighbor) => {
+                if (
+                    cell.fireIntensity >= neighbor.ignitionThreshold
+                    && Math.random() < cell.ignitionChance
+                ) {
+                    neighbor.neighborSpreadTmp += Math.min(cell.fireIntensity, cell.spreadAmount);
+                }
+            });
+        });
+    }
+
+    private applyNeighborSpread() {
+        this.levelMap.getAllCells().forEach((cell) => {
+            cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.neighborSpreadTmp, cell.maxFireIntensity);
+            cell.neighborSpreadTmp = 0;
+        });
+    }
+
+    private extinguish() {
+        this.levelMap.getAllCells().forEach((cell) => {
+            if (!cell.content) {
+                return;
+            }
+            const rate = -cell.content.extinguishRate;
+            this.levelMap.getCellsAround(cell.position, cell.content.extinguishRange).forEach((target) => {
+                if (target.fireIntensity === FireIntensity.INTENSITY_0) {
+                    return;
+                }
+                target.fireIntensity = Fire.modify(target.fireIntensity, rate);
+            });
+        });
+    }
+
     private step() {
         this.fireDamage();
 
         // TODO Check if the base still exists and end the level if not
 
-        // TODO Calculate fire spread to neighbor cells
+        this.calculateNeighborSpread();
 
-        // TODO Apply fire spread to neighbor cells
+        this.applyNeighborSpread();
 
-        // TODO Reduce fire intensity according to the fire extinguishing contents
+        this.extinguish();
 
         this.ownFireChange();
 
