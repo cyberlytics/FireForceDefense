@@ -23,11 +23,6 @@ export default class LevelMap {
             this.positions.push(pos);
         });
 
-        // TODO Remove, this is only to demonstrate cell reactivity
-        setTimeout(() => {
-            this.cells[0][-1] = new See(new HexPosition(-1, 0));
-        }, 5000);
-
         // TODO Remove; this is just to show the fire intensities.
         setTimeout(() => {
             this.getCellAt(new HexPosition(0, -4)).fireIntensity = FireIntensity.INTENSITY_0;
@@ -55,5 +50,12 @@ export default class LevelMap {
             p.q >= center.q - radius && p.q <= center.q + radius &&
             p.r >= center.r - Math.min(radius, radius + (p.q - center.q)) && p.r <= center.r + Math.min(radius, radius - (p.q - center.q))
         ).map((pos) => this.getCellAt(pos));
+    }
+
+    replaceCell(cell: Cell) {
+        if (!this.cells.hasOwnProperty(cell.position.r) || !this.cells[cell.position.r].hasOwnProperty(cell.position.q)) {
+            return;
+        }
+        this.cells[cell.position.r][cell.position.q] = cell;
     }
 }
