@@ -67,5 +67,8 @@
                 }
             });
         },
+        beforeDestroy() {
+            this.game.pause();
+        }
     })
 </script>

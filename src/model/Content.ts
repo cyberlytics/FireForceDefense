@@ -1,5 +1,7 @@
 import type ContentCategory from './ContentCategory';
 import type Cell from './Cell';
+import Fire from './Fire';
+import type FireIntensity from './FireIntensity';
 
 export default abstract class Content {
     static readonly DAMAGE_MAX_LOW = 20;
@@ -19,4 +21,9 @@ export default abstract class Content {
     damage = 0;
 
     abstract isPlaceableOn(cell: Cell): boolean;
+
+    public applyDamage(fireIntensity: FireIntensity) {
+        this.damage += Fire.intensityToDamage(fireIntensity);
+        return this.damage >= this.damageMax;
+    }
 }
