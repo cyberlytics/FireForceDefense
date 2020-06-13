@@ -76,7 +76,7 @@ const lvl002: LevelDefinition = {
         { contentType: Baumgruppe, pos: new HexPosition(1, 0) },
     ],
     effectDefinitions: [
-        { effectType: Feuer1, pos: new HexPosition(0, 0), after: 0 }
+        { effectType: Feuer1, pos: new HexPosition(0, 0), mustBeExecuted: (step) => step === 0 }
     ],
     levelID: 'lvl002',
 };
