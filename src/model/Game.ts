@@ -8,7 +8,7 @@ import Loeschschiff from '../contents/Loeschschiff';
 import Loeschtrupp from '../contents/Loeschtrupp';
 import type Cell from './Cell';
 import type ContentDerivedType from './ContentDerivedType';
-import type HexPosition from './HexPosition';
+import HexPosition from './HexPosition';
 import type ContentDefinition from './ContentDefinition';
 import Basis from '../contents/Basis';
 import Abgebrannt from '../cells/Abgebrannt';
@@ -16,6 +16,7 @@ import type Content from './Content';
 import Brandreste from '../contents/Brandreste';
 import Fire from './Fire';
 import FireIntensity from './FireIntensity';
+import Regen from '../effects/Regen';
 
 export default class Game {
     private levelDefinition: LevelDefinition;
@@ -55,6 +56,12 @@ export default class Game {
 
     // Number of fully executed game steps
     private gameStepCounter = 0;
+
+    private _reliefGotActivated = false;
+
+    get reliefGotActivated() {
+        return this._reliefGotActivated;
+    }
 
     get contentToBuild() {
         return this._contentToBuild;
@@ -241,5 +248,13 @@ export default class Game {
         this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
         this.gameStepTimeoutID = null;
         this.gameStepTimeoutStart = null;
+    }
+
+    public emergencyRelief() {
+        if (!this.reliefGotActivated) {
+            const regen = new Regen();
+            regen.applyEffect(this.levelMap, new HexPosition(0, 0));
+            this._reliefGotActivated = true;
+        }
     }
 }
