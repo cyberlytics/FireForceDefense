@@ -1,7 +1,7 @@
 import Effect from '../model/Effect';
 import type LevelMap from '../model/LevelMap';
 import type HexPosition from '../model/HexPosition';
-import Fire from "../model/Fire";
+import Fire from '../model/Fire';
 
 export default class Feuer2 extends Effect {
     readonly description = 'Feuer 2: Description';
