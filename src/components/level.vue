@@ -5,10 +5,12 @@
             v-bind:relief-got-activated="game.reliefGotActivated"
             v-on:content-selected="contentSelected"
             v-on:relief-clicked="emergencyReliefClicked"
+            v-on:remove-selected="removeSelected"
         />
         <levelMap v-bind:level-map="game.getLevelMap()" v-on:cell-clicked="cellClicked" v-bind:game="game" />
         <levelModal />
-        <previewCursor v-bind:content-to-build="game.contentToBuild" v-bind:mouse-x="mouseX" v-bind:mouse-y="mouseY" />
+        <previewCursor v-bind:content-to-build="game.contentToBuild" v-bind:remove-mode="game.removeMode"
+                       v-bind:mouse-x="mouseX" v-bind:mouse-y="mouseY" />
     </div>
 </template>
 
@@ -42,6 +44,7 @@
         methods: {
             selfClick: function() {
                 this.game.contentToBuild = null;
+                this.game.leaveRemoveMode();
             },
             mousemove: function(ev: MouseEvent) {
                 this.mouseX = ev.clientX;
@@ -49,13 +52,18 @@
             },
             cellClicked: function (position: HexPosition) {
                 this.game.placeAt(position);
+                this.game.removeAt(position);
                 this.game.contentToBuild = null;
+                this.game.leaveRemoveMode();
 
                 // TODO Replace with real code
                 console.log('Level observed cell click at ' + position.toString());
             },
             contentSelected: function (content: Content) {
                 this.game.contentToBuild = content;
+            },
+            removeSelected: function () {
+                this.game.enterRemoveMode();
             },
             emergencyReliefClicked: function () {
                 this.game.emergencyRelief();

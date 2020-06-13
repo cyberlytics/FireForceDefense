@@ -23,6 +23,7 @@ export default class Game {
     private readonly levelMap: LevelMap;
 
     private _contentToBuild: ContentDerivedType = null;
+    private _removeMode = false;
     private _isBaseBuilt = false;
 
     private get isBaseBuilt() {
@@ -68,6 +69,9 @@ export default class Game {
     }
 
     set contentToBuild(value) {
+        if (value !== null) {
+            this.leaveRemoveMode();
+        }
         if (!this.isBaseBuilt && value !== Basis) {
             return;
         }
@@ -108,6 +112,41 @@ export default class Game {
         return this.levelMap;
     }
 
+    public enterRemoveMode() {
+        if (!this.isBaseBuilt) {
+            return;
+        }
+        this._removeMode = true;
+        this.contentToBuild = null;
+        this.markDisabledCells();
+    }
+
+    public leaveRemoveMode() {
+        this._removeMode = false;
+        this.markDisabledCells();
+    }
+
+    private isRemovable(cell: Cell) {
+        // TODO Add check if there is enough money to remove the content
+        return cell.content !== null && cell.content.removeCosts !== null;
+    }
+
+    public removeAt(position: HexPosition) {
+        if (!this.removeMode) {
+            return;
+        }
+        const cell = this.levelMap.getCellAt(position);
+        if (!this.isRemovable(cell)) {
+            return;
+        }
+        cell.content = null;
+        // TODO Apply remove costs here
+    }
+
+    get removeMode() {
+        return this._removeMode;
+    }
+
     public placeAt(position: HexPosition): boolean {
         if (this.contentToBuild === null) {
             return false;
@@ -138,6 +177,8 @@ export default class Game {
         let func = (cell: Cell) => false;
         if (this.contentToBuild !== null) {
             func = (cell: Cell) => !new (this.contentToBuild)().isPlaceableOn(cell) || cell.content !== null;
+        } else if (this.removeMode) {
+            func = (cell) => !this.isRemovable(cell);
         }
         this._isCellDisabled = func;
     }
