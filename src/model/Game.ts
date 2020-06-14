@@ -17,9 +17,11 @@ import Brandreste from '../contents/Brandreste';
 import Fire from './Fire';
 import FireIntensity from './FireIntensity';
 import Regen from '../effects/Regen';
+import type EffectDefinition from './EffectDefinition';
 
 export default class Game {
     private levelDefinition: LevelDefinition;
+    private effectDefinitions: EffectDefinition[];
     private readonly levelMap: LevelMap;
 
     private _contentToBuild: ContentDerivedType = null;
@@ -82,10 +84,12 @@ export default class Game {
     constructor(levelID: string) {
         const lm = LevelManager.getInstance();
         const ld = lm.getLevelDefinition(levelID);
+
         if (!ld) {
             throw new Error('Level not registered!');
         }
         this.levelDefinition = ld;
+        this.effectDefinitions = ld.effectDefinitions;
         // TODO fetch user score and check if level is unlocked
         this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
 
@@ -266,7 +270,7 @@ export default class Game {
 
         // TODO Check if there are still fires burning and end the level if not
 
-        // TODO Execute effects
+        this.executeEffects();
     }
 
     private timeoutHandler() {
@@ -297,5 +301,14 @@ export default class Game {
             regen.applyEffect(this.levelMap, new HexPosition(0, 0));
             this._reliefGotActivated = true;
         }
+    }
+
+    private executeEffects() {
+        this.effectDefinitions.forEach(effectDefinition => {
+            if (effectDefinition.mustBeExecuted(this.gameStepCounter)) {
+                const effect = new effectDefinition.effectType();
+                effect.applyEffect(this.levelMap, effectDefinition.pos);
+            }
+        });
     }
 }
