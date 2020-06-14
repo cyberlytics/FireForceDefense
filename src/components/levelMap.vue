@@ -6,8 +6,15 @@
             <contentPatterns />
             <firePatterns />
             <utilityPatterns />
-            <cell v-for="cell in levelMap.getAllCells()" v-bind:cell="cell" v-bind:key="cell.position.toString()"
-                  v-bind:size="size" v-on:cell-clicked="cellClicked" v-bind:disabled="game.getCellDisabledFunction()(cell)" />
+            <cell
+                v-for="cell in levelMap.getAllCells()"
+                v-bind:cell="cell" v-bind:key="cell.position.toString()"
+                v-bind:size="size"
+                v-bind:disabled="game.getCellDisabledFunction()(cell)"
+                v-on:cell-clicked="cellClicked"
+                v-on:mouseenter-cell="$emit('mouseenter-cell', cell)"
+                v-on:mouseleave-cell="$emit('mouseleave-cell', cell)"
+            />
         </svg>
     </div>
 </template>
