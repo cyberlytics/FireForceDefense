@@ -1,25 +1,26 @@
-import LevelManager from './LevelManager';
 import type LevelDefinition from './LevelDefinition';
+import type Cell from './Cell';
+import type ContentDerivedType from './ContentDerivedType';
+import type ContentDefinition from './ContentDefinition';
+import type EffectDefinition from './EffectDefinition';
+import type Content from './Content';
+import LevelManager from './LevelManager';
 import LevelMap from './LevelMap';
+import HexPosition from './HexPosition';
+import Basis from '../contents/Basis';
 import Loeschkran from '../contents/Loeschkran';
 import Loeschturm from '../contents/Loeschturm';
 import Loeschzeppelin from '../contents/Loeschzeppelin';
 import Loeschschiff from '../contents/Loeschschiff';
 import Loeschtrupp from '../contents/Loeschtrupp';
-import type Cell from './Cell';
-import type ContentDerivedType from './ContentDerivedType';
-import HexPosition from './HexPosition';
-import type ContentDefinition from './ContentDefinition';
-import Basis from '../contents/Basis';
 import Abgebrannt from '../cells/Abgebrannt';
-import type Content from './Content';
 import Brandreste from '../contents/Brandreste';
 import Fire from './Fire';
 import FireIntensity from './FireIntensity';
 import Regen from '../effects/Regen';
-import type EffectDefinition from './EffectDefinition';
 
 export default class Game {
+
     private levelDefinition: LevelDefinition;
     private effectDefinitions: EffectDefinition[];
     private readonly levelMap: LevelMap;
@@ -27,6 +28,139 @@ export default class Game {
     private _contentToBuild: ContentDerivedType = null;
     private _removeMode = false;
     private _isBaseBuilt = false;
+
+    private gameStepDuration = 1000;                   // How long a game step should last in milliseconds
+    private gameStepTimeoutStart: number|null = null;  // Start time of current game step timeout
+    private gameStepRemainingTime: number|null = null; // Remaining time for the game step timeout
+    private gameStepTimeoutID: number|null = null;     // ID for the game step timeout as returned by setTimeout
+    private gameStepCounter = 0;                       // Number of fully executed game steps
+
+    private _reliefGotActivated = false;
+
+    constructor(levelID: string) {
+        const levelManager = LevelManager.getInstance();
+        const levelDefinition = levelManager.getLevelDefinition(levelID);
+
+        if (!levelDefinition) {
+            throw new Error('Level not registered!');
+        }
+        this.levelDefinition = levelDefinition;
+        this.effectDefinitions = levelDefinition.effectDefinitions;
+        // TODO fetch user score and check if level is unlocked
+        this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
+
+        levelDefinition.contentDefinitions.forEach((contentDefinition: ContentDefinition) => {
+            this.placeContentAt(new contentDefinition.contentType(), contentDefinition.pos);
+        });
+
+        if (!this.isBaseBuilt) {
+            this.contentToBuild = Basis;
+        }
+    }
+
+    /* Public methods */
+    public static getBuildableContents() {
+        return [
+            Loeschkran,
+            Loeschturm,
+            Loeschzeppelin,
+            Loeschschiff,
+            Loeschtrupp,
+        ];
+    }
+
+    public getLevelMap() {
+        return this.levelMap;
+    }
+
+    public getCellDisabledFunction() {
+        return this._isCellDisabled;
+    }
+
+    public start() {
+        this.gameStepTimeoutID = window.setTimeout(
+            () => this.timeoutHandler(),
+            this.gameStepRemainingTime === null ? this.gameStepDuration : this.gameStepRemainingTime
+        );
+        this.gameStepTimeoutStart = Date.now();
+        this.gameStepRemainingTime = null;
+    }
+
+    public pause() {
+        window.clearTimeout(this.gameStepTimeoutID);
+        this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
+        this.gameStepTimeoutID = null;
+        this.gameStepTimeoutStart = null;
+    }
+
+    public enterRemoveMode() {
+        if (!this.isBaseBuilt) {
+            return;
+        }
+        this._removeMode = true;
+        this.contentToBuild = null;
+        this.markDisabledCells();
+    }
+
+    public placeAt(position: HexPosition): boolean {
+        if (this.contentToBuild === null) {
+            return false;
+        }
+        if (this.placeContentAt(new this.contentToBuild(), position)) {
+            // TODO Remove build costs from money here
+            return true;
+        }
+        return false;
+    }
+
+    public leaveRemoveMode() {
+        this._removeMode = false;
+        this.markDisabledCells();
+    }
+
+    public removeAt(position: HexPosition) {
+        if (!this.removeMode) {
+            return;
+        }
+        const cell = this.levelMap.getCellAt(position);
+        if (!this.isRemovable(cell)) {
+            return;
+        }
+        cell.content = null;
+        // TODO Apply remove costs here
+    }
+
+    public emergencyRelief() {
+        if (!this.reliefGotActivated) {
+            const regen = new Regen();
+            regen.applyEffect(this.levelMap, new HexPosition(0, 0));
+            this._reliefGotActivated = true;
+        }
+    }
+
+    /* Getter and Setter */
+    get reliefGotActivated() {
+        return this._reliefGotActivated;
+    }
+
+    get removeMode() {
+        return this._removeMode;
+    }
+
+    get contentToBuild() {
+        return this._contentToBuild;
+    }
+
+    set contentToBuild(value) {
+        if (value !== null) {
+            this.leaveRemoveMode();
+        }
+        if (!this.isBaseBuilt && value !== Basis) {
+            return;
+        }
+        this._contentToBuild = value;
+        this.markDisabledCells();
+    }
 
     private get isBaseBuilt() {
         return this._isBaseBuilt;
@@ -45,121 +179,10 @@ export default class Game {
         this._isBaseBuilt = value;
     }
 
-    // How long a game step should last in milliseconds
-    private gameStepDuration = 1000;
-
-    // Milliseconds since 1970-01-01 at the time the current game step timeout was started
-    private gameStepTimeoutStart: number|null = null;
-
-    // Remaining time for the game step timeout
-    private gameStepRemainingTime: number|null = null;
-
-    // ID for the game step timeout as returned by setTimeout
-    private gameStepTimeoutID: number|null = null;
-
-    // Number of fully executed game steps
-    private gameStepCounter = 0;
-
-    private _reliefGotActivated = false;
-
-    get reliefGotActivated() {
-        return this._reliefGotActivated;
-    }
-
-    get contentToBuild() {
-        return this._contentToBuild;
-    }
-
-    set contentToBuild(value) {
-        if (value !== null) {
-            this.leaveRemoveMode();
-        }
-        if (!this.isBaseBuilt && value !== Basis) {
-            return;
-        }
-        this._contentToBuild = value;
-        this.markDisabledCells();
-    }
-
-    constructor(levelID: string) {
-        const lm = LevelManager.getInstance();
-        const ld = lm.getLevelDefinition(levelID);
-
-        if (!ld) {
-            throw new Error('Level not registered!');
-        }
-        this.levelDefinition = ld;
-        this.effectDefinitions = ld.effectDefinitions;
-        // TODO fetch user score and check if level is unlocked
-        this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
-
-        ld.contentDefinitions.forEach((contentDefinition: ContentDefinition) => {
-            this.placeContentAt(new contentDefinition.contentType(), contentDefinition.pos);
-        });
-
-        if (!this.isBaseBuilt) {
-            this.contentToBuild = Basis;
-        }
-    }
-
-    public static getBuildableContents() {
-        return [
-            Loeschkran,
-            Loeschturm,
-            Loeschzeppelin,
-            Loeschschiff,
-            Loeschtrupp,
-        ];
-    }
-
-    public getLevelMap() {
-        return this.levelMap;
-    }
-
-    public enterRemoveMode() {
-        if (!this.isBaseBuilt) {
-            return;
-        }
-        this._removeMode = true;
-        this.contentToBuild = null;
-        this.markDisabledCells();
-    }
-
-    public leaveRemoveMode() {
-        this._removeMode = false;
-        this.markDisabledCells();
-    }
-
+    /* Private methods */
     private isRemovable(cell: Cell) {
         // TODO Add check if there is enough money to remove the content
         return cell.content !== null && cell.content.removeCosts !== null;
-    }
-
-    public removeAt(position: HexPosition) {
-        if (!this.removeMode) {
-            return;
-        }
-        const cell = this.levelMap.getCellAt(position);
-        if (!this.isRemovable(cell)) {
-            return;
-        }
-        cell.content = null;
-        // TODO Apply remove costs here
-    }
-
-    get removeMode() {
-        return this._removeMode;
-    }
-
-    public placeAt(position: HexPosition): boolean {
-        if (this.contentToBuild === null) {
-            return false;
-        }
-        if (this.placeContentAt(new this.contentToBuild(), position)) {
-            // TODO Remove build costs from money here
-            return true;
-        }
-        return false;
     }
 
     private placeContentAt(content: Content, position: HexPosition): boolean {
@@ -177,6 +200,8 @@ export default class Game {
         }
     }
 
+    private _isCellDisabled: (cell: Cell) => boolean = () => false;
+
     private markDisabledCells() {
         let func = (cell: Cell) => false;
         if (this.contentToBuild !== null) {
@@ -185,12 +210,6 @@ export default class Game {
             func = (cell) => !this.isRemovable(cell);
         }
         this._isCellDisabled = func;
-    }
-
-    private _isCellDisabled: (cell: Cell) => boolean = () => false;
-
-    public getCellDisabledFunction() {
-        return this._isCellDisabled;
     }
 
     private fireDamage() {
@@ -277,30 +296,6 @@ export default class Game {
         this.start();
         this.step();
         this.gameStepCounter++;
-    }
-
-    public start() {
-        this.gameStepTimeoutID = window.setTimeout(
-            () => this.timeoutHandler(),
-            this.gameStepRemainingTime === null ? this.gameStepDuration : this.gameStepRemainingTime
-        );
-        this.gameStepTimeoutStart = Date.now();
-        this.gameStepRemainingTime = null;
-    }
-
-    public pause() {
-        window.clearTimeout(this.gameStepTimeoutID);
-        this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
-        this.gameStepTimeoutID = null;
-        this.gameStepTimeoutStart = null;
-    }
-
-    public emergencyRelief() {
-        if (!this.reliefGotActivated) {
-            const regen = new Regen();
-            regen.applyEffect(this.levelMap, new HexPosition(0, 0));
-            this._reliefGotActivated = true;
-        }
     }
 
     private executeEffects() {
