@@ -22,21 +22,9 @@
                 :lat-lng="marker.coordinates"
                 @click="goToLevel(marker.level, marker.score)"
             >
-                <l-icon v-if="marker.score === Score.UNLOCKED" :icon-anchor="iconAnchor">
+                <l-icon :icon-anchor="iconAnchor">
                     <svg width="105" height="137" xmlns="http://www.w3.org/2000/svg">
-                        <image v-if="marker.score === Score.ONE_STAR"
-                               href="assets/one_star.svg" width="105" height="137"/>
-                        <image v-else-if="marker.score === Score.TWO_STARS"
-                               href="assets/two_stars.svg" width="105" height="137"/>
-                        <image v-else-if="marker.score === Score.THREE_STARS"
-                               href="assets/three_stars.svg" width="105" height="137"/>
-                        <image v-else
-                               href="assets/unlocked.svg" width="105" height="137"/>
-                    </svg>
-                </l-icon>
-                <l-icon v-else :icon-anchor="iconAnchor">
-                    <svg width="105" height="135" xmlns="http://www.w3.org/2000/svg">
-                        <image href="assets/locked.svg" width="105" height="137"/>
+                        <image v-bind:href="scoreIcons[marker.score]" width="105" height="137"/>
                     </svg>
                 </l-icon>
             </l-marker>
@@ -70,26 +58,12 @@
                 new L.LatLng(70, 150)
             );
 
-            const coordinates = [
-                L.latLng(35, -130),
-                L.latLng(0, 5),
-                L.latLng(-29, 90),
-                L.latLng(50.5, 110),
-            ];
-
-            const markers: { id: number, level: string, score: Score, coordinates: L.LatLng }[] = []
-            world.getLevelData().forEach((element, index) => {
-                markers.push({
-                    id: index,
-                    level: element.levelID,
-                    score: element.score,
-                    coordinates: coordinates[index],
-                });
-            });
-
-            let currentLevel = markers.find(element => element.score === Score.UNLOCKED);
-            if (currentLevel === undefined) {
-                currentLevel = markers[markers.length - 1];
+            const scoreIcons = {
+                [Score.UNLOCKED]: 'assets/unlocked.svg',
+                [Score.ONE_STAR]: 'assets/one_star.svg',
+                [Score.TWO_STARS]: 'assets/two_stars.svg',
+                [Score.THREE_STARS]: 'assets/three_stars.svg',
+                [Score.LOCKED]: 'assets/locked.svg',
             }
 
             return {
@@ -99,7 +73,6 @@
                 center: bounds.getCenter(),
                 maxBounds: bounds,
                 iconAnchor: [40, 70],
-                markers: markers,
                 mapOptions: {
                     zoomControl: false,
                     attributionControl: false,
@@ -110,8 +83,41 @@
                 },
                 world,
                 Score,
-                currentLevel
+                scoreIcons,
             };
+        },
+        computed: {
+            levelData: function() {
+                return this.world.getLevelData();
+            },
+            markers: function () {
+                const coordinates = [
+                    L.latLng(35, -130),
+                    L.latLng(0, 5),
+                    L.latLng(-29, 90),
+                    L.latLng(50.5, 110),
+                ];
+
+                const markers: { id: number, level: string, score: Score, coordinates: L.LatLng }[] = []
+                this.levelData.forEach((element: { levelID: string, score: Score }, index: number) => {
+                    markers.push({
+                        id: index,
+                        level: element.levelID,
+                        score: element.score,
+                        coordinates: coordinates[index],
+                    });
+                });
+                return markers;
+            },
+            currentLevel: function () {
+                let currentLevel = this.markers.find(
+                    (element: { id: number, level: string, score: Score, coordinates: L.LatLng }) => element.score === Score.UNLOCKED
+                );
+                if (currentLevel === undefined) {
+                    currentLevel = this.markers[this.markers.length - 1];
+                }
+                return currentLevel;
+            },
         },
         components: {
             LMap,
@@ -139,7 +145,9 @@
                 this.$router.push('/');
             },
             centerMapToCurrentLevel () {
-                this.$refs.map.mapObject.flyTo(this.currentLevel.coordinates,4)
+                setTimeout(() => {
+                    this.$refs.map.mapObject.flyTo(this.currentLevel.coordinates,4)
+                }, 1000);
             }
         }
     }
