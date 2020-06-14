@@ -6,7 +6,6 @@ config.devServer = {
     compress: true,
     contentBase: path.join(__dirname, 'dist'),
     historyApiFallback: true,
-    hot: true,
     open: true,
     overlay: true,
     port: 8000,
