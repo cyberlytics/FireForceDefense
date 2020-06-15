@@ -12,7 +12,7 @@ export default class Feuerball extends Effect {
     applyEffect(map: LevelMap, pos: HexPosition): void {
         map.getCellsAround(pos, 2).forEach(cell => {
             cell.fireIntensity = Fire.modify(cell.fireIntensity, 9);
-        })
+        });
     }
 }
 

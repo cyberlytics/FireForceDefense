@@ -5,8 +5,16 @@
             <cellPatterns />
             <contentPatterns />
             <firePatterns />
-            <cell v-for="cell in levelMap.getAllCells()" v-bind:cell="cell" v-bind:key="cell.position.toString()"
-                  v-bind:size="size" v-on:cell-clicked="cellClicked" v-bind:disabled="game.getCellDisabledFunction()(cell)" />
+            <utilityPatterns />
+            <cell
+                v-for="cell in levelMap.getAllCells()"
+                v-bind:cell="cell" v-bind:key="cell.position.toString()"
+                v-bind:size="size"
+                v-bind:disabled="game.getCellDisabledFunction()(cell)"
+                v-on:cell-clicked="cellClicked"
+                v-on:mouseenter-cell="$emit('mouseenter-cell', cell)"
+                v-on:mouseleave-cell="$emit('mouseleave-cell', cell)"
+            />
         </svg>
     </div>
 </template>
@@ -17,6 +25,7 @@
     import cellPatterns from './cellPatterns.vue';
     import contentPatterns from './contentPatterns.vue';
     import firePatterns from './firePatterns.vue';
+    import utilityPatterns from './utilityPatterns.vue';
     import type HexPosition from '../model/HexPosition';
 
     export default Vue.extend({
@@ -38,6 +47,7 @@
             cellPatterns,
             contentPatterns,
             firePatterns,
+            utilityPatterns,
         },
         props: ['levelMap', 'game']
     })
