@@ -90,6 +90,7 @@ const lvl001: LevelDefinition = {
         { effectType: Feuer1, pos: new HexPosition(0, 0), mustBeExecuted: (step) => step === 0 }
     ],
     levelID: 'lvl001',
+    creditStartingAmount: 200,
 };
 
 export default lvl001;
