@@ -6,7 +6,7 @@
                 @mouseenter="setHelpText($t('Money: Description'))"
                 @mouseleave="setHelpText(null)"
             >
-                1234 Coins
+                {{totalMoney}} Coins
             </div>
             <button
                 class="btn btn-light"
@@ -94,6 +94,6 @@
             },
         },
         components: {},
-        props: ['buildableContents', 'reliefGotActivated', 'helpTexts']
+        props: ['buildableContents', 'reliefGotActivated', 'helpTexts', 'totalMoney']
     })
 </script>

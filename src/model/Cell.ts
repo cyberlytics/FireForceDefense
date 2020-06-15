@@ -40,6 +40,7 @@ export default abstract class Cell implements Explainable {
     damage = 0;
     fireIntensity: FireIntensity = FireIntensity.INTENSITY_0;
     neighborSpreadTmp: number;
+    stepBeginIntensity: FireIntensity = FireIntensity.INTENSITY_0;
     readonly position: HexPosition;
 
     constructor(position: HexPosition) {

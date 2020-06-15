@@ -4,6 +4,7 @@
             v-bind:buildable-contents="buildableContents"
             v-bind:relief-got-activated="game.reliefGotActivated"
             v-bind:help-texts="helpTexts"
+            v-bind:total-money="game.totalMoney"
             v-on:content-selected="contentSelected"
             v-on:relief-clicked="emergencyReliefClicked"
             v-on:remove-selected="removeSelected"
