@@ -1,10 +1,27 @@
 <template>
-    <g v-bind:transform="'translate(' + x + ',' + y + ')'" @click.stop="click">
-        <polygon v-bind:points="pathString" v-bind:fill="'url(#cell-' + cell.id + ')'" stroke="#000" />
-        <rect v-if="cell.content !== null" v-bind:fill="'url(#content-' + cell.content.id + ')'"
-              v-bind:width="sizeRect" v-bind:height="sizeRect" v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect" />
-        <rect v-if="visualFireIntensity !== 0" v-bind:fill="'url(#fire-' + visualFireIntensity + ')'"
-              v-bind:width="sizeRect" v-bind:height="sizeRect" v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect" />
+    <g
+        v-bind:transform="'translate(' + x + ',' + y + ')'"
+        @click.stop="click"
+        @mouseenter="$emit('mouseenter-cell')"
+        @mouseleave="$emit('mouseleave-cell')"
+    >
+        <polygon
+            v-bind:points="pathString"
+            v-bind:fill="'url(#cell-' + cell.id + ')'"
+            stroke="#000"
+        />
+        <rect
+            v-if="cell.content !== null"
+            v-bind:fill="'url(#content-' + cell.content.id + ')'"
+            v-bind:width="sizeRect" v-bind:height="sizeRect"
+            v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect"
+        />
+        <rect
+            v-if="visualFireIntensity !== 0"
+            v-bind:fill="'url(#fire-' + visualFireIntensity + ')'"
+            v-bind:width="sizeRect" v-bind:height="sizeRect"
+            v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect"
+        />
         <polygon v-bind:points="pathString" v-if="disabled" fill="#000" fill-opacity=".5" />
         <text text-anchor="middle" dominant-baseline="middle" font-size="28" font-weight="bold"
               style="text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;">

@@ -2,8 +2,9 @@ import type ContentCategory from './ContentCategory';
 import type Cell from './Cell';
 import Fire from './Fire';
 import type FireIntensity from './FireIntensity';
+import type Explainable from './Explainable';
 
-export default abstract class Content {
+export default abstract class Content implements Explainable {
     static readonly DAMAGE_MAX_LOW = 20;
     static readonly DAMAGE_MAX_MEDIUM = 40;
     static readonly DAMAGE_MAX_HIGH = 70;
