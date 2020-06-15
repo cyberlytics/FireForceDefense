@@ -28,6 +28,7 @@ export default class Game {
     private _contentToBuild: ContentDerivedType = null;
     private _removeMode = false;
     private _isBaseBuilt = false;
+    public totalMoney: number;
 
     private gameStepDuration = 1000;                   // How long a game step should last in milliseconds
     private gameStepTimeoutStart: number|null = null;  // Start time of current game step timeout
@@ -45,6 +46,7 @@ export default class Game {
             throw new Error('Level not registered!');
         }
         this.levelDefinition = levelDefinition;
+        this.totalMoney = this.levelDefinition.creditStartingAmount;
         this.effectDefinitions = levelDefinition.effectDefinitions;
         // TODO fetch user score and check if level is unlocked
         this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
@@ -106,9 +108,13 @@ export default class Game {
         if (this.contentToBuild === null) {
             return false;
         }
-        if (this.placeContentAt(new this.contentToBuild(), position)) {
-            // TODO Remove build costs from money here
-            return true;
+        const content = new this.contentToBuild();
+        if (content.buildCosts === null || this.totalMoney < content.buildCosts) {
+            return false;
+        }
+        if (this.placeContentAt(content, position)) {
+                this.totalMoney -= content.buildCosts;
+                return true;
         }
         return false;
     }
@@ -126,8 +132,8 @@ export default class Game {
         if (!this.isRemovable(cell)) {
             return;
         }
+        this.totalMoney -= cell.content.removeCosts;
         cell.content = null;
-        // TODO Apply remove costs here
     }
 
     public emergencyRelief() {
@@ -181,8 +187,7 @@ export default class Game {
 
     /* Private methods */
     private isRemovable(cell: Cell) {
-        // TODO Add check if there is enough money to remove the content
-        return cell.content !== null && cell.content.removeCosts !== null;
+        return cell.content !== null && cell.content.removeCosts !== null && cell.content.removeCosts <= this.totalMoney;
     }
 
     private placeContentAt(content: Content, position: HexPosition): boolean {
@@ -195,6 +200,7 @@ export default class Game {
                 this.isBaseBuilt = true;
             }
             cell.content = content;
+            return true;
         } else {
             return false;
         }
@@ -212,6 +218,12 @@ export default class Game {
         this._isCellDisabled = func;
     }
 
+    private storeStepBeginIntensities() {
+        this.levelMap.getAllCells().forEach((cell) => {
+            cell.stepBeginIntensity = cell.fireIntensity;
+        });
+    }
+
     private fireDamage() {
         this.levelMap.getAllCells().forEach((cell) => {
             if (cell.content && cell.content.applyDamage(cell.fireIntensity)) {
@@ -219,10 +231,10 @@ export default class Game {
             }
             if (cell.applyDamage()) {
                 const content = cell.content;
-                const intensity = cell.fireIntensity;
                 const burnt = new Abgebrannt(cell.position);
+                burnt.fireIntensity = cell.fireIntensity;
+                burnt.stepBeginIntensity = cell.stepBeginIntensity;
                 this.levelMap.replaceCell(burnt);
-                this.levelMap.getCellAt(cell.position).fireIntensity = intensity;
                 if (content) {
                     this.placeContentAt(content, cell.position);
                 }
@@ -270,11 +282,16 @@ export default class Game {
                     return;
                 }
                 target.fireIntensity = Fire.modify(target.fireIntensity, rate);
+                if (target.fireIntensity === FireIntensity.INTENSITY_0 && target.stepBeginIntensity !== FireIntensity.INTENSITY_0) {
+                    this.totalMoney += 10;
+                }
             });
         });
     }
 
     private step() {
+        this.storeStepBeginIntensities();
+
         this.fireDamage();
 
         // TODO Check if the base still exists and end the level if not
@@ -286,6 +303,8 @@ export default class Game {
         this.extinguish();
 
         this.ownFireChange();
+
+        this.moneyGain();
 
         // TODO Check if there are still fires burning and end the level if not
 
@@ -305,5 +324,9 @@ export default class Game {
                 effect.applyEffect(this.levelMap, effectDefinition.pos);
             }
         });
+    }
+
+    private moneyGain() {
+        this.totalMoney += 5;
     }
 }
