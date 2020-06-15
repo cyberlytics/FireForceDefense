@@ -11,8 +11,8 @@ export default class Regen extends Effect {
 
     applyEffect(map: LevelMap, pos: HexPosition): void {
         map.getCellsAround(pos, 4).forEach(cell => {
-            cell.fireIntensity = Fire.modify(cell.fireIntensity, -3)
-        })
+            cell.fireIntensity = Fire.modify(cell.fireIntensity, -3);
+        });
     }
 
 }

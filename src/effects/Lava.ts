@@ -12,7 +12,7 @@ export default class Lava extends Effect {
     applyEffect(map: LevelMap, pos: HexPosition): void {
         map.getCellsAround(pos, 3).forEach(cell => {
             cell.fireIntensity = Fire.modify(cell.fireIntensity, 12);
-        })
+        });
     }
 
 }

@@ -21,7 +21,7 @@ export default class World {
     }
 
     public getLevelData() {
-        return this.levelManager.getLevelIdsWithScore();
+        return this.levelManager.levelIdsWithScore;
     }
 
     public leaveWorld() {
