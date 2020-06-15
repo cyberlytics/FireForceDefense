@@ -1,7 +1,7 @@
 <template>
     <div id="level-view-sidebar">
         <div class="d-flex flex-row justify-content-between mb-3">
-            <div class="bg-light p-2">1234 Coins</div>
+            <div class="bg-light p-2">{{totalMoney}} coins</div>
             <button class="btn btn-light" data-toggle="modal" data-target="#level-menu-modal">Menü</button>
         </div>
         <div class="text-center">
@@ -43,6 +43,6 @@
         components: {
             logo,
         },
-        props: ['buildableContents']
+        props: ['buildableContents', 'totalMoney']
     })
 </script>

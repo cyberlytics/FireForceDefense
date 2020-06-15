@@ -23,6 +23,8 @@ export default class Game {
 
     private _contentToBuild: ContentDerivedType = null;
     private _isBaseBuilt = false;
+    public totalMoney: number;
+
 
     private get isBaseBuilt() {
         return this._isBaseBuilt;
@@ -75,6 +77,7 @@ export default class Game {
             throw new Error('Level not registered!');
         }
         this.levelDefinition = ld;
+        this.totalMoney = this.levelDefinition.creditStartingAmount;
         // TODO fetch user score and check if level is unlocked
         this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
 
@@ -102,12 +105,16 @@ export default class Game {
     }
 
     public placeAt(position: HexPosition): boolean {
-        if (this.contentToBuild === null) {
+        const content = new this.contentToBuild();
+        if (content === null) {
             return false;
         }
-        if (this.placeContentAt(new this.contentToBuild(), position)) {
-            // TODO Remove build costs from money here
-            return true;
+        if (this.placeContentAt(content, position)) {
+            if (this.totalMoney >= content.buildCosts){
+                this.totalMoney-= content.buildCosts;
+                return true;
+            }
+            return false;
         }
         return false;
     }
@@ -121,7 +128,10 @@ export default class Game {
             if (content.id === 'Basis') {
                 this.isBaseBuilt = true;
             }
-            cell.content = content;
+            if (this.totalMoney >= content.buildCosts){
+                cell.content = content;
+                return true;
+            }
         } else {
             return false;
         }
@@ -200,6 +210,7 @@ export default class Game {
                 }
                 target.fireIntensity = Fire.modify(target.fireIntensity, rate);
             });
+            //this.totalMoney+= 100;
         });
     }
 
@@ -215,6 +226,8 @@ export default class Game {
         this.extinguish();
 
         this.ownFireChange();
+
+        this.moneyGain();
 
         // TODO Check if there are still fires burning and end the level if not
 
@@ -241,5 +254,9 @@ export default class Game {
         this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
         this.gameStepTimeoutID = null;
         this.gameStepTimeoutStart = null;
+    }
+
+    public moneyGain() {
+        this.totalMoney+= 5;
     }
 }
