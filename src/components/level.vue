@@ -18,6 +18,7 @@
             v-on:mouseleave-cell="mouseleaveCell"
         />
         <levelModal />
+        <levelEndScreen v-on:nextlevel="nextlevel" v-on:restart="restart"/>
         <previewCursor v-bind:content-to-build="game.contentToBuild" v-bind:remove-mode="game.removeMode"
                        v-bind:mouse-x="mouseX" v-bind:mouse-y="mouseY" />
     </div>
@@ -26,6 +27,7 @@
 <script lang="ts">
     import Vue from 'vue';
     import Game from '../model/Game';
+    import LevelManager from '../model/LevelManager';
     import { router } from '../index';
     import type HexPosition from '../model/HexPosition';
     import type Content from '../model/Content';
@@ -35,6 +37,7 @@
     import previewCursor from './previewCursor.vue';
     import type Cell from '../model/Cell';
     import type Explainable from '../model/Explainable';
+    import levelEndScreen from "./levelEndScreen.vue";
 
     export default Vue.extend({
         data() {
@@ -102,13 +105,20 @@
                 explainables.forEach((explainable) => {
                     this.helpTexts.push(explainable.description);
                 })
-            }
+            },
+            restart: function () {
+                this.game = new Game(this.game.levelDefinition.levelID);
+            },
+            nextlevel: function () {
+                this.$router.push({ path: `/level/${LevelManager.getInstance().getNextLevel(this.game.levelDefinition.levelID)}` });
+            },
         },
         components: {
             levelMap,
             levelSidebar,
             levelModal,
             previewCursor,
+            levelEndScreen,
         },
         props: ['levelID'],
         created() {
