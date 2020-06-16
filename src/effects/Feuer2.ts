@@ -7,7 +7,8 @@ export default class Feuer2 extends Effect {
     readonly description = 'Feuer 2: Description';
     readonly id = 'Feuer2';
     readonly name = 'Feuer2';
-    readonly duration: number = 0;
+    readonly duration = 0;
+    readonly range = 0;
 
     applyEffect(map: LevelMap, pos: HexPosition): void {
         const cell = map.getCellAt(pos);

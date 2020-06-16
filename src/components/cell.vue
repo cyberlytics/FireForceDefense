@@ -49,21 +49,13 @@
         components: {},
         computed: {
             pathString: function () {
-                const s = parseFloat(this.size.toString());
-                const xOff = s * 0.8660254038;
-                const halfSize = s * 0.5;
-                return (+xOff) + ',' + (-halfSize) + ' '
-                    + (+xOff) + ',' + (+halfSize) + ' '
-                    + (0    ) + ',' + (+s       ) + ' '
-                    + (-xOff) + ',' + (+halfSize) + ' '
-                    + (-xOff) + ',' + (-halfSize) + ' '
-                    + (0    ) + ',' + (-s       );
+                return this.cell.position.getPathString(this.size);
             },
             x: function () {
-                return this.size * (1.732050808 * this.cell.position.q + 0.8660254038 * this.cell.position.r);
+                return this.cell.position.getCenterX(this.size);
             },
             y: function () {
-                return this.size * (1.5 * this.cell.position.r);
+                return this.cell.position.getCenterY(this.size);
             },
             sizeRect: function() {
                 return 1.224744871 * this.size; // sqrt(6)/2 * size

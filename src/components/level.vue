@@ -13,6 +13,7 @@
         <levelMap
             v-bind:game="game"
             v-bind:level-map="game.getLevelMap()"
+            v-bind:current-effects="game.currentEffects"
             v-on:cell-clicked="cellClicked"
             v-on:mouseenter-cell="mouseenterCell"
             v-on:mouseleave-cell="mouseleaveCell"
