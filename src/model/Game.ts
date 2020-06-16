@@ -18,6 +18,7 @@ import Brandreste from '../contents/Brandreste';
 import Fire from './Fire';
 import FireIntensity from './FireIntensity';
 import Regen from '../effects/Regen';
+import Score from './Score';
 
 export default class Game {
 
@@ -37,6 +38,7 @@ export default class Game {
     private gameStepCounter = 0;                       // Number of fully executed game steps
 
     private _reliefGotActivated = false;
+    private _score: Score|null = null;
 
     constructor(levelID: string) {
         const levelManager = LevelManager.getInstance();
@@ -93,11 +95,6 @@ export default class Game {
         this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
         this.gameStepTimeoutID = null;
         this.gameStepTimeoutStart = null;
-    }
-
-    private endGame() {     //enterRemoveMode() should be used --> alter checkBasis() and checkBrunStatus()
-        // TODO routine for ending Game/Level
-        return;
     }
 
     public enterRemoveMode() {
@@ -158,6 +155,10 @@ export default class Game {
         return this._removeMode;
     }
 
+    get score() {
+        return this._score;
+    }
+
     get contentToBuild() {
         return this._contentToBuild;
     }
@@ -194,6 +195,24 @@ export default class Game {
     /* Private methods */
     private isRemovable(cell: Cell) {
         return cell.content !== null && cell.content.removeCosts !== null && cell.content.removeCosts <= this.totalMoney;
+    }
+
+    private endGame(won: boolean) {
+        this.pause();
+        if (won) {
+            this._score = this.countStars();
+        } else {
+            this._score = Score.UNLOCKED;
+        }
+        LevelManager.getInstance().postScore(this.levelDefinition.levelID, this.score);
+    }
+
+    private countStars(): Score {
+        switch (this.levelMap.getAllCells().filter((cell) => cell.content !== null && cell.content.id === 'Haus').length)  {
+            case 0: return Score.ONE_STAR;
+            case 1: return Score.TWO_STARS;
+            default: return Score.THREE_STARS;
+        }
     }
 
     private placeContentAt(content: Content, position: HexPosition): boolean {
@@ -250,26 +269,19 @@ export default class Game {
 
 
     private checkBasis() {
-            if (this.isBaseBuilt !== true) {
-                return;
-            }
-            let basisExtinguished = false;
-            this.levelMap.getAllCells().forEach((cell) => {
-                if (cell.content.name === Basis.name) {
-                    basisExtinguished = (cell.content.damage >= cell.content.damageMax);
-                    return;
-                }
-            });
-
-            if (basisExtinguished) {
-                // End current Game
-                this.endGame();     // If there is no fire, but at least one more fire planed for this level, then ignore this line
-                return false;
-            } else {
-                // go on without interrupting
-                return true;
-            }
+        if (this.isBaseBuilt !== true) {
+            return;
         }
+        if (this.levelMap.getAllCells().some((cell) => cell.content !== null && cell.content.id === 'Basis')) {
+            // The base still exists.
+            // => The game still has to go on.
+            return;
+        }
+
+        // End current Game
+        // Game ist lost
+        this.endGame(false);
+    }
 
     private calculateNeighborSpread() {
         this.levelMap.getAllCells().forEach((cell) => {
@@ -319,22 +331,19 @@ export default class Game {
     }
 
     private checkBurnStatus() {
-        let stillBurning = false;
-        this.levelMap.getAllCells().forEach((cell) => {
-            if (cell.fireIntensity !== 0) {
-                stillBurning = true;
-                return;
-            }
-        });
-
-        if (stillBurning) {
-            // End current Game
-            this.endGame();
-            return false;
-        } else {
-            // go on without interrupting
-            return true;
+        if (this.gameStepCounter === 0) {
+            // Don't check for burning fires in the very first game step.
+            // The game always has to go on here.
+            return;
         }
+        if (this.levelMap.getAllCells().some((cell) => cell.fireIntensity !== FireIntensity.INTENSITY_0)) {
+            // There is still at least one fire burning.
+            // => The game still has to go on.
+            return;
+        }
+        // End the current Game
+        // Game is won
+        this.endGame(true);
     }
 
     private step() {
@@ -342,7 +351,7 @@ export default class Game {
 
         this.fireDamage();
 
-        this.checkBurnStatus();
+        this.checkBasis();
 
         this.calculateNeighborSpread();
 
