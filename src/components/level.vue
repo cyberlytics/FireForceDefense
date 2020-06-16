@@ -18,7 +18,7 @@
             v-on:mouseleave-cell="mouseleaveCell"
         />
         <levelModal />
-        <levelEndScreen v-on:nextlevel="nextlevel" v-on:restart="restart"/>
+        <levelEndScreen v-on:next="next" v-on:restart="restart" v-bind:score="game.score" v-bind:next-level="nextLevel" />
         <previewCursor v-bind:content-to-build="game.contentToBuild" v-bind:remove-mode="game.removeMode"
                        v-bind:mouse-x="mouseX" v-bind:mouse-y="mouseY" />
     </div>
@@ -38,6 +38,7 @@
     import type Cell from '../model/Cell';
     import type Explainable from '../model/Explainable';
     import levelEndScreen from "./levelEndScreen.vue";
+    import $ from 'jquery';
 
     export default Vue.extend({
         data() {
@@ -109,9 +110,17 @@
             restart: function () {
                 this.game = new Game(this.game.levelDefinition.levelID);
             },
-            nextlevel: function () {
-                this.$router.push({ path: `/level/${LevelManager.getInstance().getNextLevel(this.game.levelDefinition.levelID)}` });
+            next: function () {
+                if (this.nextLevel !== null) {
+                    this.$router.push({ path: `/level/${this.nextLevel}` });
+                }
             },
+        },
+        computed: {
+            nextLevel: function () {
+                const ld = LevelManager.getInstance().getNextLevel(this.game.levelDefinition)
+                return ld === null ? null : ld.levelID;
+            }
         },
         components: {
             levelMap,
@@ -121,6 +130,14 @@
             levelEndScreen,
         },
         props: ['levelID'],
+        watch: {
+            levelID: function (newValue, oldValue) {
+                if (newValue === oldValue) {
+                    return;
+                }
+                this.game = new Game(newValue);
+            }
+        },
         created() {
             window.addEventListener('keydown', (e) => {
                 if (e.key == 'Escape') {

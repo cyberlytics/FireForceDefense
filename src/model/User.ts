@@ -82,13 +82,23 @@ export default class User {
     }
 
     public postScore(levelID: string, score: Score): boolean {
-        this.invalidateScores();
         let stars = 0;
         switch (score) {
             case Score.ONE_STAR: { stars = 1; break; }
             case Score.TWO_STARS: { stars = 2; break; }
             case Score.THREE_STARS: { stars = 3; break; }
         }
+
+        // Make sure that the score doesn't get worse
+        const old = this.levelScores[levelID];
+        if (old && (
+            old === Score.THREE_STARS ||
+            (old === Score.TWO_STARS && score !== Score.THREE_STARS) ||
+            (old === Score.ONE_STAR && score !== Score.TWO_STARS && score !== Score.THREE_STARS)
+        )) {
+            return false;
+        }
+        this.levelScores[levelID] = score;
         this.postScoreToServer(levelID, stars)
             .catch(err => {
                 console.error(err);
