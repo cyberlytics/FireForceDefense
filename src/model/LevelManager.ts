@@ -57,6 +57,12 @@ export default class LevelManager {
         });
     }
 
+    public postScore(levelID: string, score: Score) {
+        if (this.levelIdToIndex.hasOwnProperty(levelID)) {
+            User.getInstance().postScore(levelID, score);
+        }
+    }
+
     public getLevelDefinition(levelID: string) {
         if (!this.levelIdToIndex.hasOwnProperty(levelID)) {
             return null;
