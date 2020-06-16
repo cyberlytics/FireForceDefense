@@ -73,4 +73,16 @@ export default class LevelManager {
         this.levels.push(def);
         this.levelIdToIndex[id] = this.levels.indexOf(def);
     }
+
+    public getNextLevel(currentLevel: LevelDefinition): LevelDefinition|null {
+        const index = this.levels.indexOf(currentLevel);
+        if (index === -1) {
+            // current level not found
+            return null;
+        }
+        const nextLevel = this.levels[index + 1];
+
+        // if no next level exists, return null
+        return nextLevel ? nextLevel : null;
+    }
 }
