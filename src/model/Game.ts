@@ -95,6 +95,11 @@ export default class Game {
         this.gameStepTimeoutStart = null;
     }
 
+    private endGame() {     //enterRemoveMode() should be used --> alter checkBasis() and checkBrunStatus()
+        // TODO routine for ending Game/Level
+        return;
+    }
+
     public enterRemoveMode() {
         if (!this.isBaseBuilt) {
             return;
@@ -161,6 +166,7 @@ export default class Game {
         if (value !== null) {
             this.leaveRemoveMode();
         }
+        // base must be built before setting a different _contentToBuild
         if (!this.isBaseBuilt && value !== Basis) {
             return;
         }
@@ -242,11 +248,28 @@ export default class Game {
         });
     }
 
-    private ownFireChange() {
-        this.levelMap.getAllCells().forEach((cell) => {
-            cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.fireGrowAmount, cell.maxFireIntensity, true);
-        });
-    }
+
+    private checkBasis() {
+            if (this.isBaseBuilt !== true) {
+                return;
+            }
+            let basisExtinguished = false;
+            this.levelMap.getAllCells().forEach((cell) => {
+                if (cell.content.name === Basis.name) {
+                    basisExtinguished = (cell.content.damage >= cell.content.damageMax);
+                    return;
+                }
+            });
+
+            if (basisExtinguished) {
+                // End current Game
+                this.endGame();     // If there is no fire, but at least one more fire planed for this level, then ignore this line
+                return false;
+            } else {
+                // go on without interrupting
+                return true;
+            }
+        }
 
     private calculateNeighborSpread() {
         this.levelMap.getAllCells().forEach((cell) => {
@@ -289,12 +312,37 @@ export default class Game {
         });
     }
 
+    private ownFireChange() {
+        this.levelMap.getAllCells().forEach((cell) => {
+            cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.fireGrowAmount, cell.maxFireIntensity, true);
+        });
+    }
+
+    private checkBurnStatus() {
+        let stillBurning = false;
+        this.levelMap.getAllCells().forEach((cell) => {
+            if (cell.fireIntensity !== 0) {
+                stillBurning = true;
+                return;
+            }
+        });
+
+        if (stillBurning) {
+            // End current Game
+            this.endGame();
+            return false;
+        } else {
+            // go on without interrupting
+            return true;
+        }
+    }
+
     private step() {
         this.storeStepBeginIntensities();
 
         this.fireDamage();
 
-        // TODO Check if the base still exists and end the level if not
+        this.checkBurnStatus();
 
         this.calculateNeighborSpread();
 
@@ -306,7 +354,7 @@ export default class Game {
 
         this.moneyGain();
 
-        // TODO Check if there are still fires burning and end the level if not
+        this.checkBurnStatus();
 
         this.executeEffects();
     }
