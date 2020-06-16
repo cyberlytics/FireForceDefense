@@ -3,12 +3,7 @@
         v-bind:transform="'translate(' + x + ',' + y + ')'"
         style="pointer-events: none"
     >
-        <circle
-            cx="0" cy="0"
-            v-bind:r="radius"
-            fill="#f0f"
-            fill-opacity=".3"
-        />
+        <circle cx="0" cy="0" v-bind:r="radius" v-bind:fill="'url(#effect-' + effectExecution.effect.id + ')'" />
         <text text-anchor="middle" dominant-baseline="middle" font-size="28" font-weight="bold"
               style="text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;">
             {{ effectExecution.effect.name }}

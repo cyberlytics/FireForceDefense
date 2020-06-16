@@ -1,11 +1,13 @@
 <template>
     <div>
+        <effectAnimations />
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              width="100%" height="100%" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet">
             <cellPatterns />
             <contentPatterns />
             <firePatterns />
             <utilityPatterns />
+            <effectPatterns />
             <defs>
                 <clipPath id="clipToCells">
                     <cellShape
@@ -47,6 +49,8 @@
     import contentPatterns from './contentPatterns.vue';
     import firePatterns from './firePatterns.vue';
     import utilityPatterns from './utilityPatterns.vue';
+    import effectPatterns from './effectPatterns.vue';
+    import effectAnimations from './effectAnimations.vue';
     import type HexPosition from '../model/HexPosition';
 
     export default Vue.extend({
@@ -71,6 +75,8 @@
             contentPatterns,
             firePatterns,
             utilityPatterns,
+            effectPatterns,
+            effectAnimations,
         },
         props: ['levelMap', 'game', 'currentEffects']
     })
