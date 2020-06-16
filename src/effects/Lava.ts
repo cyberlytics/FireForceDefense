@@ -7,10 +7,11 @@ export default class Lava extends Effect {
     readonly description = 'Lava: Description';
     readonly id = 'Lava';
     readonly name = 'Lava';
-    readonly duration: number = 5;
+    readonly duration = 5;
+    readonly range = 3;
 
     applyEffect(map: LevelMap, pos: HexPosition): void {
-        map.getCellsAround(pos, 3).forEach(cell => {
+        map.getCellsAround(pos, this.range).forEach(cell => {
             cell.fireIntensity = Fire.modify(cell.fireIntensity, 12);
         });
     }

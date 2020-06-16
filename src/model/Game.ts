@@ -18,6 +18,7 @@ import Brandreste from '../contents/Brandreste';
 import Fire from './Fire';
 import FireIntensity from './FireIntensity';
 import Regen from '../effects/Regen';
+import EffectManager from './EffectManager';
 import Score from './Score';
 
 export default class Game {
@@ -30,6 +31,7 @@ export default class Game {
     private _removeMode = false;
     private _isBaseBuilt = false;
     public totalMoney: number;
+    private effectManager: EffectManager;
 
     private gameStepDuration = 1000;                   // How long a game step should last in milliseconds
     private gameStepTimeoutStart: number|null = null;  // Start time of current game step timeout
@@ -41,6 +43,7 @@ export default class Game {
     private _score: Score|null = null;
 
     constructor(levelID: string) {
+        this.effectManager = new EffectManager();
         const levelManager = LevelManager.getInstance();
         const levelDefinition = levelManager.getLevelDefinition(levelID);
 
@@ -140,8 +143,7 @@ export default class Game {
 
     public emergencyRelief() {
         if (!this.reliefGotActivated) {
-            const regen = new Regen();
-            regen.applyEffect(this.levelMap, new HexPosition(0, 0));
+            this.effectManager.applyEffect(new Regen(), this.levelMap, new HexPosition(0, 0));
             this._reliefGotActivated = true;
         }
     }
@@ -153,6 +155,10 @@ export default class Game {
 
     get removeMode() {
         return this._removeMode;
+    }
+
+    get currentEffects() {
+        return this.effectManager.currentEffects;
     }
 
     get score() {
@@ -377,8 +383,7 @@ export default class Game {
     private executeEffects() {
         this.effectDefinitions.forEach(effectDefinition => {
             if (effectDefinition.mustBeExecuted(this.gameStepCounter)) {
-                const effect = new effectDefinition.effectType();
-                effect.applyEffect(this.levelMap, effectDefinition.pos);
+                this.effectManager.applyEffect(new effectDefinition.effectType(), this.levelMap, effectDefinition.pos);
             }
         });
     }

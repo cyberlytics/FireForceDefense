@@ -7,10 +7,11 @@ export default class Feuerball extends Effect {
     readonly description = 'Feuerball: Description';
     readonly id = 'Feuerball';
     readonly name = 'Feuerball';
-    readonly duration: number = 3;
+    readonly duration = 3;
+    readonly range = 2;
 
     applyEffect(map: LevelMap, pos: HexPosition): void {
-        map.getCellsAround(pos, 2).forEach(cell => {
+        map.getCellsAround(pos, this.range).forEach(cell => {
             cell.fireIntensity = Fire.modify(cell.fireIntensity, 9);
         });
     }
