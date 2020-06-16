@@ -7,7 +7,8 @@ export default class Gewitter extends Effect {
     readonly description = 'Gewitter: Description';
     readonly id = 'Gewitter';
     readonly name = 'Gewitter';
-    readonly duration: number = 5;
+    readonly duration = 5;
+    readonly range = 0;
 
     applyEffect(map: LevelMap, pos: HexPosition): void {
         const cell = map.getCellAt(pos);
