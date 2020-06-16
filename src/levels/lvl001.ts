@@ -13,6 +13,8 @@ import Lavasee from '../cells/Lavasee';
 import Vulkangestein from '../cells/Vulkangestein';
 import Waldboden from '../cells/Waldboden';
 import Wueste from '../cells/Wueste';
+import Gewitter from '../effects/Gewitter';
+import Lava from '../effects/Lava';
 
 
 const lvl001: LevelDefinition = {
@@ -87,7 +89,9 @@ const lvl001: LevelDefinition = {
         { contentType: Haus, pos: new HexPosition(0, -3) },
     ],
     effectDefinitions: [
-        { effectType: Feuer1, pos: new HexPosition(0, 0), mustBeExecuted: (step) => step === 0 }
+        { effectType: Feuer1, pos: new HexPosition(0, 0), mustBeExecuted: (step) => step === 0 },
+        { effectType: Gewitter, pos: new HexPosition(-3, 0), mustBeExecuted: (step) => step % 7 === 0 },
+        { effectType: Lava, pos: new HexPosition(2, -2), mustBeExecuted: (step) => step % 20 === 0 },
     ],
     levelID: 'lvl001',
     creditStartingAmount: 200,
