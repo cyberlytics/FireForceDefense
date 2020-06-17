@@ -7,6 +7,7 @@ export default abstract class Effect implements Explainable {
     abstract readonly name: string;
     abstract readonly description: string;
     abstract readonly duration: number;
+    abstract readonly range: number;
 
     abstract applyEffect(map: LevelMap, pos: HexPosition): void;
 }
