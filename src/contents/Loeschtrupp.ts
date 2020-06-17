@@ -8,7 +8,7 @@ export default class Loeschtrupp extends Content {
     readonly id = 'Loeschtrupp';
     readonly buildCosts: number = 10;
     readonly damageMax = 1;
-    readonly removeCosts: number = -7;
+    readonly removeCosts: number = -5;
     readonly extinguishRange = 2;
     readonly extinguishRate = 1;
     readonly contentCategory = ContentCategory.CONTENT_EXTINGUISHER;

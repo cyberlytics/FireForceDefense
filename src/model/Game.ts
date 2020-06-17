@@ -18,6 +18,8 @@ import Brandreste from '../contents/Brandreste';
 import Fire from './Fire';
 import FireIntensity from './FireIntensity';
 import Regen from '../effects/Regen';
+import EffectManager from './EffectManager';
+import Score from './Score';
 
 export default class Game {
 
@@ -28,6 +30,8 @@ export default class Game {
     private _contentToBuild: ContentDerivedType = null;
     private _removeMode = false;
     private _isBaseBuilt = false;
+    public totalMoney: number;
+    private effectManager: EffectManager;
 
     private gameStepDuration = 1000;                   // How long a game step should last in milliseconds
     private gameStepTimeoutStart: number|null = null;  // Start time of current game step timeout
@@ -36,8 +40,10 @@ export default class Game {
     private gameStepCounter = 0;                       // Number of fully executed game steps
 
     private _reliefGotActivated = false;
+    private _score: Score|null = null;
 
     constructor(levelID: string) {
+        this.effectManager = new EffectManager();
         const levelManager = LevelManager.getInstance();
         const levelDefinition = levelManager.getLevelDefinition(levelID);
 
@@ -45,6 +51,7 @@ export default class Game {
             throw new Error('Level not registered!');
         }
         this.levelDefinition = levelDefinition;
+        this.totalMoney = this.levelDefinition.creditStartingAmount;
         this.effectDefinitions = levelDefinition.effectDefinitions;
         // TODO fetch user score and check if level is unlocked
         this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
@@ -106,9 +113,13 @@ export default class Game {
         if (this.contentToBuild === null) {
             return false;
         }
-        if (this.placeContentAt(new this.contentToBuild(), position)) {
-            // TODO Remove build costs from money here
-            return true;
+        const content = new this.contentToBuild();
+        if (content.buildCosts === null || this.totalMoney < content.buildCosts) {
+            return false;
+        }
+        if (this.placeContentAt(content, position)) {
+                this.totalMoney -= content.buildCosts;
+                return true;
         }
         return false;
     }
@@ -126,14 +137,13 @@ export default class Game {
         if (!this.isRemovable(cell)) {
             return;
         }
+        this.totalMoney -= cell.content.removeCosts;
         cell.content = null;
-        // TODO Apply remove costs here
     }
 
     public emergencyRelief() {
         if (!this.reliefGotActivated) {
-            const regen = new Regen();
-            regen.applyEffect(this.levelMap, new HexPosition(0, 0));
+            this.effectManager.applyEffect(new Regen(), this.levelMap, new HexPosition(0, 0));
             this._reliefGotActivated = true;
         }
     }
@@ -147,6 +157,14 @@ export default class Game {
         return this._removeMode;
     }
 
+    get currentEffects() {
+        return this.effectManager.currentEffects;
+    }
+
+    get score() {
+        return this._score;
+    }
+
     get contentToBuild() {
         return this._contentToBuild;
     }
@@ -155,6 +173,7 @@ export default class Game {
         if (value !== null) {
             this.leaveRemoveMode();
         }
+        // base must be built before setting a different _contentToBuild
         if (!this.isBaseBuilt && value !== Basis) {
             return;
         }
@@ -181,8 +200,25 @@ export default class Game {
 
     /* Private methods */
     private isRemovable(cell: Cell) {
-        // TODO Add check if there is enough money to remove the content
-        return cell.content !== null && cell.content.removeCosts !== null;
+        return cell.content !== null && cell.content.removeCosts !== null && cell.content.removeCosts <= this.totalMoney;
+    }
+
+    private endGame(won: boolean) {
+        this.pause();
+        if (won) {
+            this._score = this.countStars();
+        } else {
+            this._score = Score.UNLOCKED;
+        }
+        LevelManager.getInstance().postScore(this.levelDefinition.levelID, this.score);
+    }
+
+    private countStars(): Score {
+        switch (this.levelMap.getAllCells().filter((cell) => cell.content !== null && cell.content.id === 'Haus').length)  {
+            case 0: return Score.ONE_STAR;
+            case 1: return Score.TWO_STARS;
+            default: return Score.THREE_STARS;
+        }
     }
 
     private placeContentAt(content: Content, position: HexPosition): boolean {
@@ -195,6 +231,7 @@ export default class Game {
                 this.isBaseBuilt = true;
             }
             cell.content = content;
+            return true;
         } else {
             return false;
         }
@@ -212,6 +249,12 @@ export default class Game {
         this._isCellDisabled = func;
     }
 
+    private storeStepBeginIntensities() {
+        this.levelMap.getAllCells().forEach((cell) => {
+            cell.stepBeginIntensity = cell.fireIntensity;
+        });
+    }
+
     private fireDamage() {
         this.levelMap.getAllCells().forEach((cell) => {
             if (cell.content && cell.content.applyDamage(cell.fireIntensity)) {
@@ -219,10 +262,10 @@ export default class Game {
             }
             if (cell.applyDamage()) {
                 const content = cell.content;
-                const intensity = cell.fireIntensity;
                 const burnt = new Abgebrannt(cell.position);
+                burnt.fireIntensity = cell.fireIntensity;
+                burnt.stepBeginIntensity = cell.stepBeginIntensity;
                 this.levelMap.replaceCell(burnt);
-                this.levelMap.getCellAt(cell.position).fireIntensity = intensity;
                 if (content) {
                     this.placeContentAt(content, cell.position);
                 }
@@ -230,10 +273,20 @@ export default class Game {
         });
     }
 
-    private ownFireChange() {
-        this.levelMap.getAllCells().forEach((cell) => {
-            cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.fireGrowAmount, cell.maxFireIntensity, true);
-        });
+
+    private checkBasis() {
+        if (this.isBaseBuilt !== true) {
+            return;
+        }
+        if (this.levelMap.getAllCells().some((cell) => cell.content !== null && cell.content.id === 'Basis')) {
+            // The base still exists.
+            // => The game still has to go on.
+            return;
+        }
+
+        // End current Game
+        // Game ist lost
+        this.endGame(false);
     }
 
     private calculateNeighborSpread() {
@@ -270,14 +323,41 @@ export default class Game {
                     return;
                 }
                 target.fireIntensity = Fire.modify(target.fireIntensity, rate);
+                if (target.fireIntensity === FireIntensity.INTENSITY_0 && target.stepBeginIntensity !== FireIntensity.INTENSITY_0) {
+                    this.totalMoney += 10;
+                }
             });
         });
     }
 
+    private ownFireChange() {
+        this.levelMap.getAllCells().forEach((cell) => {
+            cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.fireGrowAmount, cell.maxFireIntensity, true);
+        });
+    }
+
+    private checkBurnStatus() {
+        if (this.gameStepCounter === 0) {
+            // Don't check for burning fires in the very first game step.
+            // The game always has to go on here.
+            return;
+        }
+        if (this.levelMap.getAllCells().some((cell) => cell.fireIntensity !== FireIntensity.INTENSITY_0)) {
+            // There is still at least one fire burning.
+            // => The game still has to go on.
+            return;
+        }
+        // End the current Game
+        // Game is won
+        this.endGame(true);
+    }
+
     private step() {
+        this.storeStepBeginIntensities();
+
         this.fireDamage();
 
-        // TODO Check if the base still exists and end the level if not
+        this.checkBasis();
 
         this.calculateNeighborSpread();
 
@@ -287,7 +367,9 @@ export default class Game {
 
         this.ownFireChange();
 
-        // TODO Check if there are still fires burning and end the level if not
+        this.moneyGain();
+
+        this.checkBurnStatus();
 
         this.executeEffects();
     }
@@ -301,9 +383,12 @@ export default class Game {
     private executeEffects() {
         this.effectDefinitions.forEach(effectDefinition => {
             if (effectDefinition.mustBeExecuted(this.gameStepCounter)) {
-                const effect = new effectDefinition.effectType();
-                effect.applyEffect(this.levelMap, effectDefinition.pos);
+                this.effectManager.applyEffect(new effectDefinition.effectType(), this.levelMap, effectDefinition.pos);
             }
         });
+    }
+
+    private moneyGain() {
+        this.totalMoney += 5;
     }
 }

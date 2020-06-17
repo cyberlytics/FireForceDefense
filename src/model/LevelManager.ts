@@ -57,6 +57,12 @@ export default class LevelManager {
         });
     }
 
+    public postScore(levelID: string, score: Score) {
+        if (this.levelIdToIndex.hasOwnProperty(levelID)) {
+            User.getInstance().postScore(levelID, score);
+        }
+    }
+
     public getLevelDefinition(levelID: string) {
         if (!this.levelIdToIndex.hasOwnProperty(levelID)) {
             return null;
@@ -72,5 +78,17 @@ export default class LevelManager {
         }
         this.levels.push(def);
         this.levelIdToIndex[id] = this.levels.indexOf(def);
+    }
+
+    public getNextLevel(currentLevel: LevelDefinition): LevelDefinition|null {
+        const index = this.levels.indexOf(currentLevel);
+        if (index === -1) {
+            // current level not found
+            return null;
+        }
+        const nextLevel = this.levels[index + 1];
+
+        // if no next level exists, return null
+        return nextLevel ? nextLevel : null;
     }
 }

@@ -4,6 +4,7 @@
             v-bind:buildable-contents="buildableContents"
             v-bind:relief-got-activated="game.reliefGotActivated"
             v-bind:help-texts="helpTexts"
+            v-bind:total-money="game.totalMoney"
             v-on:content-selected="contentSelected"
             v-on:relief-clicked="emergencyReliefClicked"
             v-on:remove-selected="removeSelected"
@@ -12,11 +13,13 @@
         <levelMap
             v-bind:game="game"
             v-bind:level-map="game.getLevelMap()"
+            v-bind:current-effects="game.currentEffects"
             v-on:cell-clicked="cellClicked"
             v-on:mouseenter-cell="mouseenterCell"
             v-on:mouseleave-cell="mouseleaveCell"
         />
         <levelModal />
+        <levelEndScreen v-on:next="next" v-on:restart="restart" v-bind:score="game.score" v-bind:next-level="nextLevel" />
         <previewCursor v-bind:content-to-build="game.contentToBuild" v-bind:remove-mode="game.removeMode"
                        v-bind:mouse-x="mouseX" v-bind:mouse-y="mouseY" />
     </div>
@@ -25,6 +28,7 @@
 <script lang="ts">
     import Vue from 'vue';
     import Game from '../model/Game';
+    import LevelManager from '../model/LevelManager';
     import { router } from '../index';
     import type HexPosition from '../model/HexPosition';
     import type Content from '../model/Content';
@@ -34,6 +38,8 @@
     import previewCursor from './previewCursor.vue';
     import type Cell from '../model/Cell';
     import type Explainable from '../model/Explainable';
+    import levelEndScreen from "./levelEndScreen.vue";
+    import $ from 'jquery';
 
     export default Vue.extend({
         data() {
@@ -101,6 +107,20 @@
                 explainables.forEach((explainable) => {
                     this.helpTexts.push(explainable.description);
                 })
+            },
+            restart: function () {
+                this.game = new Game(this.game.levelDefinition.levelID);
+            },
+            next: function () {
+                if (this.nextLevel !== null) {
+                    this.$router.push({ path: `/level/${this.nextLevel}` });
+                }
+            },
+        },
+        computed: {
+            nextLevel: function () {
+                const ld = LevelManager.getInstance().getNextLevel(this.game.levelDefinition)
+                return ld === null ? null : ld.levelID;
             }
         },
         components: {
@@ -108,8 +128,17 @@
             levelSidebar,
             levelModal,
             previewCursor,
+            levelEndScreen,
         },
         props: ['levelID'],
+        watch: {
+            levelID: function (newValue, oldValue) {
+                if (newValue === oldValue) {
+                    return;
+                }
+                this.game = new Game(newValue);
+            }
+        },
         created() {
             window.addEventListener('keydown', (e) => {
                 if (e.key == 'Escape') {

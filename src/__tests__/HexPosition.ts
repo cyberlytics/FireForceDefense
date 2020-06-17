@@ -60,4 +60,56 @@ describe('HexPosition', () => {
         const pos = new HexPosition(-1, 0);
         expect(pos.toString()).toBe('(-1,0)');
     });
+
+    test('Width', () => {
+        expect(HexPosition.getWidth()).toBe(Math.sqrt(3));
+    });
+
+    test('getIncircleRadiusHorizontalComponent: 0', () => {
+        expect(HexPosition.getIncircleRadiusHorizontalComponent(0)).toBe(0.5 * HexPosition.getWidth());
+    });
+
+    test('getIncircleRadiusHorizontalComponent: 1', () => {
+        expect(HexPosition.getIncircleRadiusHorizontalComponent(1)).toBe(HexPosition.getWidth());
+    });
+
+    test('getIncircleRadiusHorizontalComponent: 2', () => {
+        expect(HexPosition.getIncircleRadiusHorizontalComponent(2)).toBe(2 * HexPosition.getWidth());
+    });
+
+    test('getIncircleRadiusHorizontalComponent: 3', () => {
+        expect(HexPosition.getIncircleRadiusHorizontalComponent(3)).toBe(2.5 * HexPosition.getWidth());
+    });
+
+    test('getIncircleRadiusHorizontalComponent: 4', () => {
+        expect(HexPosition.getIncircleRadiusHorizontalComponent(4)).toBe(3.5 * HexPosition.getWidth());
+    });
+
+    test('getIncircleRadiusHorizontalComponent: 5', () => {
+        expect(HexPosition.getIncircleRadiusHorizontalComponent(5)).toBe(4 * HexPosition.getWidth());
+    });
+
+    test('getIncircleRadiusVerticalComponent: 0', () => {
+        expect(HexPosition.getIncircleRadiusVerticalComponent(0)).toBe(0);
+    });
+
+    test('getIncircleRadiusVerticalComponent: 1', () => {
+        expect(HexPosition.getIncircleRadiusVerticalComponent(1)).toBe(1);
+    });
+
+    test('getIncircleRadiusVerticalComponent: 2', () => {
+        expect(HexPosition.getIncircleRadiusVerticalComponent(2)).toBe(1);
+    });
+
+    test('getIncircleRadiusVerticalComponent: 3', () => {
+        expect(HexPosition.getIncircleRadiusVerticalComponent(3)).toBe(2.5);
+    });
+
+    test('getIncircleRadiusVerticalComponent: 4', () => {
+        expect(HexPosition.getIncircleRadiusVerticalComponent(4)).toBe(2.5);
+    });
+
+    test('getIncircleRadiusVerticalComponent: 5', () => {
+        expect(HexPosition.getIncircleRadiusVerticalComponent(5)).toBe(4);
+    });
 });
