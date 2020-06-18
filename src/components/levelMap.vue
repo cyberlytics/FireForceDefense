@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :style="{ backgroundImage: `url('${image}')`}">
         <effectAnimations />
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              width="100%" height="100%" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet">
@@ -57,6 +57,7 @@
         data() {
             return {
                 size: 60,
+                image: '../../assets/img/levelBackground.png'
             }
         },
         methods: {
