@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :style="{ height: 0 }">
         <!-- TODO Use the current 'Regen' animation as extinguishing animation and use a different one for 'Regen' -->
         <lottie width="0" height="0" v-bind:options="regen" />
 
