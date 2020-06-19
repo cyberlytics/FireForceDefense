@@ -3,6 +3,7 @@
         <levelSidebar
             v-bind:buildable-contents="buildableContents"
             v-bind:relief-got-activated="game.reliefGotActivated"
+            v-bind:modal-id="modalId"
             v-bind:help-texts="helpTexts"
             v-bind:total-money="game.totalMoney"
             v-bind:debug-mode="debugMode"
@@ -20,7 +21,12 @@
             v-on:mouseenter-cell="mouseenterCell"
             v-on:mouseleave-cell="mouseleaveCell"
         />
-        <levelModal />
+        <levelModal
+            v-bind:modal-id="modalId"
+            v-on:show="pause"
+            v-on:hide="resume"
+            v-on:restart="restart"
+        />
         <levelEndScreen v-on:next="next" v-on:restart="restart" v-bind:score="game.score" v-bind:next-level="nextLevel" />
         <previewCursor v-bind:content-to-build="game.contentToBuild" v-bind:remove-mode="game.removeMode"
                        v-bind:mouse-x="mouseX" v-bind:mouse-y="mouseY" />
@@ -58,6 +64,7 @@
                 buildableContents: Game.getBuildableContents(),
                 mouseX: 0,
                 mouseY: 0,
+                modalId: 'level-menu-modal',
                 helpTexts: [],
                 debugMode: debugMode ? debugMode === 'true' : false,
             }
@@ -120,6 +127,12 @@
                     this.$router.push({ path: `/level/${this.nextLevel}` });
                 }
             },
+            pause: function () {
+                this.game.pause();
+            },
+            resume: function () {
+                this.game.start();
+            }
         },
         computed: {
             nextLevel: function () {
