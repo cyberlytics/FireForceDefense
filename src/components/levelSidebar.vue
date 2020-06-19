@@ -11,7 +11,7 @@
             <button
                 class="btn btn-light"
                 data-toggle="modal"
-                data-target="#level-menu-modal"
+                v-bind:data-target="'#' + modalId"
                 @mouseenter="setHelpText($t('Menu: Description'))"
                 @mouseleave="setHelpText(null)"
             >
@@ -94,6 +94,6 @@
             },
         },
         components: {},
-        props: ['buildableContents', 'reliefGotActivated', 'helpTexts', 'totalMoney', 'debugMode']
+        props: ['buildableContents', 'reliefGotActivated', 'helpTexts', 'totalMoney', 'debugMode', 'modalId']
     })
 </script>
