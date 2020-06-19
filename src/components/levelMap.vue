@@ -1,5 +1,9 @@
 <template>
-    <div :style="{ backgroundImage: `url('${image}')`}">
+    <div :style="{
+        backgroundImage: `url('${image}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+    }">
         <effectAnimations />
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              width="100%" height="100%" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet">
