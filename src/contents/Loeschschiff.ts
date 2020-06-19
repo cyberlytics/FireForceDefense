@@ -8,6 +8,8 @@ export default class Loeschschiff extends Content {
     readonly id = 'Loeschschiff';
     readonly buildCosts: number = 100;
     readonly damageMax = Content.DAMAGE_MAX_MEDIUM;
+    readonly fireGrowChance = 0;
+    readonly fireGrowAmount = 0;
     readonly removeCosts: number = -50;
     readonly extinguishRange = 3;
     readonly extinguishRate = 2;

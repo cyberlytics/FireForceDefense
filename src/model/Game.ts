@@ -332,7 +332,12 @@ export default class Game {
 
     private ownFireChange() {
         this.levelMap.getAllCells().forEach((cell) => {
-            cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.fireGrowAmount, cell.maxFireIntensity, true);
+            if (Math.random() < cell.fireGrowChance) {
+                cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.fireGrowAmount, cell.maxFireIntensity, true);
+            }
+            if (cell.content && Math.random() < cell.content.fireGrowChance) {
+                cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.content.fireGrowAmount, cell.maxFireIntensity, true);
+            }
         });
     }
 
