@@ -30,6 +30,7 @@ export default abstract class Cell implements Explainable {
     abstract readonly description: string;
     abstract readonly damageMax: number;
     abstract readonly maxFireIntensity: FireIntensity;
+    abstract readonly fireGrowChance: number;
     abstract readonly fireGrowAmount: number;
     abstract readonly spreadAmount: number;
     abstract readonly ignitionChance: number;

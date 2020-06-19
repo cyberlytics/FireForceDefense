@@ -8,6 +8,8 @@ export default class Loeschtrupp extends Content {
     readonly id = 'Loeschtrupp';
     readonly buildCosts: number = 10;
     readonly damageMax = 1;
+    readonly fireGrowChance = 0.9;
+    readonly fireGrowAmount = -1;
     readonly removeCosts: number = -5;
     readonly extinguishRange = 2;
     readonly extinguishRate = 1;

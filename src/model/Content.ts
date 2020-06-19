@@ -14,6 +14,8 @@ export default abstract class Content implements Explainable {
     abstract readonly description: string;
     abstract readonly contentCategory: ContentCategory;
     abstract readonly damageMax: number;
+    abstract readonly fireGrowChance: number;
+    abstract readonly fireGrowAmount: number;
     abstract readonly buildCosts: number|null; // null means not buildable
     abstract readonly removeCosts: number|null; // null means not removable
     abstract readonly extinguishRange: number;

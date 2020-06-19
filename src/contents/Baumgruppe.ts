@@ -8,6 +8,8 @@ export default class Baumgruppe extends Content {
     readonly id = 'Baumgruppe';
     readonly buildCosts: null = null;
     readonly damageMax = Content.DAMAGE_MAX_MEDIUM;
+    readonly fireGrowChance = 0.7;
+    readonly fireGrowAmount = 2;
     readonly removeCosts: number = 5;
     readonly extinguishRange = 0;
     readonly extinguishRate = 0;

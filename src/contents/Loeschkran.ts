@@ -8,6 +8,8 @@ export default class Loeschkran extends Content {
     readonly id = 'Loeschkran';
     readonly buildCosts: number = 40;
     readonly damageMax = 1;
+    readonly fireGrowChance = 0.5;
+    readonly fireGrowAmount = 1;
     readonly removeCosts: number = -20;
     readonly extinguishRange = 3;
     readonly extinguishRate = 2;
