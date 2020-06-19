@@ -3,9 +3,9 @@
         v-bind:transform="'translate(' + x + ',' + y + ')'"
         style="pointer-events: none"
     >
+        <circle v-if="debugMode" cx="0" cy="0" v-bind:r="radius" stroke="#f0f" fill="url(#effect-debug)" />
         <circle cx="0" cy="0" v-bind:r="radius" v-bind:fill="'url(#effect-' + effectExecution.effect.id + ')'" />
-        <text text-anchor="middle" dominant-baseline="middle" font-size="28" font-weight="bold"
-              style="text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;">
+        <text v-if="debugMode" text-anchor="middle" dominant-baseline="middle" class="level-debug-text">
             {{ effectExecution.effect.name }}
         </text>
     </g>
@@ -32,6 +32,6 @@
                 return HexPosition.getIncircleRadius(this.effectExecution.effect.range, this.size);
             }
         },
-        props: ['effectExecution', 'size']
+        props: ['effectExecution', 'size', 'debugMode']
     })
 </script>

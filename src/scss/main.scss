@@ -75,3 +75,9 @@ $theme-colors: (
     font-weight: bold;
     border-top-left-radius: 5px;
 }
+
+.level-debug-text {
+    text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;
+    font-size: 1.75rem;
+    font-weight: bold;
+}

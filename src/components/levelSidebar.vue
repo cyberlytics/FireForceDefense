@@ -94,6 +94,6 @@
             },
         },
         components: {},
-        props: ['buildableContents', 'reliefGotActivated', 'helpTexts', 'totalMoney']
+        props: ['buildableContents', 'reliefGotActivated', 'helpTexts', 'totalMoney', 'debugMode']
     })
 </script>

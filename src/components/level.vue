@@ -5,6 +5,7 @@
             v-bind:relief-got-activated="game.reliefGotActivated"
             v-bind:help-texts="helpTexts"
             v-bind:total-money="game.totalMoney"
+            v-bind:debug-mode="debugMode"
             v-on:content-selected="contentSelected"
             v-on:relief-clicked="emergencyReliefClicked"
             v-on:remove-selected="removeSelected"
@@ -14,6 +15,7 @@
             v-bind:game="game"
             v-bind:level-map="game.getLevelMap()"
             v-bind:current-effects="game.currentEffects"
+            v-bind:debug-mode="debugMode"
             v-on:cell-clicked="cellClicked"
             v-on:mouseenter-cell="mouseenterCell"
             v-on:mouseleave-cell="mouseleaveCell"
@@ -49,13 +51,15 @@
             } catch (e) {
                 router.push('/');
             }
-            console.log('data() called'); // TODO remove
+            let debugMode = localStorage.getItem('debugMode');
+
             return {
                 game,
                 buildableContents: Game.getBuildableContents(),
                 mouseX: 0,
                 mouseY: 0,
                 helpTexts: [],
+                debugMode: debugMode ? debugMode === 'true' : false,
             }
         },
         methods: {
@@ -143,8 +147,13 @@
             window.addEventListener('keydown', (e) => {
                 if (e.key == 'Escape') {
                     this.game.contentToBuild = null;
+                } else if (e.key == '#' && e.ctrlKey) {
+                    this.debugMode = !this.debugMode;
+                    localStorage.setItem('debugMode', this.debugMode);
+                    e.preventDefault();
                 }
             });
+            console.log('Use Ctrl+# to enter the debug mode.');
         },
         beforeDestroy() {
             this.game.pause();
