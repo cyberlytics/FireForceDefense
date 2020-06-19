@@ -9,6 +9,7 @@ export default class Feld extends Cell {
     readonly spreadAmount = Cell.SPREAD_AMOUNT_HIGH;
     readonly ignitionChance = Cell.IGNITION_CHANCE_HIGH;
     readonly ignitionThreshold = Cell.IGNITION_THRESHOLD_LOW;
+    readonly fireGrowChance = 0.4;
     readonly fireGrowAmount = 3;
     readonly maxFireIntensity = Cell.MAX_FIRE_INTENSITY_HIGH;
 }
