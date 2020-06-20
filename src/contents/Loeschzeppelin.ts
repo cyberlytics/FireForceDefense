@@ -7,7 +7,9 @@ export default class Loeschzeppelin extends Content {
     readonly name = 'Loeschzeppelin';
     readonly id = 'Loeschzeppelin';
     readonly buildCosts: number = 150;
-    readonly damageMax = Content.DAMAGE_MAX_HIGH;
+    readonly damageMax = Content.DAMAGE_MAX_LOW;
+    readonly fireGrowChance = 1;
+    readonly fireGrowAmount = 10;
     readonly removeCosts: number = -90;
     readonly extinguishRange = 2;
     readonly extinguishRate = 2;

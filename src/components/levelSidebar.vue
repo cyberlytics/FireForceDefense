@@ -1,17 +1,47 @@
 <template>
     <div id="level-view-sidebar">
         <div class="d-flex flex-row justify-content-between mb-3">
-            <div class="bg-light p-2">{{totalMoney}} coins</div>
-            <button class="btn btn-light" data-toggle="modal" data-target="#level-menu-modal">Menü</button>
-        </div>
-        <div class="text-center">
-            <h1>FireForceDefense</h1>
+            <div
+                class="bg-light p-2"
+                @mouseenter="setHelpText($t('Money: Description'))"
+                @mouseleave="setHelpText(null)"
+            >
+                {{totalMoney}} Coins
+            </div>
+            <button
+                class="btn btn-light"
+                data-toggle="modal"
+                data-target="#level-menu-modal"
+                @mouseenter="setHelpText($t('Menu: Description'))"
+                @mouseleave="setHelpText(null)"
+            >
+                Menü
+            </button>
         </div>
         <div class="card my-2">
             <div class="card-body">
-                <h2 class="card-title h5">Baumenü</h2>
+                <div class="d-flex justify-content-between mb-2">
+                    <h2 class="card-title h5">Baumenü</h2>
+                    <div
+                        class="small-menu-card"
+                        @click.stop="$emit('remove-selected')"
+                        @mouseenter="setHelpText($t('Remove: Description'))"
+                        @mouseleave="setHelpText(null)"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                             height="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                            <rect v-bind:fill="'url(#utility-Abbauen)'" height="100" width="100" x="0" y="0" />
+                        </svg>
+                    </div>
+                </div>
                 <div class="build-menu-cards">
-                    <div v-for="content in buildableContents" class="build-menu-card" @click.stop="$emit('content-selected', content)">
+                    <div
+                        v-for="content in buildableContents"
+                        class="build-menu-card"
+                        @click.stop="$emit('content-selected', content)"
+                        @mouseenter="setHelpText($t(new content().description))"
+                        @mouseleave="setHelpText(null)"
+                    >
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                              width="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" class="p-1">
                             <rect v-bind:fill="'url(#content-' + new content().id + ')'" height="100" width="100" x="0" y="0" />
@@ -25,7 +55,24 @@
         </div>
         <div class="card my-2">
             <div class="card-body">
+                <h2 class="card-title h5">Nothilfe</h2>
+                <button
+                    @click="activateEmergencyRelief"
+                    :disabled="reliefGotActivated"
+                    class="btn btn-info"
+                    @mouseenter="setHelpText($t('Relief: Description'))"
+                    @mouseleave="setHelpText(null)"
+                >
+                    Regen aktivieren
+                </button>
+            </div>
+        </div>
+        <div class="card my-2">
+            <div class="card-body">
                 <h2 class="card-title h5">Hilfe</h2>
+                <p v-for="helpText in helpTexts" class="card-text">
+                    {{ helpText }}
+                </p>
             </div>
         </div>
     </div>
@@ -33,16 +80,20 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import logo from './logo.vue';
 
     export default Vue.extend({
         data() {
             return {}
         },
-        methods: {},
-        components: {
-            logo,
+        methods: {
+            activateEmergencyRelief: function () {
+                this.$emit('relief-clicked');
+            },
+            setHelpText(text: string|null) {
+                this.$emit('set-help-text', text);
+            },
         },
-        props: ['buildableContents', 'totalMoney']
+        components: {},
+        props: ['buildableContents', 'reliefGotActivated', 'helpTexts', 'totalMoney']
     })
 </script>

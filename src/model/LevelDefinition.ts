@@ -7,6 +7,7 @@ export default interface LevelDefinition {
     cellDefinitions: CellDefinition[];
     contentDefinitions: ContentDefinition[];
     effectDefinitions: EffectDefinition[];
-    //creditIncrease: number;
     creditStartingAmount: number;
+    // TODO Maybe make gain and reward configurable per level.
+
 }

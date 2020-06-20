@@ -9,6 +9,7 @@ export default class Waldboden extends Cell {
     readonly spreadAmount = Cell.SPREAD_AMOUNT_MEDIUM;
     readonly ignitionChance = Cell.IGNITION_CHANCE_HIGH;
     readonly ignitionThreshold = Cell.IGNITION_THRESHOLD_LOW;
+    readonly fireGrowChance = 0.6;
     readonly fireGrowAmount = 2;
     readonly maxFireIntensity = Cell.MAX_FIRE_INTENSITY_HIGH;
 }

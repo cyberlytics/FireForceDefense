@@ -1,10 +1,27 @@
 <template>
-    <g v-bind:transform="'translate(' + x + ',' + y + ')'" @click.stop="click">
-        <polygon v-bind:points="pathString" v-bind:fill="'url(#cell-' + cell.id + ')'" stroke="#000" />
-        <rect v-if="cell.content !== null" v-bind:fill="'url(#content-' + cell.content.id + ')'"
-              v-bind:width="sizeRect" v-bind:height="sizeRect" v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect" />
-        <rect v-if="visualFireIntensity !== 0" v-bind:fill="'url(#fire-' + visualFireIntensity + ')'"
-              v-bind:width="sizeRect" v-bind:height="sizeRect" v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect" />
+    <g
+        v-bind:transform="'translate(' + x + ',' + y + ')'"
+        @click.stop="click"
+        @mouseenter="$emit('mouseenter-cell')"
+        @mouseleave="$emit('mouseleave-cell')"
+    >
+        <polygon
+            v-bind:points="pathString"
+            v-bind:fill="'url(#cell-' + cell.id + ')'"
+            stroke="#000"
+        />
+        <rect
+            v-if="cell.content !== null"
+            v-bind:fill="'url(#content-' + cell.content.id + ')'"
+            v-bind:width="sizeRect" v-bind:height="sizeRect"
+            v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect"
+        />
+        <rect
+            v-if="visualFireIntensity !== 0"
+            v-bind:fill="'url(#fire-' + visualFireIntensity + ')'"
+            v-bind:width="sizeRect" v-bind:height="sizeRect"
+            v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect"
+        />
         <polygon v-bind:points="pathString" v-if="disabled" fill="#000" fill-opacity=".5" />
         <text text-anchor="middle" dominant-baseline="middle" font-size="28" font-weight="bold"
               style="text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;">
@@ -32,21 +49,13 @@
         components: {},
         computed: {
             pathString: function () {
-                const s = parseFloat(this.size.toString());
-                const xOff = s * 0.8660254038;
-                const halfSize = s * 0.5;
-                return (+xOff) + ',' + (-halfSize) + ' '
-                    + (+xOff) + ',' + (+halfSize) + ' '
-                    + (0    ) + ',' + (+s       ) + ' '
-                    + (-xOff) + ',' + (+halfSize) + ' '
-                    + (-xOff) + ',' + (-halfSize) + ' '
-                    + (0    ) + ',' + (-s       );
+                return this.cell.position.getPathString(this.size);
             },
             x: function () {
-                return this.size * (1.732050808 * this.cell.position.q + 0.8660254038 * this.cell.position.r);
+                return this.cell.position.getCenterX(this.size);
             },
             y: function () {
-                return this.size * (1.5 * this.cell.position.r);
+                return this.cell.position.getCenterY(this.size);
             },
             sizeRect: function() {
                 return 1.224744871 * this.size; // sqrt(6)/2 * size

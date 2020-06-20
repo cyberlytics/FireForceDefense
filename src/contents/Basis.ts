@@ -7,8 +7,10 @@ export default class Basis extends Content {
     readonly description = 'Basis: Description';
     readonly name = 'Basis';
     readonly id = 'Basis';
-    readonly buildCosts: null = null;
+    readonly buildCosts = 0;
     readonly damageMax = Content.DAMAGE_MAX_MEDIUM;
+    readonly fireGrowChance = 0.7;
+    readonly fireGrowAmount = 1;
     readonly removeCosts: number = null;
     readonly extinguishRange = 0;
     readonly extinguishRate = 0;

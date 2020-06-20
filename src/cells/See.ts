@@ -5,10 +5,11 @@ export default class See extends Cell {
     readonly name = 'See';
     readonly id = 'See';
     readonly groups = ['water'];
-    readonly damageMax = Cell.DAMAGE_MAX_HIGH;
+    readonly damageMax = +Infinity;
     readonly spreadAmount = 0;
     readonly ignitionChance = 0;
     readonly ignitionThreshold = +Infinity;
-    readonly fireGrowAmount = 0;
+    readonly fireGrowChance = 1;
+    readonly fireGrowAmount = -Infinity;
     readonly maxFireIntensity = 0;
 }

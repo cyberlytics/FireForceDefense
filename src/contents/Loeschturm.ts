@@ -8,6 +8,8 @@ export default class Loeschturm extends Content {
     readonly id = 'Loeschturm';
     readonly buildCosts: number = 15;
     readonly damageMax = Content.DAMAGE_MAX_LOW;
+    readonly fireGrowChance = 0;
+    readonly fireGrowAmount = 0;
     readonly removeCosts: number = -10;
     readonly extinguishRange = 1;
     readonly extinguishRate = 2;
