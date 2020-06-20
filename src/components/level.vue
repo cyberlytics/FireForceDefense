@@ -153,7 +153,7 @@
             this.game.pause();
         },
         beforeRouteLeave(to, from, next) {
-            if (!window.confirm("Ihre Änderungen werden eventuell nicht gespeichert.")) {
+            if (this.game.score === null && !window.confirm("Ihre Änderungen werden eventuell nicht gespeichert.")) {
                 return;
             }
             next();
