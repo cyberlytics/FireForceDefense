@@ -145,9 +145,18 @@
                     this.game.contentToBuild = null;
                 }
             });
+            window.addEventListener('beforeunload', function(event) {
+                event.returnValue = '';
+            })
         },
         beforeDestroy() {
             this.game.pause();
+        },
+        beforeRouteLeave(to, from, next) {
+            if (!window.confirm("Ihre Änderungen werden eventuell nicht gespeichert.")) {
+                return;
+            }
+            next();
         }
     })
 </script>
