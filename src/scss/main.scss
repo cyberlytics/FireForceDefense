@@ -60,6 +60,13 @@ $theme-colors: (
     background: radial-gradient(circle at 50% 33.3%, lighten(theme-color('secondary'), 10), darken(theme-color('secondary'), 10));
 }
 
+.small-menu-card {
+    border: 3px solid theme-color('primary');
+    border-radius: 5px;
+    background: radial-gradient(circle at 50% 50%, lighten(theme-color('secondary'), 10), darken(theme-color('secondary'), 10));
+    height: 2rem;
+}
+
 .build-costs{
     background: theme-color('primary');
     color: theme-color('light');

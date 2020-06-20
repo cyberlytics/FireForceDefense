@@ -66,11 +66,51 @@ export default class HexPosition implements AxialCoordinates, CubeCoordinates {
         );
     }
 
+    public static getWidth() {
+        return Math.sqrt(3);
+    }
+
+    public static getIncircleRadiusHorizontalComponent(hexRadius: number = 0, size: number = 1) {
+        return (0.5 + 0.75 * hexRadius - (hexRadius % 2) * 0.25) * this.getWidth() * size;
+    }
+
+    public static getIncircleRadiusVerticalComponent(hexRadius: number = 0, size: number = 1) {
+        const tmp = Math.floor((hexRadius - 1) / 2) * 0.75 + 0.5;
+        return (tmp + Math.abs(tmp)) * size;
+    }
+
+    public static getIncircleRadius(hexRadius: number = 0, size: number = 1) {
+        return Math.sqrt(
+            Math.pow(this.getIncircleRadiusHorizontalComponent(hexRadius, size), 2)
+            + Math.pow(this.getIncircleRadiusVerticalComponent(hexRadius, size), 2)
+        );
+    }
+
+    public getCenterX(size: number = 1) {
+        return size * (1.732050808 * this.q + 0.8660254038 * this.r);
+    }
+
+    public getCenterY(size: number = 1) {
+        return size * 1.5 * this.r;
+    }
+
     public getNeighborPosition(direction: HexDirection) {
         return HexPosition.add(this, HexPosition.getDirectionVector(direction));
     }
 
     public toString() {
         return '(' + this.q + ',' + this.r + ')';
+    }
+
+    public getPathString(size: number = 1) {
+        const s = parseFloat(size.toString());
+        const xOff = s * 0.8660254038;
+        const halfSize = s * 0.5;
+        return (+xOff) + ',' + (-halfSize) + ' '
+            + (+xOff) + ',' + (+halfSize) + ' '
+            + (0    ) + ',' + (+s       ) + ' '
+            + (-xOff) + ',' + (+halfSize) + ' '
+            + (-xOff) + ',' + (-halfSize) + ' '
+            + (0    ) + ',' + (-s       );
     }
 }

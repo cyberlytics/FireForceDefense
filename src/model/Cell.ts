@@ -2,8 +2,9 @@ import FireIntensity from './FireIntensity';
 import type Content from './Content';
 import type HexPosition from './HexPosition';
 import Fire from './Fire';
+import type Explainable from './Explainable';
 
-export default abstract class Cell {
+export default abstract class Cell implements Explainable {
     static readonly DAMAGE_MAX_LOW = 20;
     static readonly DAMAGE_MAX_MEDIUM = 40;
     static readonly DAMAGE_MAX_HIGH = 70;
@@ -29,6 +30,7 @@ export default abstract class Cell {
     abstract readonly description: string;
     abstract readonly damageMax: number;
     abstract readonly maxFireIntensity: FireIntensity;
+    abstract readonly fireGrowChance: number;
     abstract readonly fireGrowAmount: number;
     abstract readonly spreadAmount: number;
     abstract readonly ignitionChance: number;
@@ -39,6 +41,7 @@ export default abstract class Cell {
     damage = 0;
     fireIntensity: FireIntensity = FireIntensity.INTENSITY_0;
     neighborSpreadTmp: number;
+    stepBeginIntensity: FireIntensity = FireIntensity.INTENSITY_0;
     readonly position: HexPosition;
 
     constructor(position: HexPosition) {

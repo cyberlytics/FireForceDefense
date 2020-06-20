@@ -5,20 +5,8 @@ import Steinbrocken from '../contents/Steinbrocken';
 import Feuer1 from '../effects/Feuer1';
 import See from '../cells/See';
 import Baumgruppe from '../contents/Baumgruppe';
-import Haus from '../contents/Haus';
-import Abgebrannt from '../cells/Abgebrannt';
-import Feld from '../cells/Feld';
-import Gebirge from '../cells/Gebirge';
-import Lavasee from '../cells/Lavasee';
-import Vulkangestein from '../cells/Vulkangestein';
-import Waldboden from '../cells/Waldboden';
-import Wueste from '../cells/Wueste';
-import Gewitter from '../effects/Gewitter';
-import Regen from '../effects/Regen';
-import Feuerball from '../effects/Feuerball';
 
-
-const lvl001: LevelDefinition = {
+const lvl003: LevelDefinition = {
     cellDefinitions: [
         { cellType: Wiese, pos: new HexPosition(0, 0) }, // ring 0
         { cellType: Wiese, pos: new HexPosition(1, 0) }, // ring 1
@@ -39,15 +27,15 @@ const lvl001: LevelDefinition = {
         { cellType: Wiese, pos: new HexPosition(1, -2) },
         { cellType: Wiese, pos: new HexPosition(2, -2) },
         { cellType: Wiese, pos: new HexPosition(2, -1) },
-        { cellType: Abgebrannt, pos: new HexPosition(3, 0) }, // ring 3
-        { cellType: Feld, pos: new HexPosition(2, 1) },
-        { cellType: Gebirge, pos: new HexPosition(1, 2) },
-        { cellType: Lavasee, pos: new HexPosition(0, 3) },
-        { cellType: See, pos: new HexPosition(-1, 3) },
-        { cellType: Vulkangestein, pos: new HexPosition(-2, 3) },
-        { cellType: Waldboden, pos: new HexPosition(-3, 3) },
+        { cellType: Wiese, pos: new HexPosition(3, 0) }, // ring 3
+        { cellType: Wiese, pos: new HexPosition(2, 1) },
+        { cellType: Wiese, pos: new HexPosition(1, 2) },
+        { cellType: Wiese, pos: new HexPosition(0, 3) },
+        { cellType: Wiese, pos: new HexPosition(-1, 3) },
+        { cellType: Wiese, pos: new HexPosition(-2, 3) },
+        { cellType: Wiese, pos: new HexPosition(-3, 3) },
         { cellType: Wiese, pos: new HexPosition(-3, 2) },
-        { cellType: Wueste, pos: new HexPosition(-3, 1) },
+        { cellType: Wiese, pos: new HexPosition(-3, 1) },
         { cellType: See, pos: new HexPosition(-3, 0) },
         { cellType: See, pos: new HexPosition(-2, -1) },
         { cellType: Wiese, pos: new HexPosition(-1, -2) },
@@ -86,17 +74,12 @@ const lvl001: LevelDefinition = {
         { contentType: Steinbrocken, pos: new HexPosition(0, 0) },
         { contentType: Steinbrocken, pos: new HexPosition(-2, -2) }, // Should not be placed because it's on a lake
         { contentType: Baumgruppe, pos: new HexPosition(1, 0) },
-        { contentType: Haus, pos: new HexPosition(3, 0) },
-        { contentType: Haus, pos: new HexPosition(0, -3) },
     ],
     effectDefinitions: [
-        { effectType: Feuer1, pos: new HexPosition(0, 0), mustBeExecuted: (step) => step === 0 },
-        { effectType: Gewitter, pos: new HexPosition(-3, 0), mustBeExecuted: (step) => step % 7 === 0 },
-        { effectType: Regen, pos: new HexPosition(2, -2), mustBeExecuted: (step) => step % 20 === 0 },
-        { effectType: Feuerball, pos: new HexPosition(-4, 4), mustBeExecuted: (step) => step % 15 === 0 },
+        { effectType: Feuer1, pos: new HexPosition(0, 0), mustBeExecuted: (step) => step === 0 }
     ],
-    levelID: 'lvl001',
+    levelID: 'lvl003',
     creditStartingAmount: 200,
 };
 
-export default lvl001;
+export default lvl003;

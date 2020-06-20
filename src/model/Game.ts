@@ -1,30 +1,185 @@
-import LevelManager from './LevelManager';
 import type LevelDefinition from './LevelDefinition';
+import type Cell from './Cell';
+import type ContentDerivedType from './ContentDerivedType';
+import type ContentDefinition from './ContentDefinition';
+import type EffectDefinition from './EffectDefinition';
+import type Content from './Content';
+import LevelManager from './LevelManager';
 import LevelMap from './LevelMap';
+import HexPosition from './HexPosition';
+import Basis from '../contents/Basis';
 import Loeschkran from '../contents/Loeschkran';
 import Loeschturm from '../contents/Loeschturm';
 import Loeschzeppelin from '../contents/Loeschzeppelin';
 import Loeschschiff from '../contents/Loeschschiff';
 import Loeschtrupp from '../contents/Loeschtrupp';
-import type Cell from './Cell';
-import type ContentDerivedType from './ContentDerivedType';
-import type HexPosition from './HexPosition';
-import type ContentDefinition from './ContentDefinition';
-import Basis from '../contents/Basis';
 import Abgebrannt from '../cells/Abgebrannt';
-import type Content from './Content';
 import Brandreste from '../contents/Brandreste';
 import Fire from './Fire';
 import FireIntensity from './FireIntensity';
+import Regen from '../effects/Regen';
+import EffectManager from './EffectManager';
+import Score from './Score';
 
 export default class Game {
+
     private levelDefinition: LevelDefinition;
+    private effectDefinitions: EffectDefinition[];
     private readonly levelMap: LevelMap;
 
     private _contentToBuild: ContentDerivedType = null;
+    private _removeMode = false;
     private _isBaseBuilt = false;
     public totalMoney: number;
+    private effectManager: EffectManager;
 
+    private gameStepDuration = 1000;                   // How long a game step should last in milliseconds
+    private gameStepTimeoutStart: number|null = null;  // Start time of current game step timeout
+    private gameStepRemainingTime: number|null = null; // Remaining time for the game step timeout
+    private gameStepTimeoutID: number|null = null;     // ID for the game step timeout as returned by setTimeout
+    private gameStepCounter = 0;                       // Number of fully executed game steps
+
+    private _reliefGotActivated = false;
+    private _score: Score|null = null;
+
+    constructor(levelID: string) {
+        this.effectManager = new EffectManager();
+        const levelManager = LevelManager.getInstance();
+        const levelDefinition = levelManager.getLevelDefinition(levelID);
+
+        if (!levelDefinition) {
+            throw new Error('Level not registered!');
+        }
+        this.levelDefinition = levelDefinition;
+        this.totalMoney = this.levelDefinition.creditStartingAmount;
+        this.effectDefinitions = levelDefinition.effectDefinitions;
+        // TODO fetch user score and check if level is unlocked
+        this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
+
+        levelDefinition.contentDefinitions.forEach((contentDefinition: ContentDefinition) => {
+            this.placeContentAt(new contentDefinition.contentType(), contentDefinition.pos);
+        });
+
+        if (!this.isBaseBuilt) {
+            this.contentToBuild = Basis;
+        }
+    }
+
+    /* Public methods */
+    public static getBuildableContents() {
+        return [
+            Loeschkran,
+            Loeschturm,
+            Loeschzeppelin,
+            Loeschschiff,
+            Loeschtrupp,
+        ];
+    }
+
+    public getLevelMap() {
+        return this.levelMap;
+    }
+
+    public getCellDisabledFunction() {
+        return this._isCellDisabled;
+    }
+
+    public start() {
+        this.gameStepTimeoutID = window.setTimeout(
+            () => this.timeoutHandler(),
+            this.gameStepRemainingTime === null ? this.gameStepDuration : this.gameStepRemainingTime
+        );
+        this.gameStepTimeoutStart = Date.now();
+        this.gameStepRemainingTime = null;
+    }
+
+    public pause() {
+        window.clearTimeout(this.gameStepTimeoutID);
+        this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
+        this.gameStepTimeoutID = null;
+        this.gameStepTimeoutStart = null;
+    }
+
+    public enterRemoveMode() {
+        if (!this.isBaseBuilt) {
+            return;
+        }
+        this._removeMode = true;
+        this.contentToBuild = null;
+        this.markDisabledCells();
+    }
+
+    public placeAt(position: HexPosition): boolean {
+        if (this.contentToBuild === null) {
+            return false;
+        }
+        const content = new this.contentToBuild();
+        if (content.buildCosts === null || this.totalMoney < content.buildCosts) {
+            return false;
+        }
+        if (this.placeContentAt(content, position)) {
+                this.totalMoney -= content.buildCosts;
+                return true;
+        }
+        return false;
+    }
+
+    public leaveRemoveMode() {
+        this._removeMode = false;
+        this.markDisabledCells();
+    }
+
+    public removeAt(position: HexPosition) {
+        if (!this.removeMode) {
+            return;
+        }
+        const cell = this.levelMap.getCellAt(position);
+        if (!this.isRemovable(cell)) {
+            return;
+        }
+        this.totalMoney -= cell.content.removeCosts;
+        cell.content = null;
+    }
+
+    public emergencyRelief() {
+        if (!this.reliefGotActivated) {
+            this.effectManager.applyEffect(new Regen(), this.levelMap, new HexPosition(0, 0));
+            this._reliefGotActivated = true;
+        }
+    }
+
+    /* Getter and Setter */
+    get reliefGotActivated() {
+        return this._reliefGotActivated;
+    }
+
+    get removeMode() {
+        return this._removeMode;
+    }
+
+    get currentEffects() {
+        return this.effectManager.currentEffects;
+    }
+
+    get score() {
+        return this._score;
+    }
+
+    get contentToBuild() {
+        return this._contentToBuild;
+    }
+
+    set contentToBuild(value) {
+        if (value !== null) {
+            this.leaveRemoveMode();
+        }
+        // base must be built before setting a different _contentToBuild
+        if (!this.isBaseBuilt && value !== Basis) {
+            return;
+        }
+        this._contentToBuild = value;
+        this.markDisabledCells();
+    }
 
     private get isBaseBuilt() {
         return this._isBaseBuilt;
@@ -43,80 +198,27 @@ export default class Game {
         this._isBaseBuilt = value;
     }
 
-    // How long a game step should last in milliseconds
-    private gameStepDuration = 1000;
-
-    // Milliseconds since 1970-01-01 at the time the current game step timeout was started
-    private gameStepTimeoutStart: number|null = null;
-
-    // Remaining time for the game step timeout
-    private gameStepRemainingTime: number|null = null;
-
-    // ID for the game step timeout as returned by setTimeout
-    private gameStepTimeoutID: number|null = null;
-
-    // Number of fully executed game steps
-    private gameStepCounter = 0;
-
-    get contentToBuild() {
-        return this._contentToBuild;
+    /* Private methods */
+    private isRemovable(cell: Cell) {
+        return cell.content !== null && cell.content.removeCosts !== null && cell.content.removeCosts <= this.totalMoney;
     }
 
-    set contentToBuild(value) {
-        if (!this.isBaseBuilt && value !== Basis) {
-            return;
+    private endGame(won: boolean) {
+        this.pause();
+        if (won) {
+            this._score = this.countStars();
+        } else {
+            this._score = Score.UNLOCKED;
         }
-        this._contentToBuild = value;
-        this.markDisabledCells();
+        LevelManager.getInstance().postScore(this.levelDefinition.levelID, this.score);
     }
 
-    constructor(levelID: string) {
-        const lm = LevelManager.getInstance();
-        const ld = lm.getLevelDefinition(levelID);
-        if (!ld) {
-            throw new Error('Level not registered!');
+    private countStars(): Score {
+        switch (this.levelMap.getAllCells().filter((cell) => cell.content !== null && cell.content.id === 'Haus').length)  {
+            case 0: return Score.ONE_STAR;
+            case 1: return Score.TWO_STARS;
+            default: return Score.THREE_STARS;
         }
-        this.levelDefinition = ld;
-        this.totalMoney = this.levelDefinition.creditStartingAmount;
-        // TODO fetch user score and check if level is unlocked
-        this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
-
-        ld.contentDefinitions.forEach((contentDefinition: ContentDefinition) => {
-            this.placeContentAt(new contentDefinition.contentType(), contentDefinition.pos);
-        });
-
-        if (!this.isBaseBuilt) {
-            this.contentToBuild = Basis;
-        }
-    }
-
-    public static getBuildableContents() {
-        return [
-            Loeschkran,
-            Loeschturm,
-            Loeschzeppelin,
-            Loeschschiff,
-            Loeschtrupp,
-        ];
-    }
-
-    public getLevelMap() {
-        return this.levelMap;
-    }
-
-    public placeAt(position: HexPosition): boolean {
-        const content = new this.contentToBuild();
-        if (content === null) {
-            return false;
-        }
-        if (this.placeContentAt(content, position)) {
-            if (this.totalMoney >= content.buildCosts){
-                this.totalMoney-= content.buildCosts;
-                return true;
-            }
-            return false;
-        }
-        return false;
     }
 
     private placeContentAt(content: Content, position: HexPosition): boolean {
@@ -128,27 +230,29 @@ export default class Game {
             if (content.id === 'Basis') {
                 this.isBaseBuilt = true;
             }
-            if (this.totalMoney >= content.buildCosts){
-                cell.content = content;
-                return true;
-            }
+            cell.content = content;
+            return true;
         } else {
             return false;
         }
     }
 
+    private _isCellDisabled: (cell: Cell) => boolean = () => false;
+
     private markDisabledCells() {
         let func = (cell: Cell) => false;
         if (this.contentToBuild !== null) {
             func = (cell: Cell) => !new (this.contentToBuild)().isPlaceableOn(cell) || cell.content !== null;
+        } else if (this.removeMode) {
+            func = (cell) => !this.isRemovable(cell);
         }
         this._isCellDisabled = func;
     }
 
-    private _isCellDisabled: (cell: Cell) => boolean = () => false;
-
-    public getCellDisabledFunction() {
-        return this._isCellDisabled;
+    private storeStepBeginIntensities() {
+        this.levelMap.getAllCells().forEach((cell) => {
+            cell.stepBeginIntensity = cell.fireIntensity;
+        });
     }
 
     private fireDamage() {
@@ -158,10 +262,10 @@ export default class Game {
             }
             if (cell.applyDamage()) {
                 const content = cell.content;
-                const intensity = cell.fireIntensity;
                 const burnt = new Abgebrannt(cell.position);
+                burnt.fireIntensity = cell.fireIntensity;
+                burnt.stepBeginIntensity = cell.stepBeginIntensity;
                 this.levelMap.replaceCell(burnt);
-                this.levelMap.getCellAt(cell.position).fireIntensity = intensity;
                 if (content) {
                     this.placeContentAt(content, cell.position);
                 }
@@ -169,10 +273,20 @@ export default class Game {
         });
     }
 
-    private ownFireChange() {
-        this.levelMap.getAllCells().forEach((cell) => {
-            cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.fireGrowAmount, cell.maxFireIntensity, true);
-        });
+
+    private checkBasis() {
+        if (this.isBaseBuilt !== true) {
+            return;
+        }
+        if (this.levelMap.getAllCells().some((cell) => cell.content !== null && cell.content.id === 'Basis')) {
+            // The base still exists.
+            // => The game still has to go on.
+            return;
+        }
+
+        // End current Game
+        // Game ist lost
+        this.endGame(false);
     }
 
     private calculateNeighborSpread() {
@@ -209,15 +323,46 @@ export default class Game {
                     return;
                 }
                 target.fireIntensity = Fire.modify(target.fireIntensity, rate);
+                if (target.fireIntensity === FireIntensity.INTENSITY_0 && target.stepBeginIntensity !== FireIntensity.INTENSITY_0) {
+                    this.totalMoney += 10;
+                }
             });
-            //this.totalMoney+= 100;
         });
     }
 
+    private ownFireChange() {
+        this.levelMap.getAllCells().forEach((cell) => {
+            if (Math.random() < cell.fireGrowChance) {
+                cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.fireGrowAmount, cell.maxFireIntensity, true);
+            }
+            if (cell.content && Math.random() < cell.content.fireGrowChance) {
+                cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.content.fireGrowAmount, cell.maxFireIntensity, true);
+            }
+        });
+    }
+
+    private checkBurnStatus() {
+        if (this.gameStepCounter === 0) {
+            // Don't check for burning fires in the very first game step.
+            // The game always has to go on here.
+            return;
+        }
+        if (this.levelMap.getAllCells().some((cell) => cell.fireIntensity !== FireIntensity.INTENSITY_0)) {
+            // There is still at least one fire burning.
+            // => The game still has to go on.
+            return;
+        }
+        // End the current Game
+        // Game is won
+        this.endGame(true);
+    }
+
     private step() {
+        this.storeStepBeginIntensities();
+
         this.fireDamage();
 
-        // TODO Check if the base still exists and end the level if not
+        this.checkBasis();
 
         this.calculateNeighborSpread();
 
@@ -229,9 +374,9 @@ export default class Game {
 
         this.moneyGain();
 
-        // TODO Check if there are still fires burning and end the level if not
+        this.checkBurnStatus();
 
-        // TODO Execute effects
+        this.executeEffects();
     }
 
     private timeoutHandler() {
@@ -240,23 +385,15 @@ export default class Game {
         this.gameStepCounter++;
     }
 
-    public start() {
-        this.gameStepTimeoutID = window.setTimeout(
-            () => this.timeoutHandler(),
-            this.gameStepRemainingTime === null ? this.gameStepDuration : this.gameStepRemainingTime
-        );
-        this.gameStepTimeoutStart = Date.now();
-        this.gameStepRemainingTime = null;
+    private executeEffects() {
+        this.effectDefinitions.forEach(effectDefinition => {
+            if (effectDefinition.mustBeExecuted(this.gameStepCounter)) {
+                this.effectManager.applyEffect(new effectDefinition.effectType(), this.levelMap, effectDefinition.pos);
+            }
+        });
     }
 
-    public pause() {
-        window.clearTimeout(this.gameStepTimeoutID);
-        this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
-        this.gameStepTimeoutID = null;
-        this.gameStepTimeoutStart = null;
-    }
-
-    public moneyGain() {
-        this.totalMoney+= 5;
+    private moneyGain() {
+        this.totalMoney += 5;
     }
 }

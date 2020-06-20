@@ -1,8 +1,6 @@
 import type CellDefinition from './CellDefinition';
 import type Cell from './Cell';
-import HexPosition from './HexPosition';
-import FireIntensity from './FireIntensity';
-import See from '../cells/See';
+import type HexPosition from './HexPosition';
 
 export default class LevelMap {
     private cells: {
@@ -22,15 +20,6 @@ export default class LevelMap {
             this.cells[pos.r][pos.q] = new cellDefinition.cellType(pos);
             this.positions.push(pos);
         });
-
-        // TODO Remove; this is just to show the fire intensities.
-        setTimeout(() => {
-            this.getCellAt(new HexPosition(0, -4)).fireIntensity = FireIntensity.INTENSITY_0;
-            this.getCellAt(new HexPosition(1, -4)).fireIntensity = FireIntensity.INTENSITY_1;
-            this.getCellAt(new HexPosition(2, -4)).fireIntensity = FireIntensity.INTENSITY_4;
-            this.getCellAt(new HexPosition(3, -4)).fireIntensity = FireIntensity.INTENSITY_7;
-            this.getCellAt(new HexPosition(4, -4)).fireIntensity = FireIntensity.INTENSITY_10;
-        }, 3000);
     }
 
     getCellAt(pos: HexPosition): Cell|null {
