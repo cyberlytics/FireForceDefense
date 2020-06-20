@@ -81,3 +81,22 @@ $theme-colors: (
     font-size: 1.75rem;
     font-weight: bold;
 }
+
+@keyframes extinguish-pulse {
+    0% {
+        transform: scale(0);
+    }
+    90% {
+        transform: scale(1);
+    }
+    95% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+.extinguish-pulse {
+    animation: extinguish-pulse 1s infinite ease-in;
+}
