@@ -39,7 +39,7 @@ export default class LevelManager {
         return this.levels;
     }
 
-    public getLevelIdsWithScore() {
+    public getLevelIdsWithScore(ready: () => void = () => {}) {
         this.user.getScores((scores) => {
             const levelIdsWithScore: { levelID: string, score: Score }[] = [];
             this.levels.forEach(levelDef => {
@@ -54,6 +54,7 @@ export default class LevelManager {
                 levelIdsWithScore[firstLockedIndex].score = Score.UNLOCKED;
             }
             this._levelIdsWithScore = levelIdsWithScore;
+            ready();
         });
     }
 
