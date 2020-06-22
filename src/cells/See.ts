@@ -1,7 +1,7 @@
 import Cell from '../model/Cell';
 
 export default class See extends Cell {
-    readonly description = 'See: Description';
+    readonly description = 'See: An infinite water supply leads to a very high water resistance.';
     readonly name = 'See';
     readonly id = 'See';
     readonly groups = ['water'];

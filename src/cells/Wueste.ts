@@ -1,7 +1,7 @@
 import Cell from '../model/Cell';
 
 export default class Wueste extends Cell {
-    readonly description = 'Wueste: Description';
+    readonly description = 'Wueste: An area with few and far between vegetation causes trouble for a fire, but can\'t stop its rampage';
     readonly name = 'Wueste';
     readonly id = 'Wueste';
     readonly groups = ['land'];
