@@ -98,6 +98,12 @@ export default class Game {
         this.gameStepRemainingTime = null;
     }
 
+    public resume() {
+        if (this.isBaseBuilt) {
+            this.start();
+        }
+    }
+
     public pause() {
         window.clearTimeout(this.gameStepTimeoutID);
         this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
