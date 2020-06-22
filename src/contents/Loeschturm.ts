@@ -13,6 +13,7 @@ export default class Loeschturm extends Content {
     readonly removeCosts: number = -10;
     readonly extinguishRange = 1;
     readonly extinguishRate = 2;
+    readonly extinguishChance = 0.5;
     readonly contentCategory = ContentCategory.CONTENT_EXTINGUISHER;
 
     isPlaceableOn(cell: Cell): boolean {
