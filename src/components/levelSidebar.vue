@@ -1,12 +1,39 @@
 <template>
     <div id="level-view-sidebar">
-        <div class="d-flex flex-row justify-content-between mb-3">
-            <div
-                class="bg-light p-2"
-                @mouseenter="setHelpText($t('Money: Description'))"
-                @mouseleave="setHelpText(null)"
-            >
-                {{totalMoney}} Coins
+        <div class="d-flex flex-row justify-content-between align-items-center mb-3 row-cols-3">
+            <div class="d-flex justify-content-start">
+                <div
+                    class="bg-light p-2" id="money"
+                    @mouseenter="setHelpText($t('Money: Description'))"
+                    @mouseleave="setHelpText(null)"
+                >
+                    {{totalMoney}} <img src="/assets/utilites-Coin.svg" style="height: 1em;" alt="Coins"/>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button
+                    @click="activateEmergencyRelief"
+                    :disabled="reliefGotActivated"
+                    class="btn btn-info"
+                    id="rain-emergency-relief"
+                    @mouseenter="setHelpText($t('Relief: Description'))"
+                    @mouseleave="setHelpText(null)"
+                >
+                    <img src="/assets/utilities-Nothilfe.svg" style="height: 3em;" alt="Rain"/>
+                </button>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button
+                    class="btn btn-light"
+                    data-toggle="modal"
+                    data-target="#level-menu-modal"
+                    @mouseenter="setHelpText($t('Menu: Description'))"
+                    @mouseleave="setHelpText(null)"
+                >
+                    <img src="/assets/utilities-menu_bttn.svg" style="height: 1em;" alt="Menu">
+                </button>
             </div>
             <button
                 class="btn btn-light"
@@ -53,21 +80,7 @@
                 </div>
             </div>
         </div>
-        <div class="card my-2">
-            <div class="card-body">
-                <h2 class="card-title h5">Nothilfe</h2>
-                <button
-                    @click="activateEmergencyRelief"
-                    :disabled="reliefGotActivated"
-                    class="btn btn-info"
-                    @mouseenter="setHelpText($t('Relief: Description'))"
-                    @mouseleave="setHelpText(null)"
-                >
-                    Regen aktivieren
-                </button>
-            </div>
-        </div>
-        <div class="card my-2">
+        <div class="card my-2" id="help">
             <div class="card-body">
                 <h2 class="card-title h5">Hilfe</h2>
                 <p v-for="helpText in helpTexts" class="card-text">
