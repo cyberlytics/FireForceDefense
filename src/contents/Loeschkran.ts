@@ -13,6 +13,7 @@ export default class Loeschkran extends Content {
     readonly removeCosts: number = -20;
     readonly extinguishRange = 3;
     readonly extinguishRate = 2;
+    readonly extinguishChance = 0.5;
     readonly contentCategory = ContentCategory.CONTENT_EXTINGUISHER;
 
     isPlaceableOn(cell: Cell): boolean {

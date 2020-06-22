@@ -13,6 +13,7 @@ export default class Loeschtrupp extends Content {
     readonly removeCosts: number = -5;
     readonly extinguishRange = 2;
     readonly extinguishRate = 1;
+    readonly extinguishChance = 0.5;
     readonly contentCategory = ContentCategory.CONTENT_EXTINGUISHER;
 
     isPlaceableOn(cell: Cell): boolean {

@@ -3,8 +3,10 @@
         <levelSidebar
             v-bind:buildable-contents="buildableContents"
             v-bind:relief-got-activated="game.reliefGotActivated"
+            v-bind:modal-id="modalId"
             v-bind:help-texts="helpTexts"
             v-bind:total-money="game.totalMoney"
+            v-bind:debug-mode="debugMode"
             v-on:content-selected="contentSelected"
             v-on:relief-clicked="emergencyReliefClicked"
             v-on:remove-selected="removeSelected"
@@ -14,11 +16,18 @@
             v-bind:game="game"
             v-bind:level-map="game.getLevelMap()"
             v-bind:current-effects="game.currentEffects"
+            v-bind:debug-mode="debugMode"
+            v-bind:preview-range="previewRange"
             v-on:cell-clicked="cellClicked"
-            v-on:mouseenter-cell="mouseenterCell"
-            v-on:mouseleave-cell="mouseleaveCell"
+            v-on:mouseenter-cell="mouseEnterCell"
+            v-on:mouseleave-cell="mouseLeaveCell"
         />
-        <levelModal />
+        <levelModal
+            v-bind:modal-id="modalId"
+            v-on:show="pause"
+            v-on:hide="resume"
+            v-on:restart="restart"
+        />
         <levelEndScreen v-on:next="next" v-on:restart="restart" v-bind:score="game.score" v-bind:next-level="nextLevel" />
         <previewCursor v-bind:content-to-build="game.contentToBuild" v-bind:remove-mode="game.removeMode"
                        v-bind:mouse-x="mouseX" v-bind:mouse-y="mouseY" />
@@ -49,13 +58,16 @@
             } catch (e) {
                 router.push('/');
             }
-            console.log('data() called'); // TODO remove
+            let debugMode = localStorage.getItem('debugMode');
+
             return {
                 game,
                 buildableContents: Game.getBuildableContents(),
                 mouseX: 0,
                 mouseY: 0,
+                modalId: 'level-menu-modal',
                 helpTexts: [],
+                debugMode: debugMode ? debugMode === 'true' : false,
                 confirmedNavigation: true,
             }
         },
@@ -73,7 +85,7 @@
                 this.game.removeAt(position);
                 this.game.contentToBuild = null;
                 this.game.leaveRemoveMode();
-                this.mouseenterCell(this.game.getLevelMap().getCellAt(position));
+                this.mouseEnterCell(this.game.getLevelMap().getCellAt(position));
 
                 // TODO Replace with real code
                 console.log('Level observed cell click at ' + position.toString());
@@ -87,14 +99,14 @@
             emergencyReliefClicked: function () {
                 this.game.emergencyRelief();
             },
-            mouseenterCell: function (cell: Cell) {
+            mouseEnterCell: function (cell: Cell) {
                 const explainables: Explainable[] = [cell];
                 if (cell.content) {
                     explainables.push(cell.content);
                 }
                 this.setExplainables(explainables);
             },
-            mouseleaveCell: function (cell: Cell) {
+            mouseLeaveCell: function (cell: Cell) {
                 this.setExplainables([]);
             },
             setHelpText: function(text: string|null) {
@@ -117,9 +129,19 @@
                     this.$router.push({ path: `/level/${this.nextLevel}` });
                 }
             },
+            pause: function () {
+                this.game.pause();
+            },
+            resume: function () {
+                this.game.start();
+            },
             keydownHandler: function (e: KeyboardEvent) {
                 if (e.key == 'Escape') {
                     this.game.contentToBuild = null;
+                } else if (e.key == '#' && e.ctrlKey) {
+                    this.debugMode = !this.debugMode;
+                    localStorage.setItem('debugMode', this.debugMode);
+                    e.preventDefault();
                 }
             },
             beforeunloadHandler: function (e: BeforeUnloadEvent) {
@@ -136,7 +158,16 @@
             nextLevel: function () {
                 const ld = LevelManager.getInstance().getNextLevel(this.game.levelDefinition)
                 return ld === null ? null : ld.levelID;
-            }
+            },
+            previewRange: function () {
+                if (this.game.contentToBuild) {
+                    const content = new this.game.contentToBuild;
+                    if (content.extinguishRate > 0) {
+                        return content.extinguishRange;
+                    }
+                }
+                return 0;
+            },
         },
         components: {
             levelMap,
@@ -158,6 +189,7 @@
             window.addEventListener('keydown', this.keydownHandler);
             window.addEventListener('beforeunload', this.beforeunloadHandler);
             window.addEventListener('popstate', this.popstateHandler);
+            console.log('Use Ctrl+# to enter the debug mode.');
         },
         beforeDestroy() {
             window.removeEventListener('keydown', this.keydownHandler);

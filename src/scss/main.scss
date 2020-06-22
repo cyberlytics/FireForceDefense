@@ -1,9 +1,48 @@
 @import "~bootstrap/scss/functions";
 
+@font-face {
+    font-family: 'TitilliumWeb';
+    font-style: normal;
+    font-weight: normal;
+    src: local('TitilliumWeb-Regular'),
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Regular.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: 'TitilliumWeb';
+    font-style: italic;
+    font-weight: normal;
+    src: local('TitilliumWeb-Italic'),
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Italic.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Italic.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: 'TitilliumWeb';
+    font-style: normal;
+    font-weight: bold;
+    src: local('TitilliumWeb-Bold'),
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Bold.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Bold.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: 'TitilliumWeb';
+    font-style: italic;
+    font-weight: bold;
+    src: local('TitilliumWeb-BoldItalic'),
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-BoldItalic.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-BoldItalic.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
 $theme-colors: (
-    "primary": #9a1818,
-    "secondary": #e8ba0e,
+    "primary": #ff0013,
+    "secondary": #ffc15e,
+    "border": #804f00,
 );
+
+$font-family-sans-serif: "TitilliumWeb";
 
 @import "~bootstrap/scss/variables";
 
@@ -18,11 +57,16 @@ $theme-colors: (
     grid-template-rows: 100%;
 }
 
+.leaflet-container {
+    font-family: inherit;
+}
+
 #level-view-sidebar {
-    background: theme-color('secondary');
+    background-image: url(../../assets/img/Pattern-Randomized.svg);
+    background-size: cover;
     padding: 20px;
     display: grid;
-    grid-template-rows: auto auto auto 1fr;
+    grid-template-rows: auto auto 1fr;
     grid-template-columns: 100%;
     h1 {
         font-size: 1.4rem;
@@ -33,45 +77,137 @@ $theme-colors: (
 .main-menu-bg {
     width: 100vw;
     height: 100vh;
-    overflow: auto;
-    background: gray('300');
+    background-size: cover;
+    background-image: url(../../assets/img/Pattern-Randomized.svg);
     padding: map_get($spacers, 4);
 }
 
 .main-menu {
-    background: theme-color('light');
-    max-width: 700px;
-    margin: 0 auto;
+    max-width: 300px;
+    margin: 8% auto auto;
     padding: map_get($spacers, 4);
     border-radius: $border-radius;
     text-align: center;
-    border: 1px solid gray('700');
+}
+
+.btn-primary {
+    opacity: 0.7;
+    box-shadow: 5px 10px #888888;
+}
+
+#nickname {
+    opacity: 0.7;
+    box-shadow: 5px 10px #888888;
+    border-radius: 5px;
+}
+
+.input-group-text {
+    background: transparent;
+    border-color: transparent;
+    font-size: larger;
 }
 
 .build-menu-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: map_get($spacers, 2)
+    gap: map_get($spacers, 2);
 }
 
 .build-menu-card {
-    border: 5px solid theme-color('primary');
-    border-radius: 8px;
-    background: radial-gradient(circle at 50% 33.3%, lighten(theme-color('secondary'), 10), darken(theme-color('secondary'), 10));
+    box-shadow: 2px 5px theme-color("border");
+    border-style: groove;
+    border-width: 2px;
+    border-radius: 5px;
+    border-color: theme-color("border");
+    background-image: url(../../assets/img/Rose-Petals.svg);
+    background-size: cover;
 }
 
 .small-menu-card {
-    border: 3px solid theme-color('primary');
+    background-image: url(../../assets/img/Rose-Petals.svg);
+    background-size: cover;
+    border-style: groove;
+    border-width: 2px;
     border-radius: 5px;
-    background: radial-gradient(circle at 50% 50%, lighten(theme-color('secondary'), 10), darken(theme-color('secondary'), 10));
+    border-color: theme-color("border");
     height: 2rem;
+    background-color: theme-color('light');
 }
 
-.build-costs{
-    background: theme-color('primary');
+.build-costs {
+    background: theme-color("border");
     color: theme-color('light');
     padding-top: 3px;
     padding-left: 5px;
     font-weight: bold;
-    border-top-left-radius: 5px;
+    border-radius: 4px;
+    padding-right: 3px;
+}
+
+.btn-light {
+    background-color: theme-color('light');
+    border-radius: 5px;
+    border-left-color: black;
+    border-left-style: groove;
+    border-left-width: 2px;
+}
+
+#rain-emergency-relief {
+    box-shadow: 2px 5px theme-color("border");
+    background-image: url(../../assets/img/Rose-Petals.svg);
+    background-size: cover;
+    border-color: theme-color("border");
+    border-style: groove;
+    border-width: 2px;
+    border-radius: 5px;
+}
+
+.card-body {
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 0;
+    border-color: theme-color('secondary');
+    background-color: theme-color('secondary');
+    box-shadow: 5px 10px theme-color("border");
+}
+
+.modal-content {
+    background-size: cover;
+    background-image: url(../../assets/img/Pattern-Randomized.svg);
+    color: black;
+}
+
+.modal-header {
+    justify-content: center;
+}
+
+#money {
+    border-radius: 5px;
+    border-left-style: groove;
+    border-left-width: 2px;
+}
+
+.level-debug-text {
+    text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+@keyframes extinguish-pulse {
+    0% {
+        transform: scale(0);
+    }
+    90% {
+        transform: scale(1);
+    }
+    95% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+.extinguish-pulse {
+    animation: extinguish-pulse 1s infinite ease-in;
 }

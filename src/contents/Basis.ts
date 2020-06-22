@@ -14,6 +14,7 @@ export default class Basis extends Content {
     readonly removeCosts: number = null;
     readonly extinguishRange = 0;
     readonly extinguishRate = 0;
+    readonly extinguishChance = 0;
     readonly contentCategory = ContentCategory.CONTENT_PROTECTION_GOAL;
 
     isPlaceableOn(cell: Cell): boolean {

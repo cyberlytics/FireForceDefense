@@ -23,8 +23,7 @@
             v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect"
         />
         <polygon v-bind:points="pathString" v-if="disabled" fill="#000" fill-opacity=".5" />
-        <text text-anchor="middle" dominant-baseline="middle" font-size="28" font-weight="bold"
-              style="text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;">
+        <text v-if="debugMode" text-anchor="middle" dominant-baseline="middle" class="level-debug-text">
             {{ cell.position }}
         </text>
     </g>
@@ -67,6 +66,6 @@
                 return Fire.intensityToFireCategory(this.cell.fireIntensity);
             }
         },
-        props: ['cell', 'size', 'disabled']
+        props: ['cell', 'size', 'disabled', 'debugMode']
     })
 </script>

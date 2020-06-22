@@ -51,6 +51,11 @@ export default class Game {
             throw new Error('Level not registered!');
         }
         this.levelDefinition = levelDefinition;
+
+        levelManager.getLevelIdsWithScore(() => {
+            // TODO Check if level is playable
+        });
+
         this.totalMoney = this.levelDefinition.creditStartingAmount;
         this.effectDefinitions = levelDefinition.effectDefinitions;
         // TODO fetch user score and check if level is unlocked
@@ -273,20 +278,23 @@ export default class Game {
         });
     }
 
-
-    private checkBasis() {
+    /**
+     * @returns True if the level ends; otherwise false
+     */
+    private checkBasis(): boolean {
         if (this.isBaseBuilt !== true) {
-            return;
+            return false;
         }
         if (this.levelMap.getAllCells().some((cell) => cell.content !== null && cell.content.id === 'Basis')) {
             // The base still exists.
             // => The game still has to go on.
-            return;
+            return false;
         }
 
         // End current Game
         // Game ist lost
         this.endGame(false);
+        return true;
     }
 
     private calculateNeighborSpread() {
@@ -313,13 +321,15 @@ export default class Game {
     }
 
     private extinguish() {
-        this.levelMap.getAllCells().forEach((cell) => {
-            if (!cell.content) {
-                return;
-            }
+        this.levelMap.getAllCells().filter(
+            (cell) => cell.content && cell.content.extinguishRate > 0
+        ).forEach((cell) => {
             const rate = -cell.content.extinguishRate;
             this.levelMap.getCellsAround(cell.position, cell.content.extinguishRange).forEach((target) => {
                 if (target.fireIntensity === FireIntensity.INTENSITY_0) {
+                    return;
+                }
+                if (Math.random() >= cell.content.extinguishChance) {
                     return;
                 }
                 target.fireIntensity = Fire.modify(target.fireIntensity, rate);
@@ -341,20 +351,24 @@ export default class Game {
         });
     }
 
+    /**
+     * @returns True if the level ends; otherwise false
+     */
     private checkBurnStatus() {
         if (this.gameStepCounter === 0) {
             // Don't check for burning fires in the very first game step.
             // The game always has to go on here.
-            return;
+            return false;
         }
         if (this.levelMap.getAllCells().some((cell) => cell.fireIntensity !== FireIntensity.INTENSITY_0)) {
             // There is still at least one fire burning.
             // => The game still has to go on.
-            return;
+            return false;
         }
         // End the current Game
         // Game is won
         this.endGame(true);
+        return true;
     }
 
     private step() {
@@ -362,7 +376,9 @@ export default class Game {
 
         this.fireDamage();
 
-        this.checkBasis();
+        if (this.checkBasis()) {
+            return;
+        }
 
         this.calculateNeighborSpread();
 
@@ -374,7 +390,9 @@ export default class Game {
 
         this.moneyGain();
 
-        this.checkBurnStatus();
+        if (this.checkBurnStatus()) {
+            return;
+        }
 
         this.executeEffects();
     }
