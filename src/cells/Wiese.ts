@@ -1,7 +1,7 @@
 import Cell from '../model/Cell';
 
 export default class Wiese extends Cell {
-    readonly description = 'Wiese: Grassy landscape is important for the livestock. Unfortunately its easily devoured by fire.';
+    readonly description = 'Meadow: Grassy landscape is important for the livestock. Unfortunately its easily devoured by fire.';
     readonly name = 'Wiese';
     readonly id = 'Wiese';
     readonly groups = ['land'];

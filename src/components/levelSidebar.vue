@@ -17,7 +17,7 @@
                     :disabled="reliefGotActivated"
                     class="btn btn-info"
                     id="rain-emergency-relief"
-                    @mouseenter="setHelpText($t('Relief: Causes the clouds to give the complete level a rain shower. It only can be used one time.'))"
+                    @mouseenter="setHelpText($t('Relief: Causes the clouds to give the complete level a rain shower. It\'s only one time use per level.'))"
                     @mouseleave="setHelpText(null)"
                 >
                     <img src="/assets/utilities-Nothilfe.svg" style="height: 3em;" alt="Rain"/>
