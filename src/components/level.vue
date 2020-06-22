@@ -133,7 +133,7 @@
                 this.game.pause();
             },
             resume: function () {
-                this.game.start();
+                this.game.resume();
             },
             keydownHandler: function (e: KeyboardEvent) {
                 if (e.key == 'Escape') {
