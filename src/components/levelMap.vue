@@ -33,6 +33,14 @@
                     v-on:mouseleave-cell="mouseLeaveCell(cell)"
                 />
             </g>
+            <g id="extinguishVisualization" clip-path="url(#clipToCells)">
+                <extinguishVisualization
+                    v-for="cell in levelMap.getAllCells()"
+                    v-if="cell.content && cell.content.extinguishRate > 0"
+                    v-bind:cell="cell" v-bind:key="cell.position.toString()"
+                    v-bind:size="size"
+                />
+            </g>
             <g id="currentEffects" clip-path="url(#clipToCells)">
                 <effect
                     v-for="effectExecution in currentEffects"
@@ -59,6 +67,7 @@
     import cell from './cell.vue'
     import cellShape from './cellShape.vue'
     import effect from './effect.vue'
+    import extinguishVisualization from './extinguishVisualization.vue';
     import cellPatterns from './cellPatterns.vue';
     import contentPatterns from './contentPatterns.vue';
     import firePatterns from './firePatterns.vue';
@@ -97,6 +106,7 @@
             cell,
             cellShape,
             effect,
+            extinguishVisualization,
             cellPatterns,
             contentPatterns,
             firePatterns,
