@@ -13,6 +13,7 @@ export default class Steinbrocken extends Content {
     readonly removeCosts: null = null;
     readonly extinguishRange = 0;
     readonly extinguishRate = 0;
+    readonly extinguishChance = 0;
     readonly contentCategory = ContentCategory.CONTENT_NATURE;
 
     isPlaceableOn(cell: Cell): boolean {
