@@ -27,6 +27,7 @@
                     v-bind:cell="cell" v-bind:key="cell.position.toString()"
                     v-bind:size="size"
                     v-bind:disabled="game.getCellDisabledFunction()(cell)"
+                    v-bind:debug-mode="debugMode"
                     v-on:cell-clicked="cellClicked"
                     v-on:mouseenter-cell="$emit('mouseenter-cell', cell)"
                     v-on:mouseleave-cell="$emit('mouseleave-cell', cell)"
@@ -38,6 +39,7 @@
                     v-bind:effect-execution="effectExecution"
                     v-bind:key="effectExecution.id"
                     v-bind:size="size"
+                    v-bind:debug-mode="debugMode"
                 />
             </g>
         </svg>
@@ -83,6 +85,6 @@
             effectPatterns,
             effectAnimations,
         },
-        props: ['levelMap', 'game', 'currentEffects']
+        props: ['levelMap', 'game', 'currentEffects', 'debugMode']
     })
 </script>
