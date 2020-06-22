@@ -1,9 +1,47 @@
 @import "~bootstrap/scss/functions";
 
+@font-face {
+    font-family: 'TitilliumWeb';
+    font-style: normal;
+    font-weight: normal;
+    src: local('TitilliumWeb-Regular'),
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Regular.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: 'TitilliumWeb';
+    font-style: italic;
+    font-weight: normal;
+    src: local('TitilliumWeb-Italic'),
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Italic.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Italic.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: 'TitilliumWeb';
+    font-style: normal;
+    font-weight: bold;
+    src: local('TitilliumWeb-Bold'),
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Bold.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Bold.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: 'TitilliumWeb';
+    font-style: italic;
+    font-weight: bold;
+    src: local('TitilliumWeb-BoldItalic'),
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-BoldItalic.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+    url('/assets/fonts/TitilliumWeb/TitilliumWeb-BoldItalic.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
 $theme-colors: (
     "primary": #9a1818,
     "secondary": #e8ba0e,
 );
+
+$font-family-sans-serif: "TitilliumWeb";
 
 @import "~bootstrap/scss/variables";
 
@@ -16,6 +54,10 @@ $theme-colors: (
     grid-template-columns: 300px 1fr;
     height: 100vh;
     grid-template-rows: 100%;
+}
+
+.leaflet-container {
+    font-family: inherit;
 }
 
 #level-view-sidebar {
