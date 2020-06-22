@@ -13,6 +13,7 @@ export default class Loeschzeppelin extends Content {
     readonly removeCosts: number = -90;
     readonly extinguishRange = 2;
     readonly extinguishRate = 2;
+    readonly extinguishChance = 0.5;
     readonly contentCategory = ContentCategory.CONTENT_EXTINGUISHER;
 
     isPlaceableOn(cell: Cell): boolean {

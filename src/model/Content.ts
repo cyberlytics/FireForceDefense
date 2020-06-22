@@ -20,6 +20,7 @@ export default abstract class Content implements Explainable {
     abstract readonly removeCosts: number|null; // null means not removable
     abstract readonly extinguishRange: number;
     abstract readonly extinguishRate: number;
+    abstract readonly extinguishChance: number;
 
     damage = 0;
 
