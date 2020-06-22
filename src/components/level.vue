@@ -56,6 +56,7 @@
                 mouseX: 0,
                 mouseY: 0,
                 helpTexts: [],
+                confirmedNavigation: true,
             }
         },
         methods: {
@@ -116,6 +117,20 @@
                     this.$router.push({ path: `/level/${this.nextLevel}` });
                 }
             },
+            keydownHandler: function (e: KeyboardEvent) {
+                if (e.key == 'Escape') {
+                    this.game.contentToBuild = null;
+                }
+            },
+            beforeunloadHandler: function (e: BeforeUnloadEvent) {
+                if (this.game.score === null) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                }
+            },
+            popstateHandler: function (e: PopStateEvent) {
+                this.confirmedNavigation = false;
+            }
         },
         computed: {
             nextLevel: function () {
@@ -140,23 +155,30 @@
             }
         },
         created() {
-            window.addEventListener('keydown', (e) => {
-                if (e.key == 'Escape') {
-                    this.game.contentToBuild = null;
-                }
-            });
-            window.addEventListener('beforeunload', function(event) {
-                event.returnValue = '';
-            })
+            window.addEventListener('keydown', this.keydownHandler);
+            window.addEventListener('beforeunload', this.beforeunloadHandler);
+            window.addEventListener('popstate', this.popstateHandler);
         },
         beforeDestroy() {
+            window.removeEventListener('keydown', this.keydownHandler);
+            window.removeEventListener('beforeunload', this.beforeunloadHandler);
+            window.removeEventListener('popstate', this.popstateHandler);
             this.game.pause();
         },
         beforeRouteLeave(to, from, next) {
-            if (this.game.score === null && !window.confirm("Ihre Änderungen werden eventuell nicht gespeichert.")) {
+            if (this.game.score !== null) {
+                next();
                 return;
             }
-            next();
+            setTimeout(() => {
+                if (!this.confirmedNavigation && !window.confirm("Ihre Änderungen werden eventuell nicht gespeichert.")) {
+                    this.confirmedNavigation = true;
+                    next(false);
+                    return;
+                }
+                next();
+                return;
+            }, 750);
         }
     })
 </script>
