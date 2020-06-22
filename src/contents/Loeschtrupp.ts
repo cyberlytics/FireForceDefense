@@ -3,7 +3,7 @@ import ContentCategory from '../model/ContentCategory';
 import type Cell from '../model/Cell';
 
 export default class Loeschtrupp extends Content {
-    readonly description = 'Loeschtrupp: A battle-hardened force, which fears no fire front.';
+    readonly description = 'Firefighters: A troop of common people, who breast the fire out of hardship.';
     readonly name = 'Loeschtrupp';
     readonly id = 'Loeschtrupp';
     readonly buildCosts: number = 10;

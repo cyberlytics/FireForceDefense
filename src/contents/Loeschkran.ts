@@ -3,7 +3,7 @@ import ContentCategory from '../model/ContentCategory';
 import type Cell from '../model/Cell';
 
 export default class Loeschkran extends Content {
-    readonly description = 'Loeschkran: An alienated cran, which gives a big contribution in the fight against a fire.';
+    readonly description = 'Fire-fighting crane: An alienated crane, which gives a big contribution in the fight against a fire.';
     readonly name = 'Loeschkran';
     readonly id = 'Loeschkran';
     readonly buildCosts: number = 40;
