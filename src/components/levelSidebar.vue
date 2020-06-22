@@ -35,15 +35,6 @@
                     <img src="/assets/utilities-menu_bttn.svg" style="height: 1em;" alt="Menu">
                 </button>
             </div>
-            <button
-                class="btn btn-light"
-                data-toggle="modal"
-                v-bind:data-target="'#' + modalId"
-                @mouseenter="setHelpText($t('Menu: Description'))"
-                @mouseleave="setHelpText(null)"
-            >
-                Menü
-            </button>
         </div>
         <div class="card my-2">
             <div class="card-body">
