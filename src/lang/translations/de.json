@@ -1,4 +1,11 @@
 {
     "FireForceDefense": "FireForceDefense",
-    "Please enter nickname": "Bitte Nickname eingeben!"
+    "Please enter nickname": "Bitte Nickname eingeben!",
+    "Game is paused": "Das Spiel ist pausiert.",
+    "Really leave level?": "Level wirklich verlassen?",
+    "Yes, back to world!": "Ja, zur Auswahl!",
+    "No, continue playing!": "Nein, weiterspielen",
+    "Restart Level": "Level neustarten",
+    "Really restart?": "Wirklich neustarten?",
+    "Yes, restart!": "Ja, neustarten!"
 }
