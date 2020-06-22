@@ -51,6 +51,11 @@ export default class Game {
             throw new Error('Level not registered!');
         }
         this.levelDefinition = levelDefinition;
+
+        levelManager.getLevelIdsWithScore(() => {
+            // TODO Check if level is playable
+        });
+
         this.totalMoney = this.levelDefinition.creditStartingAmount;
         this.effectDefinitions = levelDefinition.effectDefinitions;
         // TODO fetch user score and check if level is unlocked
