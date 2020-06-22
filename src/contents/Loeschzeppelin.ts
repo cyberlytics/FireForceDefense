@@ -3,7 +3,7 @@ import ContentCategory from '../model/ContentCategory';
 import type Cell from '../model/Cell';
 
 export default class Loeschzeppelin extends Content {
-    readonly description = 'Loeschzeppelin: Description';
+    readonly description = 'Loeschzeppelin: A mighty aircraft with big cisterns, which keeps fire at bay with ease.';
     readonly name = 'Loeschzeppelin';
     readonly id = 'Loeschzeppelin';
     readonly buildCosts: number = 150;

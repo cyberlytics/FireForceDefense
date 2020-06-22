@@ -5,16 +5,16 @@
             <div class="text-danger" v-if="requiredMessage">{{ $t('Please enter nickname') }}</div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label for="nickname" class="input-group-text">Nickname:</label>
+                    <label for="nickname" class="input-group-text">{{ $t('Nickname') }}</label>
                 </div>
                 <input id="nickname" v-on:keyup.enter="setNickname" class="form-control" v-model="nickname" />
             </div>
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary btn-block btn-lg" @click="setNickname">Anmelden</button>
+                <button type="submit" class="btn btn-primary btn-block btn-lg" @click="setNickname">{{ $t('log in') }}</button>
             </div>
             <hr class="mb-3" />
             <div>
-                <router-link class="btn btn-primary btn-block btn-lg" to="/credits">Credits</router-link>
+                <router-link class="btn btn-primary btn-block btn-lg" to="/credits">{{ $t('Credits') }}</router-link>
             </div>
         </div>
     </div>

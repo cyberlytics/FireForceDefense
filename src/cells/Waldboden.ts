@@ -1,7 +1,7 @@
 import Cell from '../model/Cell';
 
 export default class Waldboden extends Cell {
-    readonly description = 'Waldboden: Description';
+    readonly description = 'Waldboden: The fertilized earth with good vegetation gives fire more time to stay.';
     readonly name = 'Waldboden';
     readonly id = 'Waldboden';
     readonly groups = ['land'];

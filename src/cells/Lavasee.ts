@@ -1,7 +1,7 @@
 import Cell from '../model/Cell';
 
 export default class Lavasee extends Cell {
-    readonly description = 'Lavasee: Description';
+    readonly description = 'Lavasee: An everlasting heat source, which burns everything around it with ease.';
     readonly name = 'Lavasee';
     readonly id = 'Lavasee';
     readonly groups = ['lava'];

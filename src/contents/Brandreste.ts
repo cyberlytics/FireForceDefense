@@ -3,7 +3,7 @@ import ContentCategory from '../model/ContentCategory';
 import type Cell from '../model/Cell';
 
 export default class Brandreste extends Content {
-    readonly description = 'Brandreste: Description';
+    readonly description = 'Brandreste: The remains after a burn let merely guess the splendor for former nature and civilization.';
     readonly name = 'Brandreste';
     readonly id = 'Brandreste';
     readonly buildCosts: null = null;

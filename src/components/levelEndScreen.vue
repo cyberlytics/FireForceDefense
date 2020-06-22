@@ -3,8 +3,8 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 v-if="score === Score.UNLOCKED" class="modal-title h5">Verloren</h2>
-                    <h2 v-else class="modal-title h5">Gewonnen</h2>
+                    <h2 v-if="score === Score.UNLOCKED" class="modal-title h5">{{ $t('lost') }}</h2>
+                    <h2 v-else class="modal-title h5">{{ $t('victory')}}</h2>
                 </div>
                 <div class="modal-body">
                     <div class="text-center" style="font-size: 1.2rem;">
@@ -17,7 +17,7 @@
                         aria-label="Close"
                         data-dismiss="modal"
                     >
-                        Nächstes Level
+                        {{ $t('next level') }}
                     </button>
                     <button
                         class="btn btn-primary btn-block"
@@ -27,11 +27,11 @@
                         aria-label="Close"
                         data-dismiss="modal"
                     >
-                        Neustarten
+                        {{ $t('new start') }}
                     </button>
                     <hr class="my-3" />
                     <button class="btn btn-primary btn-block btn-lg" @click="back" data-dismiss="modal">
-                        Zurück zur Levelauswahl
+                        {{ $t('back to level selection') }}
                     </button>
                 </div>
             </div>
