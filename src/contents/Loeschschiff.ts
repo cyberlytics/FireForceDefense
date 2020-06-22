@@ -13,6 +13,7 @@ export default class Loeschschiff extends Content {
     readonly removeCosts: number = -50;
     readonly extinguishRange = 3;
     readonly extinguishRate = 2;
+    readonly extinguishChance = 0.5;
     readonly contentCategory = ContentCategory.CONTENT_EXTINGUISHER;
 
     isPlaceableOn(cell: Cell): boolean {

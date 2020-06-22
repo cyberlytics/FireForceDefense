@@ -1,32 +1,41 @@
 <template>
-    <div id="level-menu-modal" class="modal" ref="level-menu-modal">
+    <div v-bind:id="modalId" class="modal" ref="level-menu-modal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title h5">FireForceDefense</h2>
+                    <h2 class="modal-title h5">Menü</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <button class="btn btn-primary btn-block btn-lg" v-if="!confirm" @click="showConfirm">
+                    <div class="text-center">
+                        {{ $t('Game is paused') }}
+                    </div>
+                    <hr class="my-3" />
+                    <button class="btn btn-primary btn-block btn-lg" v-if="!backConfirm" @click="showBackConfirm">
                         Zurück zur Levelauswahl
                     </button>
-                    <div v-if="confirm">
-                        <p class="text-center">Level wirklich verlassen?</p>
-                        <div class="d-flex flex-row justify-content-between">
-                            <div>
-                                <button class="btn btn-danger btn-block btn-lg" data-dismiss="modal" @click="back">
-                                    Ja, zur Auswahl!
-                                </button>
-                            </div>
-                            <div>
-                                <button class="btn btn-success btn-block btn-lg" @click="hideConfirm">
-                                    Nein, weiterspielen!
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <confirm
+                        v-if="backConfirm"
+                        question="Really leave level?"
+                        yes="Yes, back to world!"
+                        no="No, continue playing!"
+                        v-on:yes="back"
+                        v-on:no="hide"
+                    />
+                    <hr class="my-3" />
+                    <button class="btn btn-primary btn-block btn-lg" v-if="!restartConfirm" @click="showRestartConfirm">
+                        {{ $t('Restart Level') }}
+                    </button>
+                    <confirm
+                        v-if="restartConfirm"
+                        question="Really restart?"
+                        yes="Yes, restart!"
+                        no="No, continue playing!"
+                        v-on:yes="restart"
+                        v-on:no="hide"
+                    />
                     <hr class="my-3" />
                     <button class="btn btn-primary btn-block btn-lg" data-dismiss="modal" aria-label="Close">
                         Weiterspielen
@@ -40,25 +49,52 @@
 
 <script lang="ts">
     import Vue from 'vue';
+    import $ from 'jquery';
+    import confirm from './confirm.vue';
 
     export default Vue.extend({
         data() {
             return {
-                confirm: false,
+                backConfirm: false,
+                restartConfirm: false,
             }
         },
         methods: {
-            showConfirm: function () {
-                this.confirm = true;
+            showBackConfirm: function() {
+                this.backConfirm = true;
             },
-            hideConfirm: function () {
-                this.confirm = false;
+            showRestartConfirm: function() {
+                this.restartConfirm = true;
             },
             back: function () {
+                this.hide();
                 this.$router.push('/world');
+            },
+            restart: function () {
+                this.hide();
+                this.$emit('restart');
+            },
+            hide: function () {
+                $('#' + this.modalId).modal('hide');
             }
         },
-        components: {},
-        props: []
+        components: {
+            confirm,
+        },
+        created: function () {
+            $(window).on('show.bs.modal', (e) => {
+                if ($('#' + this.modalId).is(e.target)) {
+                    this.$emit('show');
+                    this.backConfirm = false;
+                    this.restartConfirm = false;
+                }
+            });
+            $(window).on('hide.bs.modal', (e) => {
+                if ($('#' + this.modalId).is(e.target)) {
+                    this.$emit('hide');
+                }
+            });
+        },
+        props: ['modalId']
     })
 </script>
