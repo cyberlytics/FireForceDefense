@@ -7,11 +7,11 @@ export default class Loeschkran extends Content {
     readonly name = 'Loeschkran';
     readonly id = 'Loeschkran';
     readonly buildCosts: number = 40;
-    readonly damageMax = 1;
+    readonly damageMax = Content.DAMAGE_MAX_MEDIUM;
     readonly fireGrowChance = 0.5;
     readonly fireGrowAmount = 1;
     readonly removeCosts: number = -20;
-    readonly extinguishRange = 3;
+    readonly extinguishRange = 1;
     readonly extinguishRate = 2;
     readonly extinguishChance = 0.5;
     readonly contentCategory = ContentCategory.CONTENT_EXTINGUISHER;
