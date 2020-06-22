@@ -7,11 +7,17 @@
                     <h2 v-else class="modal-title h5">Gewonnen</h2>
                 </div>
                 <div class="modal-body">
-                    <div class="text-center" style="font-size: 1.2rem;">
-                        {{ stars }} Sterne
+                    <div class="text-center">
+                        <img
+                            v-bind:src="'/assets/levelend_stars_' + stars + '.svg'"
+                            v-bind:alt="stars + ' Sterne'"
+                            style="height: 5.5rem;"
+                            class="mb-3"
+                        />
                     </div>
                     <button
-                        v-if="score !== Score.UNLOCKED && nextLevel !== null" class="btn btn-primary btn-block btn-lg"
+                        v-if="score !== Score.UNLOCKED && nextLevel !== null"
+                        class="btn btn-primary btn-block btn-lg mb-3"
                         data-toggle="modal"
                         @click="$emit('next')"
                         aria-label="Close"
