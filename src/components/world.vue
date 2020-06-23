@@ -23,7 +23,11 @@
                 @click="goToLevel(marker.level, marker.score)"
             >
                 <l-icon :icon-anchor="iconAnchor">
-                    <svg width="105" height="137" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                        width="105" height="137"
+                        xmlns="http://www.w3.org/2000/svg"
+                        v-bind:class="{ 'level-locked': marker.shake}"
+                    >
                         <image v-bind:href="scoreIcons[marker.score]" width="105" height="137"/>
                     </svg>
                 </l-icon>
@@ -38,13 +42,14 @@
 </template>
 
 <script lang="ts">
+    import Vue from 'vue';
     import { router } from '../index';
     import L from 'leaflet';
     import { LControl, LIcon, LMap, LMarker, LTileLayer } from 'vue2-leaflet';
     import World from '../model/World';
     import Score from "../model/Score";
 
-    export default {
+    export default Vue.extend({
         data () {
             let world: World;
             try {
@@ -84,6 +89,7 @@
                 world,
                 Score,
                 scoreIcons,
+                shaking: {},
             };
         },
         computed: {
@@ -98,13 +104,14 @@
                     L.latLng(50.5, 110),
                 ];
 
-                const markers: { id: number, level: string, score: Score, coordinates: L.LatLng }[] = []
+                const markers: { id: number, level: string, score: Score, coordinates: L.LatLng, shake: boolean }[] = []
                 this.levelData.forEach((element: { levelID: string, score: Score }, index: number) => {
                     markers.push({
                         id: index,
                         level: element.levelID,
                         score: element.score,
                         coordinates: coordinates[index],
+                        shake: this.shaking.hasOwnProperty(element.levelID) && this.shaking[element.levelID],
                     });
                 });
                 return markers;
@@ -133,9 +140,12 @@
             centerUpdated (center: any) {
                 this.center = center;
             },
-            goToLevel (levelId: String, score: Score) {
+            goToLevel (levelId: string, score: Score) {
                 if (score === Score.LOCKED) {
-                    // TODO Maybe show feedback to the user
+                    Vue.set(this.shaking, levelId, true);
+                    setTimeout(() => {
+                        Vue.set(this.shaking, levelId, false);
+                    }, 300);
                     return;
                 }
                 this.$router.push(`/level/${levelId}`);
@@ -146,9 +156,9 @@
             },
             centerMapToCurrentLevel () {
                 setTimeout(() => {
-                    this.$refs.map.mapObject.flyTo(this.currentLevel.coordinates,4)
+                    this.$refs.map.mapObject.flyTo(this.currentLevel.coordinates,4);
                 }, 1000);
             }
         }
-    }
+    })
 </script>
