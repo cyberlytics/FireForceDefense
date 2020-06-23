@@ -86,9 +86,6 @@
                 this.game.contentToBuild = null;
                 this.game.leaveRemoveMode();
                 this.mouseEnterCell(this.game.getLevelMap().getCellAt(position));
-
-                // TODO Replace with real code
-                console.log('Level observed cell click at ' + position.toString());
             },
             contentSelected: function (content: Content) {
                 this.game.contentToBuild = content;

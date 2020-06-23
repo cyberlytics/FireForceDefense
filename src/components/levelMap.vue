@@ -88,9 +88,6 @@
         },
         methods: {
             cellClicked: function (position: HexPosition) {
-                // TODO Replace with real code
-                console.log('Level map observed cell click at ' + position.toString());
-
                 this.$emit('cell-clicked', position);
             },
             mouseEnterCell: function (cell: Cell) {
