@@ -98,6 +98,12 @@ export default class Game {
         this.gameStepRemainingTime = null;
     }
 
+    public resume() {
+        if (this.isBaseBuilt) {
+            this.start();
+        }
+    }
+
     public pause() {
         window.clearTimeout(this.gameStepTimeoutID);
         this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
@@ -321,13 +327,15 @@ export default class Game {
     }
 
     private extinguish() {
-        this.levelMap.getAllCells().forEach((cell) => {
-            if (!cell.content) {
-                return;
-            }
+        this.levelMap.getAllCells().filter(
+            (cell) => cell.content && cell.content.extinguishRate > 0
+        ).forEach((cell) => {
             const rate = -cell.content.extinguishRate;
             this.levelMap.getCellsAround(cell.position, cell.content.extinguishRange).forEach((target) => {
                 if (target.fireIntensity === FireIntensity.INTENSITY_0) {
+                    return;
+                }
+                if (Math.random() >= cell.content.extinguishChance) {
                     return;
                 }
                 target.fireIntensity = Fire.modify(target.fireIntensity, rate);

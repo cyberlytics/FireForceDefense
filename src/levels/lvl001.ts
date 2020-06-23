@@ -96,7 +96,7 @@ const lvl001: LevelDefinition = {
         { effectType: Feuerball, pos: new HexPosition(-4, 4), mustBeExecuted: (step) => step % 15 === 0 },
     ],
     levelID: 'lvl001',
-    creditStartingAmount: 200,
+    creditStartingAmount: 100,
 };
 
 export default lvl001;

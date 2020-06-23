@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title h5">Menü</h2>
+                    <h2 class="modal-title h5">{{ $t('menu') }}</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -14,7 +14,7 @@
                     </div>
                     <hr class="my-3" />
                     <button class="btn btn-primary btn-block btn-lg" v-if="!backConfirm" @click="showBackConfirm">
-                        Zurück zur Levelauswahl
+                        {{ $t('back to level selection') }}
                     </button>
                     <confirm
                         v-if="backConfirm"
@@ -38,7 +38,7 @@
                     />
                     <hr class="my-3" />
                     <button class="btn btn-primary btn-block btn-lg" data-dismiss="modal" aria-label="Close">
-                        Weiterspielen
+                        {{ $t('continue playing') }}
                     </button>
 
                 </div>
