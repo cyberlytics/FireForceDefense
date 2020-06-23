@@ -75,7 +75,7 @@
             <div class="card-body">
                 <h2 class="card-title h5">{{ $t('help') }}</h2>
                 <p v-for="helpText in helpTexts" class="card-text">
-                    {{ helpText }}
+                    {{ $t(helpText) }}
                 </p>
             </div>
         </div>
