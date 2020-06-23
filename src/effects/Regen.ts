@@ -7,7 +7,7 @@ export default class Regen extends Effect {
     readonly description = 'Regen: Description';
     readonly id = 'Regen';
     readonly name = 'Regen';
-    readonly duration = 5;
+    readonly duration = 1;
     readonly range = 4;
 
     applyEffect(map: LevelMap, pos: HexPosition): void {
