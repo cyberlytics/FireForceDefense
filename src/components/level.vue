@@ -180,6 +180,11 @@
                     return;
                 }
                 this.game = new Game(newValue);
+            },
+            'game.isPlayable': function (newValue) {
+                if (newValue === false) {
+                    this.$router.push('/world');
+                }
             }
         },
         created() {
