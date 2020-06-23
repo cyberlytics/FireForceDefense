@@ -3,7 +3,7 @@ import ContentCategory from '../model/ContentCategory';
 import type Cell from '../model/Cell';
 
 export default class Steinbrocken extends Content {
-    readonly description = 'Steinbrocken: Description';
+    readonly description = 'Boulders: A big rock, which makes it impossible to build something or station a unit without removing this rock.';
     readonly name = 'Steinbrocken';
     readonly id = 'Steinbrocken';
     readonly buildCosts: null = null;
