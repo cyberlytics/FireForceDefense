@@ -27,6 +27,7 @@ export default class Game {
     private effectDefinitions: EffectDefinition[];
     private readonly levelMap: LevelMap;
 
+    private _isPlayable = true;
     private _contentToBuild: ContentDerivedType = null;
     private _removeMode = false;
     private _isBaseBuilt = false;
@@ -53,7 +54,10 @@ export default class Game {
         this.levelDefinition = levelDefinition;
 
         levelManager.getLevelIdsWithScore(() => {
-            // TODO Check if level is playable
+            const curr = levelManager.levelIdsWithScore.find(level => level.levelID === levelID);
+            if (curr.score === Score.LOCKED) {
+                this._isPlayable = false;
+            }
         });
 
         this.totalMoney = this.levelDefinition.creditStartingAmount;
@@ -159,6 +163,10 @@ export default class Game {
     }
 
     /* Getter and Setter */
+    get isPlayable() {
+        return this._isPlayable;
+    }
+
     get reliefGotActivated() {
         return this._reliefGotActivated;
     }
