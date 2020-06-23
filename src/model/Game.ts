@@ -58,7 +58,6 @@ export default class Game {
 
         this.totalMoney = this.levelDefinition.creditStartingAmount;
         this.effectDefinitions = levelDefinition.effectDefinitions;
-        // TODO fetch user score and check if level is unlocked
         this.levelMap = new LevelMap(this.levelDefinition.cellDefinitions);
 
         levelDefinition.contentDefinitions.forEach((contentDefinition: ContentDefinition) => {
