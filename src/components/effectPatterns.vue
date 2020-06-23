@@ -1,6 +1,17 @@
 <template>
     <defs>
-        <pattern v-for="effect in ['Feuer1', 'Feuer2', 'Feuer3', 'Feuerball', 'Gewitter', 'Lava', 'Regen']"
+        <radialGradient id="thunder-background">
+            <stop offset="10%" stop-color="#000" stop-opacity=".5" />
+            <stop offset="100%" stop-color="#000" stop-opacity="0" />
+        </radialGradient>
+        <pattern id="effect-Regen" width=".5" height=".35" viewBox="0 0 100 70" preserveAspectRatio="xMidYMid slice">
+            <use xlink:href="#animation-effect-Regen" x="-50" y="-65" width="200" height="200" />
+        </pattern>
+        <pattern id="effect-Gewitter" width="1" height="1" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+            <rect x="0" y="0" width="100" height="100" fill="url(#thunder-background)" />
+            <use xlink:href="#animation-effect-Gewitter" x="0" y="0" width="100" height="100" />
+        </pattern>
+        <pattern v-for="effect in ['Feuer1', 'Feuer2', 'Feuer3', 'Feuerball', 'Lava']"
                  v-bind:id="'effect-' + effect" width="1" height="1" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
             <use v-bind:xlink:href="'#animation-effect-' + effect" x="0" y="0" width="100" height="100" />
         </pattern>
