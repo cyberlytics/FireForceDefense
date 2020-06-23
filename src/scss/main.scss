@@ -211,3 +211,19 @@ $font-family-sans-serif: "TitilliumWeb";
 .extinguish-pulse {
     animation: extinguish-pulse 1s infinite ease-in;
 }
+
+@keyframes level-locked {
+    0%, 25%, 50%, 75%, 100% {
+        transform: scale(1) rotate(0deg);
+    }
+    12.5%, 62.5% {
+        transform: scale(0.95) rotate(-5deg);
+    }
+    37.5%, 87.5% {
+        transform: scale(1.05) rotate(5deg);
+    }
+}
+
+.level-locked {
+    animation: level-locked .3s infinite ease-in-out;
+}
