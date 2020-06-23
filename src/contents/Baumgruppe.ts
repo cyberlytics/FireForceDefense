@@ -3,7 +3,7 @@ import ContentCategory from '../model/ContentCategory';
 import type Cell from '../model/Cell';
 
 export default class Baumgruppe extends Content {
-    readonly description = 'Baumgruppe: Description';
+    readonly description = 'Grove: Inherits strong and resilient trees, which hold back fire better, but also let the fire burn longer.';
     readonly name = 'Baumgruppe';
     readonly id = 'Baumgruppe';
     readonly buildCosts: null = null;
@@ -13,6 +13,7 @@ export default class Baumgruppe extends Content {
     readonly removeCosts: number = 5;
     readonly extinguishRange = 0;
     readonly extinguishRate = 0;
+    readonly extinguishChance = 0;
     readonly contentCategory = ContentCategory.CONTENT_NATURE;
 
     isPlaceableOn(cell: Cell): boolean {

@@ -1,7 +1,7 @@
 import Cell from '../model/Cell';
 
 export default class Feld extends Cell {
-    readonly description = 'Feld: Description';
+    readonly description = 'Field: Food is essential, but also very fragil against fire and its expandation.';
     readonly name = 'Feld';
     readonly id = 'Feld';
     readonly groups = ['land'];

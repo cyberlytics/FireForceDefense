@@ -4,7 +4,7 @@ import type Cell from '../model/Cell';
 import HexPosition from '../model/HexPosition';
 
 export default class Basis extends Content {
-    readonly description = 'Basis: Description';
+    readonly description = 'Basis: The main building which must be protected at all cost. The coordination of the fire fighting is organized here.';
     readonly name = 'Basis';
     readonly id = 'Basis';
     readonly buildCosts = 0;
@@ -14,6 +14,7 @@ export default class Basis extends Content {
     readonly removeCosts: number = null;
     readonly extinguishRange = 0;
     readonly extinguishRate = 0;
+    readonly extinguishChance = 0;
     readonly contentCategory = ContentCategory.CONTENT_PROTECTION_GOAL;
 
     isPlaceableOn(cell: Cell): boolean {

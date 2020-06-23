@@ -3,7 +3,7 @@ import ContentCategory from '../model/ContentCategory';
 import type Cell from '../model/Cell';
 
 export default class Brandreste extends Content {
-    readonly description = 'Brandreste: Description';
+    readonly description = 'Fire scene residue: The remains after a burn let merely guess the splendor for former nature and civilization.';
     readonly name = 'Brandreste';
     readonly id = 'Brandreste';
     readonly buildCosts: null = null;
@@ -13,6 +13,7 @@ export default class Brandreste extends Content {
     readonly removeCosts: number = 5;
     readonly extinguishRange = 0;
     readonly extinguishRate = 0;
+    readonly extinguishChance = 0;
     readonly contentCategory = ContentCategory.CONTENT_NATURE;
 
     isPlaceableOn(cell: Cell): boolean {

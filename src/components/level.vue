@@ -68,6 +68,7 @@
                 modalId: 'level-menu-modal',
                 helpTexts: [],
                 debugMode: debugMode ? debugMode === 'true' : false,
+                confirmedNavigation: true,
             }
         },
         methods: {
@@ -132,7 +133,25 @@
                 this.game.pause();
             },
             resume: function () {
-                this.game.start();
+                this.game.resume();
+            },
+            keydownHandler: function (e: KeyboardEvent) {
+                if (e.key == 'Escape') {
+                    this.game.contentToBuild = null;
+                } else if (e.key == '#' && e.ctrlKey) {
+                    this.debugMode = !this.debugMode;
+                    localStorage.setItem('debugMode', this.debugMode);
+                    e.preventDefault();
+                }
+            },
+            beforeunloadHandler: function (e: BeforeUnloadEvent) {
+                if (this.game.score === null) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                }
+            },
+            popstateHandler: function (e: PopStateEvent) {
+                this.confirmedNavigation = false;
             }
         },
         computed: {
@@ -167,19 +186,31 @@
             }
         },
         created() {
-            window.addEventListener('keydown', (e) => {
-                if (e.key == 'Escape') {
-                    this.game.contentToBuild = null;
-                } else if (e.key == '#' && e.ctrlKey) {
-                    this.debugMode = !this.debugMode;
-                    localStorage.setItem('debugMode', this.debugMode);
-                    e.preventDefault();
-                }
-            });
+            window.addEventListener('keydown', this.keydownHandler);
+            window.addEventListener('beforeunload', this.beforeunloadHandler);
+            window.addEventListener('popstate', this.popstateHandler);
             console.log('Use Ctrl+# to enter the debug mode.');
         },
         beforeDestroy() {
+            window.removeEventListener('keydown', this.keydownHandler);
+            window.removeEventListener('beforeunload', this.beforeunloadHandler);
+            window.removeEventListener('popstate', this.popstateHandler);
             this.game.pause();
+        },
+        beforeRouteLeave(to, from, next) {
+            if (this.game.score !== null) {
+                next();
+                return;
+            }
+            setTimeout(() => {
+                if (!this.confirmedNavigation && !window.confirm("Ihre Änderungen werden eventuell nicht gespeichert.")) {
+                    this.confirmedNavigation = true;
+                    next(false);
+                    return;
+                }
+                next();
+                return;
+            }, 750);
         }
     })
 </script>

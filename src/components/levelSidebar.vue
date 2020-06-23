@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-start">
                 <div
                     class="bg-light p-2" id="money"
-                    @mouseenter="setHelpText($t('Money: Description'))"
+                    @mouseenter="setHelpText('Money: InGame currency for paying protective measures against fire.')"
                     @mouseleave="setHelpText(null)"
                 >
                     {{totalMoney}} <img src="/assets/utilites-Coin.svg" style="height: 1em;" alt="Coins"/>
@@ -17,7 +17,7 @@
                     :disabled="reliefGotActivated"
                     class="btn btn-info"
                     id="rain-emergency-relief"
-                    @mouseenter="setHelpText($t('Relief: Description'))"
+                    @mouseenter="setHelpText('Relief: Causes the clouds to give the complete level a rain shower. It\'s only one time use per level.')"
                     @mouseleave="setHelpText(null)"
                 >
                     <img src="/assets/utilities-Nothilfe.svg" style="height: 3em;" alt="Rain"/>
@@ -28,8 +28,8 @@
                 <button
                     class="btn btn-light"
                     data-toggle="modal"
-                    data-target="#level-menu-modal"
-                    @mouseenter="setHelpText($t('Menu: Description'))"
+                    v-bind:data-target="'#' + modalId"
+                    @mouseenter="setHelpText('Menu: Pauses the level and gives options to resume, to restart and to go back to the level selection.')"
                     @mouseleave="setHelpText(null)"
                 >
                     <img src="/assets/utilities-menu_bttn.svg" style="height: 1em;" alt="Menu">
@@ -39,11 +39,11 @@
         <div class="card my-2">
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-2">
-                    <h2 class="card-title h5">Baumenü</h2>
+                    <h2 class="card-title h5">{{ $t('building menu')}}</h2>
                     <div
                         class="small-menu-card"
                         @click.stop="$emit('remove-selected')"
-                        @mouseenter="setHelpText($t('Remove: Description'))"
+                        @mouseenter="setHelpText('Remove: Removes an selected object on a cell to enable building a building and other fire fighting units.')"
                         @mouseleave="setHelpText(null)"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -57,7 +57,7 @@
                         v-for="content in buildableContents"
                         class="build-menu-card"
                         @click.stop="$emit('content-selected', content)"
-                        @mouseenter="setHelpText($t(new content().description))"
+                        @mouseenter="setHelpText(new content().description)"
                         @mouseleave="setHelpText(null)"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -73,9 +73,9 @@
         </div>
         <div class="card my-2" id="help">
             <div class="card-body">
-                <h2 class="card-title h5">Hilfe</h2>
+                <h2 class="card-title h5">{{ $t('help') }}</h2>
                 <p v-for="helpText in helpTexts" class="card-text">
-                    {{ helpText }}
+                    {{ $t(helpText) }}
                 </p>
             </div>
         </div>
