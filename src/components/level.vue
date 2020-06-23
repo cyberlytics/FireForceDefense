@@ -38,7 +38,6 @@
     import Vue from 'vue';
     import Game from '../model/Game';
     import LevelManager from '../model/LevelManager';
-    import { router } from '../index';
     import type HexPosition from '../model/HexPosition';
     import type Content from '../model/Content';
     import levelMap from './levelMap.vue';
@@ -48,7 +47,6 @@
     import type Cell from '../model/Cell';
     import type Explainable from '../model/Explainable';
     import levelEndScreen from "./levelEndScreen.vue";
-    import $ from 'jquery';
 
     export default Vue.extend({
         data() {
@@ -56,7 +54,7 @@
             try {
                 game = new Game(this.levelID);
             } catch (e) {
-                router.push('/');
+                this.$router.push('/world');
             }
             let debugMode = localStorage.getItem('debugMode');
 
@@ -200,7 +198,7 @@
             this.game.pause();
         },
         beforeRouteLeave(to, from, next) {
-            if (this.game.score !== null) {
+            if (!this.game || this.game.score !== null) {
                 next();
                 return;
             }
