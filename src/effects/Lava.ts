@@ -8,7 +8,7 @@ export default class Lava extends Effect {
     readonly id = 'Lava';
     readonly name = 'Lava';
     readonly duration = 5;
-    readonly range = 3;
+    readonly range = 2;
 
     applyEffect(map: LevelMap, pos: HexPosition): void {
         map.getCellsAround(pos, this.range).forEach(cell => {
