@@ -39,9 +39,6 @@
         },
         methods: {
             click: function () {
-                // TODO Replace with real code
-                console.log('Clicked cell at ' + this.cell.position.toString());
-
                 this.$emit('cell-clicked', this.cell.position);
             },
         },
