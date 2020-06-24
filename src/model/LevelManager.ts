@@ -2,11 +2,12 @@
  * @pattern Singleton (GoF:127)
  */
 import type LevelDefinition from './LevelDefinition';
-import lvl001 from '../levels/lvl001';
 import User from './User';
 import Score from './Score';
+import lvl001 from '../levels/lvl001';
 import lvl002 from '../levels/lvl002';
 import lvl003 from '../levels/lvl003';
+import lvl004 from '../levels/lvl004';
 
 export default class LevelManager {
 
@@ -25,6 +26,7 @@ export default class LevelManager {
         this.registerLevel(lvl001);
         this.registerLevel(lvl002);
         this.registerLevel(lvl003);
+        this.registerLevel(lvl004);
         this.user = User.getInstance();
     }
 
