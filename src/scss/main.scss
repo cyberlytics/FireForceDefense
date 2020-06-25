@@ -116,7 +116,7 @@ $font-family-sans-serif: "TitilliumWeb";
     gap: map_get($spacers, 2);
 }
 
-.build-menu-card {
+.build-menu-card, .build-menu-card:focus {
     box-shadow: 2px 5px theme-color("border");
     border-style: groove;
     border-width: 2px;
@@ -126,7 +126,7 @@ $font-family-sans-serif: "TitilliumWeb";
     background-size: cover;
 }
 
-.small-menu-card {
+.small-menu-card, .small-menu-card:focus {
     background-image: url(../../assets/img/Rose-Petals.svg);
     background-size: cover;
     border-style: groove;
@@ -135,6 +135,7 @@ $font-family-sans-serif: "TitilliumWeb";
     border-color: theme-color("border");
     height: 2rem;
     background-color: theme-color('light');
+    box-shadow: 1px 2px theme-color("border");
 }
 
 .build-costs {
@@ -155,6 +156,13 @@ $font-family-sans-serif: "TitilliumWeb";
     border-left-width: 2px;
 }
 
+.btn-card {
+    padding: 0;
+    &:hover:focus:active {
+        box-shadow: none !important;
+    }
+}
+
 #rain-emergency-relief {
     box-shadow: 2px 5px theme-color("border");
     background-image: url(../../assets/img/Rose-Petals.svg);
@@ -163,6 +171,7 @@ $font-family-sans-serif: "TitilliumWeb";
     border-style: groove;
     border-width: 2px;
     border-radius: 5px;
+    padding: $btn-padding-y $btn-padding-x;
 }
 
 .card-body {
