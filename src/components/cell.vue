@@ -16,6 +16,17 @@
             v-bind:width="sizeRect" v-bind:height="sizeRect"
             v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect"
         />
+        <g v-if="cell.content !== null && cell.content.damage !== 0 && cell.content.damageMax < +Infinity">
+            <rect
+                v-bind:x="-size * 0.5" v-bind:y="-size * 0.65" v-bind:width="size" v-bind:height="size * 0.1"
+                class="damage-bad"
+            />
+            <rect
+                v-bind:x="-size * 0.5" v-bind:y="-size * 0.65" v-bind:height="size * 0.1"
+                v-bind:width="size * (cell.content.damageMax - cell.content.damage) / cell.content.damageMax"
+                class="damage-good"
+            />
+        </g>
         <rect
             v-if="visualFireIntensity !== 0"
             v-bind:fill="'url(#fire-' + visualFireIntensity + ')'"
