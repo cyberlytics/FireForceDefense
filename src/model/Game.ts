@@ -156,7 +156,7 @@ export default class Game {
     }
 
     public emergencyRelief() {
-        if (!this.reliefGotActivated) {
+        if (!this.reliefGotActivated && this.isBaseBuilt) {
             this.effectManager.applyEffect(new Regen(), this.levelMap, new HexPosition(0, 0));
             this._reliefGotActivated = true;
         }
