@@ -75,17 +75,20 @@ $font-family-sans-serif: "TitilliumWeb";
 }
 
 .main-menu-bg {
-    width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-size: cover;
     background-image: url(../../assets/img/Pattern-Randomized.svg);
     padding: map_get($spacers, 4);
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .main-menu {
     max-width: 300px;
-    margin: 8% auto auto;
-    padding: map_get($spacers, 4);
+    margin: 0 map_get($spacers, 4) map_get($spacers, 4);
+    padding: 0 map_get($spacers, 4) map_get($spacers, 4);
     border-radius: $border-radius;
     text-align: center;
 }
