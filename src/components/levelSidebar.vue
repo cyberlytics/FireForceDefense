@@ -7,7 +7,7 @@
                     @mouseenter="setHelpText('Money: InGame currency for paying protective measures against fire.')"
                     @mouseleave="setHelpText(null)"
                 >
-                    {{totalMoney}} <img src="/assets/utilites-Coin.svg" style="height: 1em;" alt="Coins"/>
+                    {{totalMoney}} <img src="/assets/utilities-Coin.svg" style="height: 1em;" alt="Coins"/>
                 </div>
             </div>
 
