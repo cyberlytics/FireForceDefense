@@ -230,3 +230,11 @@ $font-family-sans-serif: "TitilliumWeb";
 .level-locked {
     animation: level-locked .3s infinite ease-in-out;
 }
+
+.damage-good {
+    fill: theme-color('success');
+}
+
+.damage-bad {
+    fill: theme-color('danger');
+}
