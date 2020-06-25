@@ -224,6 +224,8 @@ export default class Game {
     }
 
     private endGame(won: boolean) {
+        this.contentToBuild = null;
+        this.leaveRemoveMode();
         this.pause();
         if (won) {
             this._score = this.countStars();
