@@ -109,7 +109,9 @@ export default class Game {
 
     public pause() {
         window.clearTimeout(this.gameStepTimeoutID);
-        this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
+        if (this.gameStepTimeoutStart !== null) {
+            this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
+        }
         this.gameStepTimeoutID = null;
         this.gameStepTimeoutStart = null;
     }
