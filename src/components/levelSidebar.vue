@@ -1,5 +1,5 @@
 <template>
-    <div id="level-view-sidebar">
+    <div id="level-view-sidebar" style="z-index: 100;">
         <div class="d-flex flex-row justify-content-between align-items-center mb-3 row-cols-3">
             <div class="d-flex justify-content-start">
                 <div
@@ -15,7 +15,7 @@
                 <button
                     @click="activateEmergencyRelief"
                     :disabled="reliefGotActivated"
-                    class="btn btn-info"
+                    class="btn btn-card"
                     id="rain-emergency-relief"
                     @mouseenter="setHelpText('Relief: Causes the clouds to give the complete level a rain shower. It\'s only one time use per level.')"
                     @mouseleave="setHelpText(null)"
@@ -40,8 +40,8 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-2">
                     <h2 class="card-title h5">{{ $t('building menu')}}</h2>
-                    <div
-                        class="small-menu-card"
+                    <button
+                        class="small-menu-card btn btn-card"
                         @click.stop="$emit('remove-selected')"
                         @mouseenter="setHelpText('Remove: Removes an selected object on a cell to enable building a building and other fire fighting units.')"
                         @mouseleave="setHelpText(null)"
@@ -50,12 +50,12 @@
                              height="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
                             <rect v-bind:fill="'url(#utility-Abbauen)'" height="100" width="100" x="0" y="0" />
                         </svg>
-                    </div>
+                    </button>
                 </div>
                 <div class="build-menu-cards">
-                    <div
+                    <button
                         v-for="content in buildableContents"
-                        class="build-menu-card"
+                        class="build-menu-card btn btn-card"
                         @click.stop="$emit('content-selected', content)"
                         @mouseenter="setHelpText(new content().description)"
                         @mouseleave="setHelpText(null)"
@@ -64,10 +64,10 @@
                              width="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" class="p-1">
                             <rect v-bind:fill="'url(#content-' + new content().id + ')'" height="100" width="100" x="0" y="0" />
                         </svg>
-                        <div class="d-flex justify-content-end mt-1">
-                            <div class="build-costs">{{ new content().buildCosts }}</div>
-                        </div>
-                    </div>
+                        <span class="d-flex justify-content-end mt-1">
+                            <span class="build-costs">{{ new content().buildCosts }}</span>
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
