@@ -9,8 +9,8 @@ import Wueste from '../cells/Wueste';
 import Gewitter from '../effects/Gewitter';
 import Regen from '../effects/Regen';
 import Feuerball from '../effects/Feuerball';
-import Feuer3 from '../effects/Feuer3';
 import Haus from '../contents/Haus';
+import Lava from '../effects/Lava';
 
 const lvl004: LevelDefinition = {
     cellDefinitions: [
@@ -90,7 +90,7 @@ const lvl004: LevelDefinition = {
         { contentType: Haus, pos: new HexPosition(-2, 3) },
     ],
     effectDefinitions: [
-        { effectType: Feuer3, pos: new HexPosition(2, -2), mustBeExecuted: (step) => step === 0 },
+        { effectType: Lava, pos: new HexPosition(2, -2), mustBeExecuted: (step) => step % 50 === 0 },
         { effectType: Gewitter, pos: new HexPosition(2, 1), mustBeExecuted: (step) => step % 12 === 0 },
         { effectType: Regen, pos: new HexPosition(-3, 2), mustBeExecuted: (step) => step % 10 === 0 },
         { effectType: Feuerball, pos: new HexPosition(-2, -1), mustBeExecuted: (step) => step % 30 === 0 },
