@@ -224,6 +224,22 @@ $font-family-sans-serif: "TitilliumWeb";
     animation: extinguish-pulse 1s infinite ease-in;
 }
 
+@keyframes lava-pulse {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.lava-pulse {
+    animation: lava-pulse 1s infinite linear;
+}
+
 @keyframes level-locked {
     0%, 25%, 50%, 75%, 100% {
         transform: scale(1) rotate(0deg);
