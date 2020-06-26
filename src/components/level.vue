@@ -58,13 +58,16 @@
             }
             let debugMode = localStorage.getItem('debugMode');
 
+            const defaultHelpText = 'Default help text';
+
             return {
                 game,
                 buildableContents: Game.getBuildableContents(),
                 mouseX: 0,
                 mouseY: 0,
                 modalId: 'level-menu-modal',
-                helpTexts: [],
+                defaultHelpText,
+                helpTexts: [defaultHelpText],
                 debugMode: debugMode ? debugMode === 'true' : false,
                 confirmedNavigation: true,
             }
@@ -115,6 +118,9 @@
                 explainables.forEach((explainable) => {
                     this.helpTexts.push(explainable.description);
                 })
+                if (this.helpTexts.length === 0) {
+                    this.helpTexts.push(this.defaultHelpText);
+                }
             },
             restart: function () {
                 this.game = new Game(this.game.levelDefinition.levelID);
