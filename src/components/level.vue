@@ -1,5 +1,5 @@
 <template>
-    <div id="level-view-container" @click="selfClick" @mousemove="mousemove">
+    <div id="level-view-container" @click="selfClick" @mousemove="mousemove" class="overflow-hidden position-relative">
         <levelSidebar
             v-bind:buildable-contents="buildableContents"
             v-bind:relief-got-activated="game.reliefGotActivated"
