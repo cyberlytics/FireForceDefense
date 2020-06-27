@@ -137,9 +137,10 @@
                 this.game.resume();
             },
             keydownHandler: function (e: KeyboardEvent) {
-                if (e.key == 'Escape') {
+                if (e.key === 'Escape') {
                     this.game.contentToBuild = null;
-                } else if (e.key == '#' && e.ctrlKey) {
+                    this.game.leaveRemoveMode();
+                } else if (e.key === '#' && e.ctrlKey) {
                     this.debugMode = !this.debugMode;
                     localStorage.setItem('debugMode', this.debugMode);
                     e.preventDefault();
