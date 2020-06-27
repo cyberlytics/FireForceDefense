@@ -10,6 +10,11 @@
             <p>Thomas Stangl</p>
             <p>Tobias Schotter</p>
             <hr class="mb-3" />
+            <p class="small">
+                Feuerball-Animation: CC BY 4.0 by "EK"<br />
+                <a href="https://lottiefiles.com/13581-dancing-fire">https://lottiefiles.com/13581-dancing-fire</a>
+            </p>
+            <hr class="mb-3" />
             <div>
                 <router-link class="btn btn-primary btn-block btn-lg" to="/">{{ $t('back') }}</router-link>
             </div>

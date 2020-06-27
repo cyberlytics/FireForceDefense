@@ -16,6 +16,12 @@
             v-bind:width="sizeRect" v-bind:height="sizeRect"
             v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect"
         />
+        <rect
+            v-if="cell.fireIntensity > 0 && (cell.id === 'Abgebrannt' || (cell.content !== null && cell.content.id === 'Brandreste'))"
+            fill="url(#smoke)" fill-opacity=".4"
+            v-bind:width="sizeRect" v-bind:height="sizeRect"
+            v-bind:x="-halfSizeRect" v-bind:y="-halfSizeRect"
+        />
         <g v-if="cell.content !== null && cell.content.damage !== 0 && cell.content.damageMax < +Infinity">
             <rect
                 v-bind:x="-size * 0.5" v-bind:y="-size * 0.65" v-bind:width="size" v-bind:height="size * 0.1"
