@@ -134,7 +134,7 @@
                 if (e.key === 'Escape') {
                     this.game.contentToBuild = null;
                     this.game.leaveRemoveMode();
-                } else if (e.key == '#' && e.ctrlKey) {
+                } else if (e.key === '#' && e.ctrlKey) {
                     this.debugMode = !this.debugMode;
                     localStorage.setItem('debugMode', this.debugMode);
                     e.preventDefault();
