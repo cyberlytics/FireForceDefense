@@ -76,11 +76,11 @@ export default class Game {
     /* Public methods */
     public static getBuildableContents() {
         return [
-            Loeschkran,
-            Loeschturm,
-            Loeschzeppelin,
-            Loeschschiff,
             Loeschtrupp,
+            Loeschturm,
+            Loeschkran,
+            Loeschschiff,
+            Loeschzeppelin,
         ];
     }
 
