@@ -429,6 +429,6 @@ export default class Game {
     }
 
     private moneyGain() {
-        this.totalMoney += 5;
+        this.totalMoney += 2;
     }
 }
