@@ -11,6 +11,7 @@ import Wiese from '../cells/Wiese';
 import Haus from '../contents/Haus';
 import Gewitter from '../effects/Gewitter';
 import Feuerball from '../effects/Feuerball';
+import Feuer2 from "../effects/Feuer2";
 
 const lvl003: LevelDefinition = {
     cellDefinitions: [
@@ -89,17 +90,17 @@ const lvl003: LevelDefinition = {
         { contentType: Baumgruppe, pos: new HexPosition(-2, 1) },
         { contentType: Baumgruppe, pos: new HexPosition(-4, 1) },
         { contentType: Baumgruppe, pos: new HexPosition(1, 1) },
-        { contentType: Haus, pos: new HexPosition(-2, 2) },
         { contentType: Haus, pos: new HexPosition(-1, 2) },
-        { contentType: Haus, pos: new HexPosition(0, 2) },
+        { contentType: Haus, pos: new HexPosition(-2, 0) },
     ],
     effectDefinitions: [
-        { effectType: Feuer1, pos: new HexPosition(4, -4), mustBeExecuted: (step) => step % 10 === 0 },
-        { effectType: Feuerball, pos: new HexPosition(4, -4), mustBeExecuted: (step) => step === 20 },
-        { effectType: Gewitter, pos: new HexPosition(-1, -3), mustBeExecuted: (step) => step === 0 }
+        { effectType: Feuer1, pos: new HexPosition(-2, 2), mustBeExecuted: (step) => step % 10 === 0 },
+        { effectType: Feuerball, pos: new HexPosition(4, -4), mustBeExecuted: (step) => step === 12 },
+        { effectType: Gewitter, pos: new HexPosition(-1, -3), mustBeExecuted: (step) => step === 0 },
+        { effectType: Gewitter, pos: new HexPosition(2, 0), mustBeExecuted: (step) => step === 20 }
     ],
     levelID: 'lvl003',
-    creditStartingAmount: 350,
+    creditStartingAmount: 250,
 };
 
 export default lvl003;
