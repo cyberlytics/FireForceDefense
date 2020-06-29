@@ -5,6 +5,7 @@ import type ContentDefinition from './ContentDefinition';
 import type EffectDefinition from './EffectDefinition';
 import type Content from './Content';
 import LevelManager from './LevelManager';
+import EffectManager from './EffectManager';
 import LevelMap from './LevelMap';
 import HexPosition from './HexPosition';
 import Basis from '../contents/Basis';
@@ -18,30 +19,29 @@ import Brandreste from '../contents/Brandreste';
 import Fire from './Fire';
 import FireIntensity from './FireIntensity';
 import Regen from '../effects/Regen';
-import EffectManager from './EffectManager';
 import Score from './Score';
 
 export default class Game {
 
+    public totalMoney: number;
+
     private levelDefinition: LevelDefinition;
+    private effectManager: EffectManager;
     private effectDefinitions: EffectDefinition[];
     private readonly levelMap: LevelMap;
 
     private _isPlayable = true;
-    private _contentToBuild: ContentDerivedType = null;
     private _removeMode = false;
     private _isBaseBuilt = false;
-    public totalMoney: number;
-    private effectManager: EffectManager;
+    private _reliefGotActivated = false;
+    private _contentToBuild: ContentDerivedType = null;
+    private _score: Score|null = null;
 
     private gameStepDuration = 1000;                   // How long a game step should last in milliseconds
     private gameStepTimeoutStart: number|null = null;  // Start time of current game step timeout
     private gameStepRemainingTime: number|null = null; // Remaining time for the game step timeout
     private gameStepTimeoutID: number|null = null;     // ID for the game step timeout as returned by setTimeout
     private gameStepCounter = 0;                       // Number of fully executed game steps
-
-    private _reliefGotActivated = false;
-    private _score: Score|null = null;
 
     constructor(levelID: string) {
         this.effectManager = new EffectManager();
@@ -76,11 +76,11 @@ export default class Game {
     /* Public methods */
     public static getBuildableContents() {
         return [
-            Loeschkran,
-            Loeschturm,
-            Loeschzeppelin,
-            Loeschschiff,
             Loeschtrupp,
+            Loeschturm,
+            Loeschkran,
+            Loeschschiff,
+            Loeschzeppelin,
         ];
     }
 
@@ -429,6 +429,6 @@ export default class Game {
     }
 
     private moneyGain() {
-        this.totalMoney += 5;
+        this.totalMoney += 2;
     }
 }
