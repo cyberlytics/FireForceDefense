@@ -11,7 +11,6 @@ import Wiese from '../cells/Wiese';
 import Haus from '../contents/Haus';
 import Gewitter from '../effects/Gewitter';
 import Feuerball from '../effects/Feuerball';
-import Feuer2 from "../effects/Feuer2";
 
 const lvl003: LevelDefinition = {
     cellDefinitions: [
