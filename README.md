@@ -1,7 +1,7 @@
-Um das Spiel im Browser spielen zu können, müssen folgende Schritt durchgeführt werden.
+Um das Spiel im Browser spielen zu können, müssen folgende Schritte durchgeführt werden.
 
 ### Installation
-Zuerst muss sichergestellt sein, dass alle Abhängigkeiten lokal vorhanden sind.
+Zuerst muss sichergestellt sein, dass alle Abhängigkeiten lokal vorhanden sind. \
 Dazu im Projektverzeichnis folgendes Kommando ausführen:
 ```bash
 npm install
