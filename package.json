@@ -1,0 +1,29 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc",
+        "prestart": "npm run build",
+        "start": "node ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@git.oth-aw.de:pmaem-sose2020-gruppe-b/backend.git"
+    },
+    "author": "",
+    "dependencies": {
+        "better-sqlite3": "^7.0.1",
+        "express": "^4.16.4"
+    },
+    "devDependencies": {
+        "@types/better-sqlite3": "^5.4.0",
+        "@types/express": "^4.16.1",
+        "@types/node": "^11.15.7",
+        "nodemon": "^1.18.10",
+        "tslint": "^5.14.0",
+        "typescript": "^3.8.2"
+    }
+}
