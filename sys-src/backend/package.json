@@ -8,8 +8,8 @@
         "build": "tsc",
         "prestart": "npm run build",
         "start": "node .",
-        "lint": "eslint --config eslintrc.js ./src/**/*.{js,ts,vue} --max-warnings=0 && prettier --config prettierrc.js --check .",
-        "format": "eslint --config eslintrc.js ./src/**/*.{js,ts,vue} --fix --max-warnings=0 && prettier --config prettierrc.js --write ."
+        "lint": "eslint --config eslintrc.js ./src/**/*.{js,ts,vue} --max-warnings=0 --no-error-on-unmatched-pattern && prettier --config prettierrc.js --check .",
+        "format": "eslint --config eslintrc.js ./src/**/*.{js,ts,vue} --fix --max-warnings=0 --no-error-on-unmatched-pattern && prettier --config prettierrc.js --write ."
     },
     "repository": {
         "type": "git",
