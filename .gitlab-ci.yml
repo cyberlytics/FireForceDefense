@@ -1,0 +1,63 @@
+stages:
+    - dependencies
+    - lint
+    - build
+    - test
+
+cache:
+    key: "$CI_COMMIT_REF_NAME"
+    paths:
+        - sys-src/backend/node_modules/
+        - sys-src/frontend/node_modules/
+
+default:
+    tags:
+        - linux
+
+install_dependencies_backend:
+    stage: dependencies
+    script:
+        - cd sys-src/backend
+        - npm install
+
+install_dependencies_frontend:
+    stage: dependencies
+    script:
+        - cd sys-src/frontend
+        - npm install
+
+lint_backend:
+    stage: lint
+    script:
+        - cd sys-src/backend
+        - npm run lint
+
+lint_frontend:
+    stage: lint
+    script:
+        - cd sys-src/frontend
+        - npm run lint
+
+build_backend:
+    stage: build
+    script:
+        - cd sys-src/backend
+        - npm run build
+
+build_frontend:
+    stage: build
+    script:
+        - cd sys-src/frontend
+        - npm run build
+
+test_backend:
+    stage: test
+    script:
+        - cd sys-src/backend
+        - npm run test
+
+test_frontend:
+    stage: test
+    script:
+        - cd sys-src/frontend
+        - npm run test
