@@ -10,14 +10,13 @@ import lvl003 from '../levels/lvl003';
 import lvl004 from '../levels/lvl004';
 
 export default class LevelManager {
-
     private static instance: LevelManager;
     private levels: LevelDefinition[] = [];
     private levelIdToIndex: { [id: string]: number } = {};
     private user: User;
-    private _levelIdsWithScore: { levelID: string, score: Score }[] = [];
+    private _levelIdsWithScore: { levelID: string; score: Score }[] = [];
 
-    get levelIdsWithScore(): { levelID: string, score: Score }[] {
+    get levelIdsWithScore(): { levelID: string; score: Score }[] {
         this.getLevelIdsWithScore();
         return this._levelIdsWithScore;
     }
@@ -37,17 +36,19 @@ export default class LevelManager {
         return LevelManager.instance;
     }
 
-    public getAllLevels() {
+    public getAllLevels(): LevelDefinition[] {
         return this.levels;
     }
 
-    public getLevelIdsWithScore(ready: () => void = () => {}) {
+    public getLevelIdsWithScore(ready: () => void = () => {}): void {
         this.user.getScores((scores) => {
-            const levelIdsWithScore: { levelID: string, score: Score }[] = [];
-            this.levels.forEach(levelDef => {
+            const levelIdsWithScore: { levelID: string; score: Score }[] = [];
+            this.levels.forEach((levelDef) => {
                 levelIdsWithScore.push({
                     levelID: levelDef.levelID,
-                    score: scores.hasOwnProperty(levelDef.levelID) ? scores[levelDef.levelID] : Score.LOCKED,
+                    score: Object.prototype.hasOwnProperty.call(scores, levelDef.levelID)
+                        ? scores[levelDef.levelID]
+                        : Score.LOCKED,
                 });
             });
 
@@ -60,14 +61,14 @@ export default class LevelManager {
         });
     }
 
-    public postScore(levelID: string, score: Score) {
-        if (this.levelIdToIndex.hasOwnProperty(levelID)) {
+    public postScore(levelID: string, score: Score): void {
+        if (Object.prototype.hasOwnProperty.call(this.levelIdToIndex, levelID)) {
             User.getInstance().postScore(levelID, score);
         }
     }
 
-    public getLevelDefinition(levelID: string) {
-        if (!this.levelIdToIndex.hasOwnProperty(levelID)) {
+    public getLevelDefinition(levelID: string): LevelDefinition | null {
+        if (!Object.prototype.hasOwnProperty.call(this.levelIdToIndex, levelID)) {
             return null;
         }
         return this.levels[this.levelIdToIndex[levelID]];
@@ -75,7 +76,7 @@ export default class LevelManager {
 
     private registerLevel(def: LevelDefinition) {
         const id = def.levelID;
-        if (this.levelIdToIndex.hasOwnProperty(id)) {
+        if (Object.prototype.hasOwnProperty.call(this.levelIdToIndex, id)) {
             // Level already registered; return without adding it again.
             return;
         }
@@ -83,7 +84,7 @@ export default class LevelManager {
         this.levelIdToIndex[id] = this.levels.indexOf(def);
     }
 
-    public getNextLevel(currentLevel: LevelDefinition): LevelDefinition|null {
+    public getNextLevel(currentLevel: LevelDefinition): LevelDefinition | null {
         const index = this.levels.indexOf(currentLevel);
         if (index === -1) {
             // current level not found

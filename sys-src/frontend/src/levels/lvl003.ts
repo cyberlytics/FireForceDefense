@@ -79,7 +79,7 @@ const lvl003: LevelDefinition = {
         { cellType: Vulkangestein, pos: new HexPosition(4, -4) },
         { cellType: Wiese, pos: new HexPosition(4, -3) },
         { cellType: Wiese, pos: new HexPosition(4, -2) },
-        { cellType: Feld,  pos: new HexPosition(4, -1) },
+        { cellType: Feld, pos: new HexPosition(4, -1) },
     ],
     contentDefinitions: [
         { contentType: Steinbrocken, pos: new HexPosition(-4, 2) },
@@ -96,7 +96,7 @@ const lvl003: LevelDefinition = {
         { effectType: Feuer1, pos: new HexPosition(-2, 2), mustBeExecuted: (step) => step % 10 === 0 },
         { effectType: Feuerball, pos: new HexPosition(4, -4), mustBeExecuted: (step) => step === 12 },
         { effectType: Gewitter, pos: new HexPosition(-1, -3), mustBeExecuted: (step) => step === 0 },
-        { effectType: Gewitter, pos: new HexPosition(2, 0), mustBeExecuted: (step) => step === 20 }
+        { effectType: Gewitter, pos: new HexPosition(2, 0), mustBeExecuted: (step) => step === 20 },
     ],
     levelID: 'lvl003',
     creditStartingAmount: 250,

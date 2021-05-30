@@ -58,7 +58,7 @@ const lvl002: LevelDefinition = {
         { cellType: Wueste, pos: new HexPosition(3, -2) },
         { cellType: Wueste, pos: new HexPosition(3, -1) },
         /* Ring 4 */
-        { cellType: Wueste,  pos: new HexPosition(4, 0) },
+        { cellType: Wueste, pos: new HexPosition(4, 0) },
         { cellType: Gebirge, pos: new HexPosition(3, 1) },
         { cellType: Gebirge, pos: new HexPosition(2, 2) },
         { cellType: Gebirge, pos: new HexPosition(1, 3) },

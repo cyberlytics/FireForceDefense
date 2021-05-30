@@ -6,7 +6,7 @@ import EffectExecution from './EffectExecution';
 export default class EffectManager {
     public currentEffects: EffectExecution[] = [];
 
-    public applyEffect(effect: Effect, map: LevelMap, position: HexPosition) {
+    public applyEffect(effect: Effect, map: LevelMap, position: HexPosition): void {
         const effectExecution = new EffectExecution(effect, position);
         this.currentEffects.push(effectExecution);
 

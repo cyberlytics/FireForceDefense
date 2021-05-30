@@ -6,9 +6,8 @@ import Score from './Score';
  * @pattern Singleton (GoF:127)
  */
 export default class User {
-
     private static instance: User;
-    private nickname: string|null;
+    private nickname: string | null;
     private levelScores: Scores = {};
     // TODO: Store this in a configuration file.
     private readonly backendURL = 'https://pmaem20b.uber.space/';
@@ -55,14 +54,23 @@ export default class User {
             return;
         }
         this.getScoresFromServer()
-            .then(response => {
+            .then((response) => {
                 this._scoresValid = true;
                 this.levelScores = {};
                 for (const [key, value] of Object.entries(response.data.scores)) {
                     switch (value) {
-                        case 1: { this.levelScores[key] = Score.ONE_STAR; break; }
-                        case 2: { this.levelScores[key] = Score.TWO_STARS; break; }
-                        case 3: { this.levelScores[key] = Score.THREE_STARS; break; }
+                        case 1: {
+                            this.levelScores[key] = Score.ONE_STAR;
+                            break;
+                        }
+                        case 2: {
+                            this.levelScores[key] = Score.TWO_STARS;
+                            break;
+                        }
+                        case 3: {
+                            this.levelScores[key] = Score.THREE_STARS;
+                            break;
+                        }
                         default: {
                             this.levelScores[key] = Score.LOCKED;
                             break;
@@ -71,7 +79,7 @@ export default class User {
                 }
                 cb(this.levelScores);
             })
-            .catch(err => {
+            .catch((err) => {
                 this._scoresValid = true;
                 console.error(err);
             });
@@ -84,34 +92,43 @@ export default class User {
     public postScore(levelID: string, score: Score): boolean {
         let stars = 0;
         switch (score) {
-            case Score.ONE_STAR: { stars = 1; break; }
-            case Score.TWO_STARS: { stars = 2; break; }
-            case Score.THREE_STARS: { stars = 3; break; }
+            case Score.ONE_STAR: {
+                stars = 1;
+                break;
+            }
+            case Score.TWO_STARS: {
+                stars = 2;
+                break;
+            }
+            case Score.THREE_STARS: {
+                stars = 3;
+                break;
+            }
         }
 
         // Make sure that the score doesn't get worse
         const old = this.levelScores[levelID];
-        if (old && (
-            old === Score.THREE_STARS ||
-            (old === Score.TWO_STARS && score !== Score.THREE_STARS) ||
-            (old === Score.ONE_STAR && score !== Score.TWO_STARS && score !== Score.THREE_STARS)
-        )) {
+        if (
+            old &&
+            (old === Score.THREE_STARS ||
+                (old === Score.TWO_STARS && score !== Score.THREE_STARS) ||
+                (old === Score.ONE_STAR && score !== Score.TWO_STARS && score !== Score.THREE_STARS))
+        ) {
             return false;
         }
         this.levelScores[levelID] = score;
-        this.postScoreToServer(levelID, stars)
-            .catch(err => {
-                console.error(err);
-                return false;
-            });
+        this.postScoreToServer(levelID, stars).catch((err) => {
+            console.error(err);
+            return false;
+        });
         return true;
     }
 
-    public isLoggedIn() {
+    public isLoggedIn(): boolean {
         return this.nickname !== null;
     }
 
-    public invalidateScores() {
+    public invalidateScores(): void {
         this._scoresValid = false;
     }
 }

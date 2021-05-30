@@ -3,7 +3,8 @@ import ContentCategory from '../model/ContentCategory';
 import type Cell from '../model/Cell';
 
 export default class Haus extends Content {
-    readonly description = 'House: A worth protecting building, which can\'t withstand a fire without additional protection.';
+    readonly description =
+        "House: A worth protecting building, which can't withstand a fire without additional protection.";
     readonly name = 'Haus';
     readonly id = 'Haus';
     readonly buildCosts: null = null;

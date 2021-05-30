@@ -3,6 +3,6 @@ enum Score {
     ONE_STAR,
     TWO_STARS,
     THREE_STARS,
-    LOCKED
+    LOCKED,
 }
 export default Score;

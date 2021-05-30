@@ -37,7 +37,7 @@ export default abstract class Cell implements Explainable {
     abstract readonly ignitionThreshold: number;
     abstract readonly groups: string[];
 
-    content: Content|null = null;
+    content: Content | null = null;
     damage = 0;
     fireIntensity: FireIntensity = FireIntensity.INTENSITY_0;
     neighborSpreadTmp: number;
@@ -48,7 +48,7 @@ export default abstract class Cell implements Explainable {
         this.position = position;
     }
 
-    public applyDamage() {
+    public applyDamage(): boolean {
         this.damage += Fire.intensityToDamage(this.fireIntensity);
         return this.damage >= this.damageMax;
     }

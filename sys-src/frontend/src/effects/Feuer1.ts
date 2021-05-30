@@ -13,7 +13,5 @@ export default class Feuer1 extends Effect {
     applyEffect(map: LevelMap, pos: HexPosition): void {
         const cell = map.getCellAt(pos);
         cell.fireIntensity = Fire.modify(cell.fireIntensity, 5);
-
     }
-
 }

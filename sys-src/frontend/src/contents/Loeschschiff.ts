@@ -3,7 +3,8 @@ import ContentCategory from '../model/ContentCategory';
 import type Cell from '../model/Cell';
 
 export default class Loeschschiff extends Content {
-    readonly description = 'Fire-fighting ship: A big ship keeps the surrounded domain save from fire with its infinity water supply.';
+    readonly description =
+        'Fire-fighting ship: A big ship keeps the surrounded domain save from fire with its infinity water supply.';
     readonly name = 'Loeschschiff';
     readonly id = 'Loeschschiff';
     readonly buildCosts: number = 100;

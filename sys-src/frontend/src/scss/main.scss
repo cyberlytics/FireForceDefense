@@ -1,54 +1,53 @@
-@import "~bootstrap/scss/functions";
+@import '~bootstrap/scss/functions';
 
 @font-face {
     font-family: 'TitilliumWeb';
     font-style: normal;
     font-weight: normal;
-    src: local('TitilliumWeb-Regular'),
-    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Regular.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
-    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+    src: local('TitilliumWeb-Regular'), url('/assets/fonts/TitilliumWeb/TitilliumWeb-Regular.woff') format('woff'),
+        /* Firefox >= 3.6, any other modern browser */ url('/assets/fonts/TitilliumWeb/TitilliumWeb-Regular.ttf')
+            format('truetype'); /* Safari, Android, iOS */
 }
 
 @font-face {
     font-family: 'TitilliumWeb';
     font-style: italic;
     font-weight: normal;
-    src: local('TitilliumWeb-Italic'),
-    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Italic.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
-    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Italic.ttf') format('truetype'); /* Safari, Android, iOS */
+    src: local('TitilliumWeb-Italic'), url('/assets/fonts/TitilliumWeb/TitilliumWeb-Italic.woff') format('woff'),
+        /* Firefox >= 3.6, any other modern browser */ url('/assets/fonts/TitilliumWeb/TitilliumWeb-Italic.ttf')
+            format('truetype'); /* Safari, Android, iOS */
 }
 
 @font-face {
     font-family: 'TitilliumWeb';
     font-style: normal;
     font-weight: bold;
-    src: local('TitilliumWeb-Bold'),
-    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Bold.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
-    url('/assets/fonts/TitilliumWeb/TitilliumWeb-Bold.ttf') format('truetype'); /* Safari, Android, iOS */
+    src: local('TitilliumWeb-Bold'), url('/assets/fonts/TitilliumWeb/TitilliumWeb-Bold.woff') format('woff'),
+        /* Firefox >= 3.6, any other modern browser */ url('/assets/fonts/TitilliumWeb/TitilliumWeb-Bold.ttf')
+            format('truetype'); /* Safari, Android, iOS */
 }
 
 @font-face {
     font-family: 'TitilliumWeb';
     font-style: italic;
     font-weight: bold;
-    src: local('TitilliumWeb-BoldItalic'),
-    url('/assets/fonts/TitilliumWeb/TitilliumWeb-BoldItalic.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
-    url('/assets/fonts/TitilliumWeb/TitilliumWeb-BoldItalic.ttf') format('truetype'); /* Safari, Android, iOS */
+    src: local('TitilliumWeb-BoldItalic'), url('/assets/fonts/TitilliumWeb/TitilliumWeb-BoldItalic.woff') format('woff'),
+        /* Firefox >= 3.6, any other modern browser */ url('/assets/fonts/TitilliumWeb/TitilliumWeb-BoldItalic.ttf')
+            format('truetype'); /* Safari, Android, iOS */
 }
 
 $theme-colors: (
-    "primary": #ff0013,
-    "secondary": #ffc15e,
-    "border": #804f00,
+    'primary': #ff0013,
+    'secondary': #ffc15e,
+    'border': #804f00,
 );
 
-$font-family-sans-serif: "TitilliumWeb";
+$font-family-sans-serif: 'TitilliumWeb';
 
-@import "~bootstrap/scss/variables";
+@import '~bootstrap/scss/variables';
 
-
-@import "~bootstrap/scss/bootstrap";
-@import "~leaflet/dist/leaflet.css";
+@import '~bootstrap/scss/bootstrap';
+@import '~leaflet/dist/leaflet.css';
 
 #level-view-container {
     display: grid;
@@ -116,30 +115,32 @@ $font-family-sans-serif: "TitilliumWeb";
     gap: map_get($spacers, 2);
 }
 
-.build-menu-card, .build-menu-card:focus {
-    box-shadow: 2px 5px theme-color("border");
+.build-menu-card,
+.build-menu-card:focus {
+    box-shadow: 2px 5px theme-color('border');
     border-style: groove;
     border-width: 2px;
     border-radius: 5px;
-    border-color: theme-color("border");
+    border-color: theme-color('border');
     background-image: url(../../assets/img/Rose-Petals.svg);
     background-size: cover;
 }
 
-.small-menu-card, .small-menu-card:focus {
+.small-menu-card,
+.small-menu-card:focus {
     background-image: url(../../assets/img/Rose-Petals.svg);
     background-size: cover;
     border-style: groove;
     border-width: 2px;
     border-radius: 5px;
-    border-color: theme-color("border");
+    border-color: theme-color('border');
     height: 2rem;
     background-color: theme-color('light');
-    box-shadow: 1px 2px theme-color("border");
+    box-shadow: 1px 2px theme-color('border');
 }
 
 .build-costs {
-    background: theme-color("border");
+    background: theme-color('border');
     color: theme-color('light');
     padding-top: 3px;
     padding-left: 5px;
@@ -164,10 +165,10 @@ $font-family-sans-serif: "TitilliumWeb";
 }
 
 #rain-emergency-relief {
-    box-shadow: 2px 5px theme-color("border");
+    box-shadow: 2px 5px theme-color('border');
     background-image: url(../../assets/img/Rose-Petals.svg);
     background-size: cover;
-    border-color: theme-color("border");
+    border-color: theme-color('border');
     border-style: groove;
     border-width: 2px;
     border-radius: 5px;
@@ -180,7 +181,7 @@ $font-family-sans-serif: "TitilliumWeb";
     border-radius: 0;
     border-color: theme-color('secondary');
     background-color: theme-color('secondary');
-    box-shadow: 5px 10px theme-color("border");
+    box-shadow: 5px 10px theme-color('border');
 }
 
 .modal-content {
@@ -200,7 +201,7 @@ $font-family-sans-serif: "TitilliumWeb";
 }
 
 .level-debug-text {
-    text-shadow: 0 0 1px white,  0 0 2px white, 0 0 3px white;
+    text-shadow: 0 0 1px white, 0 0 2px white, 0 0 3px white;
     font-size: 1.75rem;
     font-weight: bold;
 }
@@ -241,19 +242,25 @@ $font-family-sans-serif: "TitilliumWeb";
 }
 
 @keyframes level-locked {
-    0%, 25%, 50%, 75%, 100% {
+    0%,
+    25%,
+    50%,
+    75%,
+    100% {
         transform: scale(1) rotate(0deg);
     }
-    12.5%, 62.5% {
+    12.5%,
+    62.5% {
         transform: scale(0.95) rotate(-5deg);
     }
-    37.5%, 87.5% {
+    37.5%,
+    87.5% {
         transform: scale(1.05) rotate(5deg);
     }
 }
 
 .level-locked {
-    animation: level-locked .3s infinite ease-in-out;
+    animation: level-locked 0.3s infinite ease-in-out;
 }
 
 .damage-good {

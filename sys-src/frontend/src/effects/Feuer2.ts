@@ -14,5 +14,4 @@ export default class Feuer2 extends Effect {
         const cell = map.getCellAt(pos);
         cell.fireIntensity = Fire.modify(cell.fireIntensity, 9);
     }
-
 }

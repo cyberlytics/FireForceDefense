@@ -16,8 +16,8 @@ export default abstract class Content implements Explainable {
     abstract readonly damageMax: number;
     abstract readonly fireGrowChance: number;
     abstract readonly fireGrowAmount: number;
-    abstract readonly buildCosts: number|null; // null means not buildable
-    abstract readonly removeCosts: number|null; // null means not removable
+    abstract readonly buildCosts: number | null; // null means not buildable
+    abstract readonly removeCosts: number | null; // null means not removable
     abstract readonly extinguishRange: number;
     abstract readonly extinguishRate: number;
     abstract readonly extinguishChance: number;
@@ -26,7 +26,7 @@ export default abstract class Content implements Explainable {
 
     abstract isPlaceableOn(cell: Cell): boolean;
 
-    public applyDamage(fireIntensity: FireIntensity) {
+    public applyDamage(fireIntensity: FireIntensity): boolean {
         this.damage += Fire.intensityToDamage(fireIntensity);
         return this.damage >= this.damageMax;
     }

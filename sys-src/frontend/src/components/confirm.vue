@@ -17,14 +17,18 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue';
+import Vue from 'vue';
 
-    export default Vue.extend({
-        data() {
-            return {}
-        },
-        methods: {},
-        components: {},
-        props: ['question', 'yes', 'no'],
-    })
+export default Vue.extend({
+    components: {},
+    props: {
+        question: { type: String, required: true },
+        yes: { type: String, required: true },
+        no: { type: String, required: true },
+    },
+    data() {
+        return {};
+    },
+    methods: {},
+});
 </script>

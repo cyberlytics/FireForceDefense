@@ -1,6 +1,7 @@
 # Backend for FireForceDefense
 
 ## Purpose
+
 This backend is meant to store the users's scores per level,
 so that the actual FireForceDefense game has access to a persistent storage
 for the users progress.
@@ -11,10 +12,13 @@ in a production environment.
 ## Usage
 
 ### Score Storage
+
 #### Retrieving scores for a user
+
 The scores of a player can be retrieved by sending a `GET` request to
 `/api/<nickname>`. The server will respond with a JSON file
 of the following structure:
+
 ```JSON
 {
     "nickname": "<nickname>",
@@ -24,11 +28,13 @@ of the following structure:
     }
 }
 ```
+
 If the user doesn't yet exist, the scores field of the response will be an
 empty object and no user will be created in the database.
 To create a new user, refer to the section below.
 
 #### Setting scores for a user
+
 To set a new scores for a player, send a `POST` request to
 `/api/<nickname>`.
 
@@ -42,6 +48,7 @@ If the user does not yet exist, a new user is created and the scores from the
 request body are set as their scores.
 
 ### Serving the Game
+
 This server serves anything inside the `/static` directory.
 This is especially useful when the contents of the `/dist` directory
 of the actual game are symlinked into said `/static` directory.

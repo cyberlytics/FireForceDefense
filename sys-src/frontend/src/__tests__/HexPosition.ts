@@ -13,7 +13,7 @@ describe('HexPosition', () => {
     });
 
     test('Construction from axial coordinates', () => {
-        const pos = HexPosition.fromAxial({q: -1, r: 1});
+        const pos = HexPosition.fromAxial({ q: -1, r: 1 });
         expect(pos.q).toBe(-1);
         expect(pos.r).toBe(1);
 
@@ -23,7 +23,7 @@ describe('HexPosition', () => {
     });
 
     test('Construction from cube coordinates', () => {
-        const pos = HexPosition.fromCube({x: 0, y: 1, z: -1});
+        const pos = HexPosition.fromCube({ x: 0, y: 1, z: -1 });
         expect(pos.q).toBe(0);
         expect(pos.r).toBe(-1);
 

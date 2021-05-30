@@ -1,8 +1,5 @@
 <template>
-    <g
-        v-bind:transform="'translate(' + x + ',' + y + ')'"
-        style="pointer-events: none"
-    >
+    <g :transform="'translate(' + x + ',' + y + ')'" style="pointer-events: none">
         <defs>
             <radialGradient id="extinguish-visualization-gradient">
                 <stop offset="10%" stop-color="#FFFFFF" />
@@ -12,9 +9,10 @@
             </radialGradient>
         </defs>
         <circle
-            cx="0" cy="0"
-            v-bind:r="radius"
-            v-bind:fill="'url(#extinguish-visualization-gradient)'"
+            cx="0"
+            cy="0"
+            :r="radius"
+            :fill="'url(#extinguish-visualization-gradient)'"
             fill-opacity=".3"
             class="extinguish-pulse"
         />
@@ -22,26 +20,30 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue';
-    import HexPosition from '../model/HexPosition';
+import Vue from 'vue';
+import HexPosition from '../model/HexPosition';
+import type Cell from '../model/Cell';
 
-    export default Vue.extend({
-        data() {
-            return {}
+export default Vue.extend({
+    components: {},
+    props: {
+        cell: { type: Object as () => Cell, required: true },
+        size: { type: Number, required: true },
+    },
+    data() {
+        return {};
+    },
+    computed: {
+        x: function () {
+            return this.cell.position.getCenterX(this.size);
         },
-        methods: {},
-        components: {},
-        computed: {
-            x: function () {
-                return this.cell.position.getCenterX(this.size);
-            },
-            y: function () {
-                return this.cell.position.getCenterY(this.size);
-            },
-            radius: function () {
-                return HexPosition.getIncircleRadius(this.cell.content.extinguishRange, this.size);
-            }
+        y: function () {
+            return this.cell.position.getCenterY(this.size);
         },
-        props: ['cell', 'size']
-    })
+        radius: function () {
+            return HexPosition.getIncircleRadius(this.cell.content.extinguishRange, this.size);
+        },
+    },
+    methods: {},
+});
 </script>

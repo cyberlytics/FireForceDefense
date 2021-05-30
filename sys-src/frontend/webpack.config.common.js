@@ -17,7 +17,7 @@ module.exports = {
             patterns: [
                 { from: path.resolve(__dirname, 'assets'), to: path.resolve(__dirname, 'dist/assets') },
                 { from: path.resolve(__dirname, 'src/index.html'), to: path.resolve(__dirname, 'dist/index.html') },
-            ]
+            ],
         }),
     ],
     module: {
@@ -27,17 +27,17 @@ module.exports = {
                 loader: 'vue-loader',
                 options: {
                     preloaders: {
-                        'i18n': 'yaml-loader',
+                        i18n: 'yaml-loader',
                     },
                     loaders: {
                         // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
                         // the "scss" and "sass" values for the lang attribute to the right configs here.
                         // other preprocessors should work out of the box, no loader config like this necessary.
-                        'scss': 'vue-style-loader!css-loader!sass-loader',
-                        'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
-                        'i18n': '@intlify/vue-i18n-loader',
+                        scss: 'vue-style-loader!css-loader!sass-loader',
+                        sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
+                        i18n: '@intlify/vue-i18n-loader',
                     },
-                }
+                },
             },
             /*{
                 resourceQuery: /blockType=i18n/,
@@ -50,7 +50,7 @@ module.exports = {
                 exclude: /node_modules/,
                 options: {
                     appendTsSuffixTo: [/\.vue$/],
-                }
+                },
             },
             {
                 test: /\.scss$/,
@@ -60,44 +60,43 @@ module.exports = {
                     {
                         loader: 'css-loader', // translates CSS into CommonJS
                         options: {
-                            importLoaders: 1
-                        }
+                            importLoaders: 1,
+                        },
                     },
                     'postcss-loader', // post process the compiled CSS
-                    'sass-loader' // compiles Sass to CSS, using Node Sass by default
-                ]
+                    'sass-loader', // compiles Sass to CSS, using Node Sass by default
+                ],
             },
             {
                 test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
                 use: {
-                    loader: "file-loader",
+                    loader: 'file-loader',
                     options: {
-                        name: "[name].[ext]",
-                        outputPath: "assets/fonts/"
-                    }
-                }
+                        name: '[name].[ext]',
+                        outputPath: 'assets/fonts/',
+                    },
+                },
             },
             {
                 test: /.png$/,
                 use: {
-                    loader: "file-loader",
+                    loader: 'file-loader',
                     options: {
-                        name: "[name].[ext]",
-                        outputPath: "assets/img/"
-                    }
-                }
-            }
+                        name: '[name].[ext]',
+                        outputPath: 'assets/img/',
+                    },
+                },
+            },
         ],
     },
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.esm.js'
+            vue$: 'vue/dist/vue.esm.js',
         },
-        extensions: [ '.tsx', '.ts', '.js', '.scss', '.vue' ],
+        extensions: ['.tsx', '.ts', '.js', '.scss', '.vue'],
     },
     output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
     },
 };
-

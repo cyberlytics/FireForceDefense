@@ -11,14 +11,9 @@
         "outDir": "dist",
         "baseUrl": "./",
         "paths": {
-            "*": [
-                "node_modules/*"
-            ]
+            "*": ["node_modules/*"]
         },
         "resolveJsonModule": true
     },
-    "include": [
-        "src/**/*.ts",
-        "src/**/*.vue"
-    ]
+    "include": ["src/**/*.ts", "src/**/*.vue"]
 }
