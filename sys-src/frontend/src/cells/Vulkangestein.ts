@@ -1,7 +1,8 @@
 import Cell from '../model/Cell';
 
 export default class Vulkangestein extends Cell {
-    readonly description = 'Volcanics: The harsh terrain keeps the existing vegetation dry and improves the expansion of fire.';
+    readonly description =
+        'Volcanics: The harsh terrain keeps the existing vegetation dry and improves the expansion of fire.';
     readonly name = 'Vulkangestein';
     readonly id = 'Vulkangestein';
     readonly groups = ['land'];

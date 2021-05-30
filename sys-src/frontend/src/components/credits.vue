@@ -23,16 +23,16 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue';
-    import logo from './logo.vue';
+import Vue from 'vue';
+import logo from './logo.vue';
 
-    export default Vue.extend({
-        data() {
-            return {}
-        },
-        methods: {},
-        components: {
-            logo,
-        },
-    })
+export default Vue.extend({
+    components: {
+        logo,
+    },
+    data() {
+        return {};
+    },
+    methods: {},
+});
 </script>

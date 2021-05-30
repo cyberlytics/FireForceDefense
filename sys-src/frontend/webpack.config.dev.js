@@ -10,8 +10,8 @@ config.devServer = {
     overlay: true,
     port: 8000,
     stats: {
-        normal: true
-    }
+        normal: true,
+    },
 };
 
 module.exports = config;

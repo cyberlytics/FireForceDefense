@@ -4,10 +4,12 @@
     "description": "",
     "main": "dist/index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest",
         "build": "tsc",
         "prestart": "npm run build",
-        "start": "node "
+        "start": "node .",
+        "lint": "eslint --config eslintrc.js ./src/**/*.{js,ts,vue} --max-warnings=0 && prettier --config prettierrc.js --check .",
+        "format": "eslint --config eslintrc.js ./src/**/*.{js,ts,vue} --fix --max-warnings=0 && prettier --config prettierrc.js --write ."
     },
     "repository": {
         "type": "git",
@@ -21,9 +23,19 @@
     "devDependencies": {
         "@types/better-sqlite3": "^5.4.0",
         "@types/express": "^4.16.1",
+        "@types/jest": "^25.2.3",
         "@types/node": "^11.15.7",
+        "@typescript-eslint/eslint-plugin": "^4.22.0",
+        "@typescript-eslint/parser": "^4.22.0",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^7.27.0",
+        "eslint-config-prettier": "^8.2.0",
+        "eslint-plugin-jest": "^24.1.0",
+        "eslint-plugin-prettier": "^3.4.0",
+        "jest": "^26.0.1",
         "nodemon": "^1.18.10",
-        "tslint": "^5.14.0",
+        "prettier": "^2.2.1",
+        "ts-jest": "^26.0.0",
         "typescript": "^3.8.2"
     }
 }

@@ -16,9 +16,9 @@ Vue.use(VueRouter);
 Vue.use(VueI18n);
 
 const routes = [
-    { path: '/', component: index},
-    { path: '/credits', component: credits},
-    { path: '/world', component: world},
+    { path: '/', component: index },
+    { path: '/credits', component: credits },
+    { path: '/world', component: world },
     { path: '/level/:levelID', component: level, props: true },
 ];
 
@@ -44,10 +44,11 @@ const i18n = new VueI18n({
 
 locale.setVueI18n(i18n);
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const vm: Vue = new Vue({
     el: '#app',
-    template: '<app/>',
     components: { app },
+    template: '<app/>',
     router,
     i18n,
 });

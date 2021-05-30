@@ -9,5 +9,4 @@ export default interface LevelDefinition {
     effectDefinitions: EffectDefinition[];
     creditStartingAmount: number;
     // TODO Maybe make gain and reward configurable per level.
-
 }

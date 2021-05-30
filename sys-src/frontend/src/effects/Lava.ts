@@ -11,9 +11,8 @@ export default class Lava extends Effect {
     readonly range = 2;
 
     applyEffect(map: LevelMap, pos: HexPosition): void {
-        map.getCellsAround(pos, this.range).forEach(cell => {
+        map.getCellsAround(pos, this.range).forEach((cell) => {
             cell.fireIntensity = Fire.modify(cell.fireIntensity, 12);
         });
     }
-
 }

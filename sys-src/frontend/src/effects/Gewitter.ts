@@ -14,5 +14,4 @@ export default class Gewitter extends Effect {
         const cell = map.getCellAt(pos);
         cell.fireIntensity = Fire.modify(cell.fireIntensity, 12);
     }
-
 }

@@ -1,7 +1,8 @@
 import Cell from '../model/Cell';
 
 export default class Gebirge extends Cell {
-    readonly description = 'Mountains: An unsteady area with a small amount of vegetation, which gives fire a harder time to expand.';
+    readonly description =
+        'Mountains: An unsteady area with a small amount of vegetation, which gives fire a harder time to expand.';
     readonly name = 'Gebirge';
     readonly id = 'Gebirge';
     readonly groups = ['land'];

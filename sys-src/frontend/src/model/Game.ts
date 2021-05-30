@@ -20,9 +20,9 @@ import Fire from './Fire';
 import FireIntensity from './FireIntensity';
 import Regen from '../effects/Regen';
 import Score from './Score';
+import type EffectExecution from './EffectExecution';
 
 export default class Game {
-
     public totalMoney: number;
 
     private levelDefinition: LevelDefinition;
@@ -35,13 +35,13 @@ export default class Game {
     private _isBaseBuilt = false;
     private _reliefGotActivated = false;
     private _contentToBuild: ContentDerivedType = null;
-    private _score: Score|null = null;
+    private _score: Score | null = null;
 
-    private gameStepDuration = 1000;                   // How long a game step should last in milliseconds
-    private gameStepTimeoutStart: number|null = null;  // Start time of current game step timeout
-    private gameStepRemainingTime: number|null = null; // Remaining time for the game step timeout
-    private gameStepTimeoutID: number|null = null;     // ID for the game step timeout as returned by setTimeout
-    private gameStepCounter = 0;                       // Number of fully executed game steps
+    private gameStepDuration = 1000; // How long a game step should last in milliseconds
+    private gameStepTimeoutStart: number | null = null; // Start time of current game step timeout
+    private gameStepRemainingTime: number | null = null; // Remaining time for the game step timeout
+    private gameStepTimeoutID: number | null = null; // ID for the game step timeout as returned by setTimeout
+    private gameStepCounter = 0; // Number of fully executed game steps
 
     constructor(levelID: string) {
         this.effectManager = new EffectManager();
@@ -54,7 +54,7 @@ export default class Game {
         this.levelDefinition = levelDefinition;
 
         levelManager.getLevelIdsWithScore(() => {
-            const curr = levelManager.levelIdsWithScore.find(level => level.levelID === levelID);
+            const curr = levelManager.levelIdsWithScore.find((level) => level.levelID === levelID);
             if (curr.score === Score.LOCKED) {
                 this._isPlayable = false;
             }
@@ -74,40 +74,34 @@ export default class Game {
     }
 
     /* Public methods */
-    public static getBuildableContents() {
-        return [
-            Loeschtrupp,
-            Loeschturm,
-            Loeschkran,
-            Loeschschiff,
-            Loeschzeppelin,
-        ];
+    public static getBuildableContents(): ContentDerivedType[] {
+        return [Loeschtrupp, Loeschturm, Loeschkran, Loeschschiff, Loeschzeppelin];
     }
 
-    public getLevelMap() {
+    public getLevelMap(): LevelMap {
         return this.levelMap;
     }
 
-    public getCellDisabledFunction() {
+    public getCellDisabledFunction(): (cell: Cell) => boolean {
         return this._isCellDisabled;
     }
 
-    public start() {
+    public start(): void {
         this.gameStepTimeoutID = window.setTimeout(
             () => this.timeoutHandler(),
-            this.gameStepRemainingTime === null ? this.gameStepDuration : this.gameStepRemainingTime
+            this.gameStepRemainingTime === null ? this.gameStepDuration : this.gameStepRemainingTime,
         );
         this.gameStepTimeoutStart = Date.now();
         this.gameStepRemainingTime = null;
     }
 
-    public resume() {
+    public resume(): void {
         if (this.isBaseBuilt) {
             this.start();
         }
     }
 
-    public pause() {
+    public pause(): void {
         window.clearTimeout(this.gameStepTimeoutID);
         if (this.gameStepTimeoutStart !== null) {
             this.gameStepRemainingTime = this.gameStepDuration + this.gameStepTimeoutStart - Date.now();
@@ -116,7 +110,7 @@ export default class Game {
         this.gameStepTimeoutStart = null;
     }
 
-    public enterRemoveMode() {
+    public enterRemoveMode(): void {
         if (!this.isBaseBuilt) {
             return;
         }
@@ -134,18 +128,18 @@ export default class Game {
             return false;
         }
         if (this.placeContentAt(content, position)) {
-                this.totalMoney -= content.buildCosts;
-                return true;
+            this.totalMoney -= content.buildCosts;
+            return true;
         }
         return false;
     }
 
-    public leaveRemoveMode() {
+    public leaveRemoveMode(): void {
         this._removeMode = false;
         this.markDisabledCells();
     }
 
-    public removeAt(position: HexPosition) {
+    public removeAt(position: HexPosition): void {
         if (!this.removeMode) {
             return;
         }
@@ -157,7 +151,7 @@ export default class Game {
         cell.content = null;
     }
 
-    public emergencyRelief() {
+    public emergencyRelief(): void {
         if (!this.reliefGotActivated && this.isBaseBuilt) {
             this.effectManager.applyEffect(new Regen(), this.levelMap, new HexPosition(0, 0));
             this._reliefGotActivated = true;
@@ -165,31 +159,31 @@ export default class Game {
     }
 
     /* Getter and Setter */
-    get isPlayable() {
+    get isPlayable(): boolean {
         return this._isPlayable;
     }
 
-    get reliefGotActivated() {
+    get reliefGotActivated(): boolean {
         return this._reliefGotActivated;
     }
 
-    get removeMode() {
+    get removeMode(): boolean {
         return this._removeMode;
     }
 
-    get currentEffects() {
+    get currentEffects(): EffectExecution[] {
         return this.effectManager.currentEffects;
     }
 
-    get score() {
+    get score(): Score {
         return this._score;
     }
 
-    get contentToBuild() {
+    get contentToBuild(): ContentDerivedType {
         return this._contentToBuild;
     }
 
-    set contentToBuild(value) {
+    set contentToBuild(value: ContentDerivedType) {
         if (value !== null) {
             this.leaveRemoveMode();
         }
@@ -220,7 +214,9 @@ export default class Game {
 
     /* Private methods */
     private isRemovable(cell: Cell) {
-        return cell.content !== null && cell.content.removeCosts !== null && cell.content.removeCosts <= this.totalMoney;
+        return (
+            cell.content !== null && cell.content.removeCosts !== null && cell.content.removeCosts <= this.totalMoney
+        );
     }
 
     private endGame(won: boolean) {
@@ -236,10 +232,15 @@ export default class Game {
     }
 
     private countStars(): Score {
-        switch (this.levelMap.getAllCells().filter((cell) => cell.content !== null && cell.content.id === 'Haus').length)  {
-            case 0: return Score.ONE_STAR;
-            case 1: return Score.TWO_STARS;
-            default: return Score.THREE_STARS;
+        switch (
+            this.levelMap.getAllCells().filter((cell) => cell.content !== null && cell.content.id === 'Haus').length
+        ) {
+            case 0:
+                return Score.ONE_STAR;
+            case 1:
+                return Score.TWO_STARS;
+            default:
+                return Score.THREE_STARS;
         }
     }
 
@@ -262,9 +263,9 @@ export default class Game {
     private _isCellDisabled: (cell: Cell) => boolean = () => false;
 
     private markDisabledCells() {
-        let func = (cell: Cell) => false;
+        let func: (cell: Cell) => boolean = () => false;
         if (this.contentToBuild !== null) {
-            func = (cell: Cell) => !new (this.contentToBuild)().isPlaceableOn(cell) || cell.content !== null;
+            func = (cell: Cell) => !new this.contentToBuild().isPlaceableOn(cell) || cell.content !== null;
         } else if (this.removeMode) {
             func = (cell) => !this.isRemovable(cell);
         }
@@ -320,10 +321,7 @@ export default class Game {
                 return;
             }
             this.levelMap.getCellsAround(cell.position, 1).forEach((neighbor) => {
-                if (
-                    cell.fireIntensity >= neighbor.ignitionThreshold
-                    && Math.random() < cell.ignitionChance
-                ) {
+                if (cell.fireIntensity >= neighbor.ignitionThreshold && Math.random() < cell.ignitionChance) {
                     neighbor.neighborSpreadTmp += Math.min(cell.fireIntensity, cell.spreadAmount);
                 }
             });
@@ -338,23 +336,27 @@ export default class Game {
     }
 
     private extinguish() {
-        this.levelMap.getAllCells().filter(
-            (cell) => cell.content && cell.content.extinguishRate > 0
-        ).forEach((cell) => {
-            const rate = -cell.content.extinguishRate;
-            this.levelMap.getCellsAround(cell.position, cell.content.extinguishRange).forEach((target) => {
-                if (target.fireIntensity === FireIntensity.INTENSITY_0) {
-                    return;
-                }
-                if (Math.random() >= cell.content.extinguishChance) {
-                    return;
-                }
-                target.fireIntensity = Fire.modify(target.fireIntensity, rate);
-                if (target.fireIntensity === FireIntensity.INTENSITY_0 && target.stepBeginIntensity !== FireIntensity.INTENSITY_0) {
-                    this.totalMoney += 10;
-                }
+        this.levelMap
+            .getAllCells()
+            .filter((cell) => cell.content && cell.content.extinguishRate > 0)
+            .forEach((cell) => {
+                const rate = -cell.content.extinguishRate;
+                this.levelMap.getCellsAround(cell.position, cell.content.extinguishRange).forEach((target) => {
+                    if (target.fireIntensity === FireIntensity.INTENSITY_0) {
+                        return;
+                    }
+                    if (Math.random() >= cell.content.extinguishChance) {
+                        return;
+                    }
+                    target.fireIntensity = Fire.modify(target.fireIntensity, rate);
+                    if (
+                        target.fireIntensity === FireIntensity.INTENSITY_0 &&
+                        target.stepBeginIntensity !== FireIntensity.INTENSITY_0
+                    ) {
+                        this.totalMoney += 10;
+                    }
+                });
             });
-        });
     }
 
     private ownFireChange() {
@@ -363,7 +365,12 @@ export default class Game {
                 cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.fireGrowAmount, cell.maxFireIntensity, true);
             }
             if (cell.content && Math.random() < cell.content.fireGrowChance) {
-                cell.fireIntensity = Fire.modify(cell.fireIntensity, cell.content.fireGrowAmount, cell.maxFireIntensity, true);
+                cell.fireIntensity = Fire.modify(
+                    cell.fireIntensity,
+                    cell.content.fireGrowAmount,
+                    cell.maxFireIntensity,
+                    true,
+                );
             }
         });
     }
@@ -421,7 +428,7 @@ export default class Game {
     }
 
     private executeEffects() {
-        this.effectDefinitions.forEach(effectDefinition => {
+        this.effectDefinitions.forEach((effectDefinition) => {
             if (effectDefinition.mustBeExecuted(this.gameStepCounter)) {
                 this.effectManager.applyEffect(new effectDefinition.effectType(), this.levelMap, effectDefinition.pos);
             }

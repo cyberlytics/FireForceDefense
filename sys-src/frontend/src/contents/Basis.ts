@@ -4,7 +4,8 @@ import type Cell from '../model/Cell';
 import HexPosition from '../model/HexPosition';
 
 export default class Basis extends Content {
-    readonly description = 'Basis: The main building which must be protected at all cost. The coordination of the fire fighting is organized here.';
+    readonly description =
+        'Basis: The main building which must be protected at all cost. The coordination of the fire fighting is organized here.';
     readonly name = 'Basis';
     readonly id = 'Basis';
     readonly buildCosts = 0;
