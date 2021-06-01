@@ -1,16 +1,16 @@
-import type LevelDefinition from '../model/LevelDefinition';
-import Baumgruppe from '../contents/Baumgruppe';
-import Feld from '../cells/Feld';
-import Feuer1 from '../effects/Feuer1';
-import Gebirge from '../cells/Gebirge';
-import HexPosition from '../model/HexPosition';
-import See from '../cells/See';
-import Steinbrocken from '../contents/Steinbrocken';
-import Vulkangestein from '../cells/Vulkangestein';
-import Wiese from '../cells/Wiese';
-import Haus from '../contents/Haus';
-import Gewitter from '../effects/Gewitter';
-import Feuerball from '../effects/Feuerball';
+import type LevelDefinition from '@model/LevelDefinition';
+import Baumgruppe from '@contents/Baumgruppe';
+import Feld from '@cells/Feld';
+import Feuer1 from '@effects/Feuer1';
+import Gebirge from '@cells/Gebirge';
+import HexPosition from '@model/HexPosition';
+import See from '@cells/See';
+import Steinbrocken from '@contents/Steinbrocken';
+import Vulkangestein from '@cells/Vulkangestein';
+import Wiese from '@cells/Wiese';
+import Haus from '@contents/Haus';
+import Gewitter from '@effects/Gewitter';
+import Feuerball from '@effects/Feuerball';
 
 const lvl003: LevelDefinition = {
     cellDefinitions: [

@@ -47,7 +47,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Score from '../model/Score';
+import Score from '@model/Score';
 import $ from 'jquery';
 
 export default Vue.extend({

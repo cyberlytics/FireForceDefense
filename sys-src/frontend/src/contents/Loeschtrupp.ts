@@ -1,6 +1,6 @@
-import Content from '../model/Content';
-import ContentCategory from '../model/ContentCategory';
-import type Cell from '../model/Cell';
+import Content from '@model/Content';
+import ContentCategory from '@model/ContentCategory';
+import type Cell from '@model/Cell';
 
 export default class Loeschtrupp extends Content {
     readonly description = 'Firefighters: A troop of common people, who breast the fire out of hardship.';

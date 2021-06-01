@@ -1,6 +1,6 @@
-import Content from '../model/Content';
-import ContentCategory from '../model/ContentCategory';
-import type Cell from '../model/Cell';
+import Content from '@model/Content';
+import ContentCategory from '@model/ContentCategory';
+import type Cell from '@model/Cell';
 
 export default class Totholz extends Content {
     readonly description = 'Deadwood: Dead and dried trees, which burn very easily and very long.';

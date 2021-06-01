@@ -1,7 +1,7 @@
-import Effect from '../model/Effect';
-import type LevelMap from '../model/LevelMap';
-import type HexPosition from '../model/HexPosition';
-import Fire from '../model/Fire';
+import Effect from '@model/Effect';
+import type LevelMap from '@model/LevelMap';
+import type HexPosition from '@model/HexPosition';
+import Fire from '@model/Fire';
 
 export default class Gewitter extends Effect {
     readonly description = 'Gewitter: Description';

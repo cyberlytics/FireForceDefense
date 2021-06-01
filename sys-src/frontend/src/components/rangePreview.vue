@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import HexPosition from '../model/HexPosition';
+import HexPosition from '@model/HexPosition';
 
 export default Vue.extend({
     components: {},

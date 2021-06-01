@@ -1,4 +1,4 @@
-import Cell from '../model/Cell';
+import Cell from '@model/Cell';
 
 export default class See extends Cell {
     readonly description = 'Lake: An infinite water supply leads to a very high water resistance.';

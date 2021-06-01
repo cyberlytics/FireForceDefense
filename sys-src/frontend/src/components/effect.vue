@@ -10,8 +10,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import HexPosition from '../model/HexPosition';
-import type EffectExecution from '../model/EffectExecution';
+import HexPosition from '@model/HexPosition';
+import type EffectExecution from '@model/EffectExecution';
 
 export default Vue.extend({
     components: {},

@@ -35,16 +35,16 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Game from '../model/Game';
-import LevelManager from '../model/LevelManager';
-import type HexPosition from '../model/HexPosition';
-import type Content from '../model/Content';
+import Game from '@model/Game';
+import LevelManager from '@model/LevelManager';
+import type HexPosition from '@model/HexPosition';
+import type Content from '@model/Content';
 import levelMap from './levelMap.vue';
 import levelSidebar from './levelSidebar.vue';
 import levelModal from './levelModal.vue';
 import previewCursor from './previewCursor.vue';
-import type Cell from '../model/Cell';
-import type Explainable from '../model/Explainable';
+import type Cell from '@model/Cell';
+import type Explainable from '@model/Explainable';
 import levelEndScreen from './levelEndScreen.vue';
 
 export default Vue.extend({
