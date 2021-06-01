@@ -4,10 +4,10 @@
 import type LevelDefinition from './LevelDefinition';
 import User from './User';
 import Score from './Score';
-import lvl001 from '../levels/lvl001';
-import lvl002 from '../levels/lvl002';
-import lvl003 from '../levels/lvl003';
-import lvl004 from '../levels/lvl004';
+import lvl001 from '@levels/lvl001';
+import lvl002 from '@levels/lvl002';
+import lvl003 from '@levels/lvl003';
+import lvl004 from '@levels/lvl004';
 
 export default class LevelManager {
     private static instance: LevelManager;

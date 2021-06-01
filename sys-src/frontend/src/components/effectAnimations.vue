@@ -21,11 +21,11 @@
 <script lang="ts">
 import Vue from 'vue';
 import Lottie from 'vue-lottie/src/lottie.vue';
-import * as rain from '../../assets/animations/rain.json';
-import * as thunder from '../../assets/animations/thunder.json';
-import * as lavaSplash from '../../assets/animations/lava-splash.json';
-import * as fireball from '../../assets/animations/fireball.json';
-import * as smoke from '../../assets/animations/smoke.json';
+import * as rain from '@assets/animations/rain.json';
+import * as thunder from '@assets/animations/thunder.json';
+import * as lavaSplash from '@assets/animations/lava-splash.json';
+import * as fireball from '@assets/animations/fireball.json';
+import * as smoke from '@assets/animations/smoke.json';
 
 export default Vue.extend({
     components: {
