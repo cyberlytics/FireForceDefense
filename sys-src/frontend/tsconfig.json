@@ -11,7 +11,13 @@
         "outDir": "dist",
         "baseUrl": "./",
         "paths": {
-            "*": ["node_modules/*"]
+            "*": ["node_modules/*"],
+            "@assets/*": ["assets/*"],
+            "@cells/*": ["src/cells/*"],
+            "@contents/*": ["src/contents/*"],
+            "@effects/*": ["src/effects/*"],
+            "@levels/*": ["src/levels/*"],
+            "@model/*": ["src/model/*"]
         },
         "resolveJsonModule": true
     },

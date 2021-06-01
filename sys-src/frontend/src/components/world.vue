@@ -42,8 +42,8 @@ import Vue from 'vue';
 import { router } from '../index';
 import L from 'leaflet';
 import { LControl, LIcon, LMap, LMarker, LTileLayer } from 'vue2-leaflet';
-import World from '../model/World';
-import Score from '../model/Score';
+import World from '@model/World';
+import Score from '@model/Score';
 
 export default Vue.extend({
     components: {

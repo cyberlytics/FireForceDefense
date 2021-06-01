@@ -1,6 +1,6 @@
-import Content from '../model/Content';
-import ContentCategory from '../model/ContentCategory';
-import type Cell from '../model/Cell';
+import Content from '@model/Content';
+import ContentCategory from '@model/ContentCategory';
+import type Cell from '@model/Cell';
 
 export default class Haus extends Content {
     readonly description =

@@ -1,5 +1,5 @@
-import Content from '../model/Content';
-import ContentCategory from '../model/ContentCategory';
+import Content from '@model/Content';
+import ContentCategory from '@model/ContentCategory';
 
 export default class Brandreste extends Content {
     readonly description =
