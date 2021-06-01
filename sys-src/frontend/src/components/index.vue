@@ -5,12 +5,17 @@
             <div v-if="requiredMessage" class="text-danger">{{ $t('Please enter nickname') }}</div>
 
             <div class="input-group mb-3 ">
-                <label for="nickname" class="input-group-text">{{$t("Nickname")}}</label>
+                <div class="input-group-prepend w-50">
+                    <label for="nickname" class="input-group-text w-100 ">{{$t("Nickname")}}</label>
+
+                </div>
                 <input id="nickname" v-model="nickname" class="form-control" @keyup.enter="setNickname" />
 
             </div>
             <div class="input-group mb-3 " >
-                <label for="password" class="input-group-text">Passwort:</label>
+                <div class="input-group-prepend w-50">
+                    <label for="password" class="input-group-text w-100 ">{{ $t('Password') }}</label>
+                </div>
                 <input type="password" id="Password" v-model="password" class="form-control"/>
             </div>
 
@@ -21,10 +26,10 @@
             </div>
             <div class="d-flex justify-content-between">
                 <div class="mb-3">
-                    <a class="link-secondary" href="#">Neuen Account erstellen?</a>
+                    <a class="link-secondary" href="#">{{ $t('Create new account?') }}</a>
                 </div>
                 <div class="mb-3">
-                    <a class="link-secondary" href="#">Passwort vergessen?</a>
+                    <a class="link-secondary" href="#">{{ $t('Forgot password?') }}</a>
                 </div>
             </div>
 
