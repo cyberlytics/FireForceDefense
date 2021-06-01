@@ -21,8 +21,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import HexPosition from '../model/HexPosition';
-import type Cell from '../model/Cell';
+import HexPosition from '@model/HexPosition';
+import type Cell from '@model/Cell';
 
 export default Vue.extend({
     components: {},

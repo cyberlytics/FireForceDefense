@@ -92,6 +92,12 @@ module.exports = {
     resolve: {
         alias: {
             vue$: 'vue/dist/vue.esm.js',
+            '@assets': path.resolve(__dirname, 'assets'),
+            '@cells': path.resolve(__dirname, 'src/cells'),
+            '@contents': path.resolve(__dirname, 'src/contents'),
+            '@effects': path.resolve(__dirname, 'src/effects'),
+            '@levels': path.resolve(__dirname, 'src/levels'),
+            '@model': path.resolve(__dirname, 'src/model'),
         },
         extensions: ['.tsx', '.ts', '.js', '.scss', '.vue'],
     },

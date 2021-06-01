@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import type ContentDerivedType from '../model/ContentDerivedType';
+import type ContentDerivedType from '@model/ContentDerivedType';
 
 export default Vue.extend({
     components: {},

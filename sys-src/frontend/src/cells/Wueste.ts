@@ -1,4 +1,4 @@
-import Cell from '../model/Cell';
+import Cell from '@model/Cell';
 
 export default class Wueste extends Cell {
     readonly description =

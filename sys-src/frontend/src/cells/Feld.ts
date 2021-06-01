@@ -1,4 +1,4 @@
-import Cell from '../model/Cell';
+import Cell from '@model/Cell';
 
 export default class Feld extends Cell {
     readonly description = 'Field: Food is essential, but also very fragil against fire and its expandation.';

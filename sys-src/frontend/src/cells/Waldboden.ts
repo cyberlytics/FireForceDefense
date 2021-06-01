@@ -1,4 +1,4 @@
-import Cell from '../model/Cell';
+import Cell from '@model/Cell';
 
 export default class Waldboden extends Cell {
     readonly description = 'Forest ground: The fertilized earth with good vegetation gives fire more time to stay.';
