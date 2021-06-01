@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import type Cell from '../model/Cell';
+import type Cell from '@model/Cell';
 
 export default Vue.extend({
     components: {},

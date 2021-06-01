@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import User from '../model/User';
+import User from '@model/User';
 import logo from './logo.vue';
 
 export default Vue.extend({

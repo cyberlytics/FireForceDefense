@@ -85,11 +85,11 @@ import utilityPatterns from './utilityPatterns.vue';
 import effectPatterns from './effectPatterns.vue';
 import effectAnimations from './effectAnimations.vue';
 import rangePreview from './rangePreview.vue';
-import type HexPosition from '../model/HexPosition';
-import type Cell from '../model/Cell';
-import type LevelMap from '../model/LevelMap';
-import type Game from '../model/Game';
-import type EffectExecution from '../model/EffectExecution';
+import type HexPosition from '@model/HexPosition';
+import type Cell from '@model/Cell';
+import type LevelMap from '@model/LevelMap';
+import type Game from '@model/Game';
+import type EffectExecution from '@model/EffectExecution';
 
 export default Vue.extend({
     components: {

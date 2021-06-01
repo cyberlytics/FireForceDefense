@@ -1,4 +1,4 @@
-import Cell from '../model/Cell';
+import Cell from '@model/Cell';
 
 export default class Lavasee extends Cell {
     readonly description = 'Lava lake: An everlasting heat source, which burns everything around it with ease.';

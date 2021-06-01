@@ -53,8 +53,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Fire from '../model/Fire';
-import type Cell from '../model/Cell';
+import Fire from '@model/Fire';
+import type Cell from '@model/Cell';
 
 export default Vue.extend({
     components: {},
