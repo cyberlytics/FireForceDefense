@@ -1,4 +1,4 @@
-import Cell from '../model/Cell';
+import Cell from '@model/Cell';
 
 export default class Abgebrannt extends Cell {
     readonly description = 'Burned: A burnt area without life or the extinguished fire.';

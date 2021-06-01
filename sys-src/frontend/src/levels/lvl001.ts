@@ -1,14 +1,14 @@
-import type LevelDefinition from '../model/LevelDefinition';
-import Wiese from '../cells/Wiese';
-import HexPosition from '../model/HexPosition';
-import Steinbrocken from '../contents/Steinbrocken';
-import See from '../cells/See';
-import Baumgruppe from '../contents/Baumgruppe';
-import Haus from '../contents/Haus';
-import Feld from '../cells/Feld';
-import Waldboden from '../cells/Waldboden';
-import Gewitter from '../effects/Gewitter';
-import Regen from '../effects/Regen';
+import type LevelDefinition from '@model/LevelDefinition';
+import Wiese from '@cells/Wiese';
+import HexPosition from '@model/HexPosition';
+import Steinbrocken from '@contents/Steinbrocken';
+import See from '@cells/See';
+import Baumgruppe from '@contents/Baumgruppe';
+import Haus from '@contents/Haus';
+import Feld from '@cells/Feld';
+import Waldboden from '@cells/Waldboden';
+import Gewitter from '@effects/Gewitter';
+import Regen from '@effects/Regen';
 
 const lvl001: LevelDefinition = {
     cellDefinitions: [

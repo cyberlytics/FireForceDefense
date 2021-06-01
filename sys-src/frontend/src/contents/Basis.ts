@@ -1,7 +1,7 @@
-import Content from '../model/Content';
-import ContentCategory from '../model/ContentCategory';
-import type Cell from '../model/Cell';
-import HexPosition from '../model/HexPosition';
+import Content from '@model/Content';
+import ContentCategory from '@model/ContentCategory';
+import type Cell from '@model/Cell';
+import HexPosition from '@model/HexPosition';
 
 export default class Basis extends Content {
     readonly description =
