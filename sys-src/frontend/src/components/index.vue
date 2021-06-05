@@ -1,3 +1,7 @@
+
+
+
+
 <template>
 <div class="main-menu-bg">
 <div class="main-menu">
@@ -7,7 +11,7 @@
         <div class="input-group mb-3 ">
 
             <div class="input-group-prepend w-50">
-                <label id="username" class="input-group-text w-100 ">Username</label>
+                <label id="username" class="input-group-text w-100 ">E-Mail:</label>
 
             </div>
 
@@ -30,7 +34,7 @@
                 {{ $t('log in') }}
             </button>
         </div>
-        <div class="input-group mb-3 ">
+        <div class="input-group  ">
             <span class="alert-danger mb-3">{{errors.first('nickname')}}</span>
             <span class="alert-danger mb-3">{{errors.first('password')}}</span>
             <div v-if="message" class="alert alert-danger" role="alert">
@@ -39,20 +43,26 @@
         </div>
 
 
-        <div class="d-flex justify-content-between">
-            <div class="mb-3">
-                <a class="link-secondary" href="#">{{ $t('Create new account?') }}</a>
-            </div>
-            <div class="mb-3">
-                <a class="link-secondary" href="#">{{ $t('Forgot password?') }}</a>
-            </div>
+        <div class="mb-3" >
+
+            <router-link class="" to="/authentification">{{ $t('Forgot password?') }}</router-link>
         </div>
 
 
         <hr class="mb-3" />
 
 
-        <router-link class="btn btn-primary btn-block btn-lg" to="/credits">{{ $t('Credits') }}</router-link>
+        <div class="mb-3">
+            <div>
+                <router-link class="btn btn-primary btn-block btn-lg" to="/registration">{{ $t('register') }}</router-link>
+            </div>
+        </div>
+        <div class="mb-3" >
+
+            <router-link class="" to="/credits">{{ $t('Credits') }}</router-link>
+        </div>
+
+
     </form>
 </div>
 </div>
