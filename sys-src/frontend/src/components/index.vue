@@ -63,6 +63,7 @@
 import Vue from 'vue';
 import {userService} from "@services/user.service";
 import logo from './logo.vue';
+import User from '@model/User'
 
 export default Vue.extend({
     components: {
@@ -76,17 +77,18 @@ export default Vue.extend({
             password: '',
             submitted: false,
             loading: false,
-            returnUrl: '',
             error: ''
         }
     },
     created() {
         if (this.isLoggedIn) {
-            this.$router.push("/profile");
+            this.$router.push("/world");
         }
     },
 methods:{
     handleLogin() {
+        const user = User.getInstance()
+        user.login(this.username,this.password)
         this.loading = true;
         this.$validator.validateAll().then((isValid) => {
             if (!isValid) {
@@ -95,9 +97,9 @@ methods:{
             }
 
             if (this.username && this.password) {
-                    userService.login(this.username,this.password).then(
+                    userService.login(user.getNickname(),user.getPassword()).then(
                     (data) => {
-                        this.$router.push("/profile");
+                        this.$router.push("/world");
                     },
                     (error) => {
                         this.loading = false;
