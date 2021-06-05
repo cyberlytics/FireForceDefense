@@ -12,7 +12,6 @@ import level from "./components/level.vue";
 import world from "./components/world.vue";
 import User from "./model/User";
 import VeeValidate from "vee-validate";
-import store from "@store/vuexStoreModules";
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
@@ -59,6 +58,5 @@ const vm: Vue = new Vue({
     components: { app },
     template: "<app/>",
     router,
-    store,
     i18n,
 });
