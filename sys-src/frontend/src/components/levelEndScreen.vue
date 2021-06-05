@@ -53,8 +53,8 @@ import $ from 'jquery';
 export default Vue.extend({
     components: {},
     props: {
-        score: { type: Object as () => Score, required: false, default: null },
-        nextLevel: { type: String, required: true },
+        score: { type: Number as () => Score, required: false, default: null },
+        nextLevel: { type: String, required: false, default: null },
     },
     data() {
         return {

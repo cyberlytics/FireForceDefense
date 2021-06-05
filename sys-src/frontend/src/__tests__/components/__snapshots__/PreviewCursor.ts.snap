@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PreviewCursor.vue contentToBuild takes precedence over removeMode 1`] = `
+<svg
+  class="position-absolute"
+  height="100px"
+  preserveAspectRatio="xMidYMid meet"
+  style="opacity: 0.7; pointer-events: none; left: -37px; top: -13px;"
+  viewBox="0 0 100 100"
+  width="100px"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+  <rect
+    fill="url(#content-Loeschturm)"
+    height="100"
+    width="100"
+    x="0"
+    y="0"
+  />
+</svg>
+`;
+
+exports[`PreviewCursor.vue empty preview cursor matches snapshot 1`] = `<!---->`;
+
+exports[`PreviewCursor.vue preview cursor in remove mode matches snapshot 1`] = `
+<svg
+  class="position-absolute"
+  height="100px"
+  preserveAspectRatio="xMidYMid meet"
+  style="opacity: 0.7; pointer-events: none; left: -37px; top: -13px;"
+  viewBox="0 0 100 100"
+  width="100px"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+  <rect
+    fill="url(#utility-Abbauen)"
+    height="100"
+    width="100"
+    x="0"
+    y="0"
+  />
+</svg>
+`;
+
+exports[`PreviewCursor.vue preview cursor with content to build matches snapshot 1`] = `
+<svg
+  class="position-absolute"
+  height="100px"
+  preserveAspectRatio="xMidYMid meet"
+  style="opacity: 0.7; pointer-events: none; left: -37px; top: -13px;"
+  viewBox="0 0 100 100"
+  width="100px"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+  <rect
+    fill="url(#content-Loeschturm)"
+    height="100"
+    width="100"
+    x="0"
+    y="0"
+  />
+</svg>
+`;
