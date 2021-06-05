@@ -11,6 +11,7 @@ import credits from './components/credits.vue';
 import level from './components/level.vue';
 import world from './components/world.vue';
 import User from './model/User';
+import registration from "./components/registration.vue";
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
@@ -18,6 +19,7 @@ Vue.use(VueI18n);
 const routes = [
     { path: '/', component: index },
     { path: '/credits', component: credits },
+    { path: '/registration', component: registration },
     { path: '/world', component: world },
     { path: '/level/:levelID', component: level, props: true },
 ];
