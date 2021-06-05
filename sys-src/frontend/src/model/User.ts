@@ -1,6 +1,6 @@
-import Axios from 'axios';
-import type Scores from './Scores';
-import Score from './Score';
+import Axios from "axios";
+import type Scores from "./Scores";
+import Score from "./Score";
 
 /**
  * @pattern Singleton (GoF:127)
@@ -10,13 +10,15 @@ export default class User {
     private nickname: string | null;
     private levelScores: Scores = {};
     // TODO: Store this in a configuration file.
-    private readonly backendURL = 'https://pmaem20b.uber.space/';
+    private readonly backendURL = "https://pmaem20b.uber.space/";
     private _scoresValid = false;
+    private password: string | null;
 
     private constructor() {
-        const nickname = localStorage.getItem('nickname');
+        const nickname = localStorage.getItem("nickname");
+        const password = localStorage.getItem("password");
         if (nickname) {
-            this.login(nickname);
+            this.login(nickname, password);
         }
         this.invalidateScores();
     }
@@ -31,16 +33,21 @@ export default class User {
     public getNickname(): string {
         return this.nickname;
     }
+    public getPassword(): string {
+        return this.password;
+    }
 
-    public login(nickname: string): void {
+    public login(nickname: string, password: string): void {
         this.nickname = nickname;
-        localStorage.setItem('nickname', nickname);
+        this.password = password;
+        localStorage.setItem("nickname", nickname);
+        localStorage.setItem("password", password);
         this.invalidateScores();
     }
 
     public logout(): void {
         this.nickname = null;
-        localStorage.removeItem('nickname');
+        localStorage.removeItem("nickname");
         this.invalidateScores();
     }
 
@@ -57,7 +64,9 @@ export default class User {
             .then((response) => {
                 this._scoresValid = true;
                 this.levelScores = {};
-                for (const [key, value] of Object.entries(response.data.scores)) {
+                for (const [key, value] of Object.entries(
+                    response.data.scores
+                )) {
                     switch (value) {
                         case 1: {
                             this.levelScores[key] = Score.ONE_STAR;
@@ -86,7 +95,9 @@ export default class User {
     }
 
     private async postScoreToServer(levelID: string, stars: number) {
-        return await Axios.post(`${this.backendURL}api/${this.nickname}`, { [levelID]: stars });
+        return await Axios.post(`${this.backendURL}api/${this.nickname}`, {
+            [levelID]: stars,
+        });
     }
 
     public postScore(levelID: string, score: Score): boolean {
@@ -112,7 +123,9 @@ export default class User {
             old &&
             (old === Score.THREE_STARS ||
                 (old === Score.TWO_STARS && score !== Score.THREE_STARS) ||
-                (old === Score.ONE_STAR && score !== Score.TWO_STARS && score !== Score.THREE_STARS))
+                (old === Score.ONE_STAR &&
+                    score !== Score.TWO_STARS &&
+                    score !== Score.THREE_STARS))
         ) {
             return false;
         }
@@ -125,7 +138,7 @@ export default class User {
     }
 
     public isLoggedIn(): boolean {
-        return this.nickname !== null;
+        return localStorage.getItem("user") != null;
     }
 
     public invalidateScores(): void {
