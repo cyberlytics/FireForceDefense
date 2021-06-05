@@ -32,16 +32,20 @@ export const router = new VueRouter({
 });
 
 // Redirect to '/' when user is not logged in
+
 router.beforeEach((to, from, next) => {
-    if (
-        User.getInstance().isLoggedIn() ||
-        to.path === "/" ||
-        to.path === "/credits"
-    ) {
-        next();
-    } else {
-        next("/");
+    const publicPages = ["/", "/credits"];
+    const authRequired = !publicPages.includes(to.path);
+    const loggedIn = User.getInstance().isLoggedIn();
+
+    if (authRequired && !loggedIn) {
+        return next({
+            path: "/",
+            query: { returnUrl: to.path },
+        });
     }
+
+    next();
 });
 
 const i18n = new VueI18n({
