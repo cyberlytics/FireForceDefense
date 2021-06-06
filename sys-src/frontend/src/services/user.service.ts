@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const API_URL = "http://localhost:8000/api/auth/";
 
@@ -7,22 +7,18 @@ export const userService = {
     logout,
 };
 
-function login(username: string, password: string) {
-    return axios
-        .post(API_URL + "signin", {
-            username,
-            password,
-        })
-        .then((response) => {
-            if (response.data.accessToken) {
-                localStorage.setItem("user", JSON.stringify(response.data));
-            }
-
-            return response.data;
-        });
+async function login(username: string, password: string): Promise<any> {
+    const response = await axios.post(API_URL + "signin", {
+        username,
+        password,
+    });
+    if (response.data.accessToken) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+    }
+    return response.data;
 }
 
-function logout() {
+function logout(): void {
     // remove user from local storage to log user out
     localStorage.removeItem("user");
 }
