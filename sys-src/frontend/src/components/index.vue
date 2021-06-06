@@ -1,7 +1,5 @@
 
 
-
-
 <template>
 <div class="main-menu-bg">
 <div class="main-menu">
@@ -15,7 +13,7 @@
 
             </div>
 
-            <input name="nickname" type="text" v-model="username"  v-validate="'required'"  id="nickname" class="form-control"  />
+            <input id="nickname" v-model="username" v-validate="'required'"  name="nickname"     type="text"  class="form-control"  />
 
 
         </div>
@@ -25,7 +23,7 @@
                 <label for="password" class="input-group-text w-100 ">{{ $t('Password') }}</label>
             </div>
 
-            <input name="password" type="password" id="Password" v-model="password" v-validate="'required'" class="form-control"/>
+            <input id="Password" v-model="password"  v-validate="'required'" name="password"  type="password" class="form-control"/>
         </div>
 
 
@@ -71,55 +69,55 @@
 
 <script>
 import Vue from 'vue';
-import {userService} from "@services/user.service";
+import {userService} from '@services/user.service';
 import logo from './logo.vue';
-import User from '@model/User'
+import User from '@model/User';
 
 export default Vue.extend({
-    components: {
-        logo,
-    },
+  components: {
+    logo,
+  },
 
 
-    data () {
-        return {
-            username: '',
-            password: '',
-            submitted: false,
-            loading: false,
-            error: ''
-        }
-    },
-    created() {
-        if (this.isLoggedIn) {
-            this.$router.push("/world");
-        }
-    },
-methods:{
-    handleLogin() {
-        const user = User.getInstance()
-        user.login(this.username,this.password)
-        this.loading = true;
-        this.$validator.validateAll().then((isValid) => {
-            if (!isValid) {
-                this.loading = false;
-                return;
-            }
-
-            if (this.username && this.password) {
-                    userService.login(user.getNickname(),user.getPassword()).then(
-                    (data) => {
-                        this.$router.push("/world");
-                    },
-                    (error) => {
-                        this.loading = false;
-                        this.message = error;
-                    }
-                );
-            }
-        });
+  data() {
+    return {
+      username: '',
+      password: '',
+      submitted: false,
+      loading: false,
+      error: '',
+    };
+  },
+  created() {
+    if (this.isLoggedIn) {
+      this.$router.push('/world');
     }
-}
+  },
+  methods: {
+    handleLogin() {
+      const user = User.getInstance();
+      user.login(this.username, this.password);
+      this.loading = true;
+      this.$validator.validateAll().then((isValid) => {
+        if (!isValid) {
+          this.loading = false;
+          return;
+        }
+
+        if (this.username && this.password) {
+          userService.login(user.getNickname(), user.getPassword()).then(
+              () => {
+                this.$router.push('/world');
+              },
+              (error) => {
+                this.loading = false;
+                this.message = error;
+              },
+          );
+        }
+      });
+    },
+  },
 
 });
 </script>
