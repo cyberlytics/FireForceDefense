@@ -11,7 +11,7 @@ import credits from './components/credits.vue';
 import level from './components/level.vue';
 import world from './components/world.vue';
 import User from './model/User';
-import registration from "./components/registration.vue";
+import registration from './components/registration.vue';
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
