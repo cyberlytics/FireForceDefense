@@ -7,6 +7,8 @@
     "Create new account?": "Neuen Account erstellen?",
     "Forgot password?": "Passwort vergessen?",
     "register": "Registrieren",
+    "E-mail required": "Das E-Mail Feld ist erforderlich!",
+    "Password required": "Das Passwort Feld ist erforderlich!",
     "log in": "Anmelden",
     "Credits": "Credits",
     "lost": "Verloren",
