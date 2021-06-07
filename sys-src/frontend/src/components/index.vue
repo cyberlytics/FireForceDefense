@@ -9,7 +9,9 @@
             </div>
             <div class="mb-3">
                 <div>
-                    <router-link class="btn btn-primary btn-block btn-lg" to="/registration">{{ $t('register') }}</router-link>
+                    <router-link class="btn btn-primary btn-block btn-lg" to="/registration">{{
+                        $t('register')
+                    }}</router-link>
                 </div>
             </div>
             <hr class="mb-3" />
