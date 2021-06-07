@@ -1,5 +1,9 @@
 import express, { Express } from 'express';
 import path from 'path';
+import YAML from 'yamljs';
+import swaggerUi from 'swagger-ui-express';
+import AccountsController from './AccountsController';
+import GameController from './GameController';
 
 export default class Server {
     public app: Express;
@@ -15,6 +19,11 @@ export default class Server {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(express.static(path.join(__dirname, '../static')));
+
+        const swaggerDocumentation = YAML.load(path.resolve(__dirname, '../swagger.yaml'));
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentation));
+
+        this.initControllers();
     }
 
     registerAppGet(location: string | RegExp, func: (req: express.Request, res: express.Response) => void): void {
@@ -33,5 +42,10 @@ export default class Server {
         this.app.listen(this.httpPort, '0.0.0.0', () => {
             console.log(`server started at http://localhost:${this.httpPort}`);
         });
+    }
+
+    private initControllers() {
+        this.app.use('/', new AccountsController().router);
+        this.app.use('/', new GameController().router);
     }
 }
