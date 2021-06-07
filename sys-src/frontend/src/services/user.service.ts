@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/auth/';
+const API_URL = 'http://localhost:8000';
 
 export const userService = {
     login,
@@ -8,7 +8,7 @@ export const userService = {
 };
 
 async function login(username: string, password: string): Promise<unknown> {
-    const response = await axios.post(API_URL + 'signin', {
+    const response = await axios.post(API_URL + '/accounts/login', {
         username,
         password,
     });
@@ -22,5 +22,3 @@ function logout(): void {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
 }
-
-
