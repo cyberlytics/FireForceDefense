@@ -1,4 +1,4 @@
-import Server from './server';
+import Server from './Server';
 import Storage from './storage';
 import type express from 'express';
 
