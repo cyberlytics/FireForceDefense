@@ -1,0 +1,269 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LevelSidebar.vue level sidebar matches snapshot 1`] = `
+<div
+  id="level-view-sidebar"
+  style="z-index: 100;"
+>
+  <div
+    class="d-flex flex-row justify-content-between align-items-center mb-3 row-cols-3"
+  >
+    <div
+      class="d-flex justify-content-start"
+    >
+      <div
+        class="bg-light p-2"
+        id="money"
+      >
+        
+                42 
+        <img
+          alt="Coins"
+          src="/assets/utilities-Coin.svg"
+          style="height: 1em;"
+        />
+      </div>
+    </div>
+     
+    <div
+      class="d-flex justify-content-center"
+    >
+      <button
+        class="btn btn-card"
+        id="rain-emergency-relief"
+      >
+        <img
+          alt="Rain"
+          src="/assets/utilities-Nothilfe.svg"
+          style="height: 3em;"
+        />
+      </button>
+    </div>
+     
+    <div
+      class="d-flex justify-content-end"
+    >
+      <button
+        class="btn btn-light"
+        data-target="#level-menu-modal"
+        data-toggle="modal"
+      >
+        <img
+          alt="Menu"
+          src="/assets/utilities-menu_bttn.svg"
+          style="height: 1em;"
+        />
+      </button>
+    </div>
+  </div>
+   
+  <div
+    class="card my-2"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="d-flex justify-content-between mb-2"
+      >
+        <h2
+          class="card-title h5"
+        >
+          building menu
+        </h2>
+         
+        <button
+          class="small-menu-card btn btn-card"
+        >
+          <svg
+            height="100%"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <rect
+              fill="url(#utility-Abbauen)"
+              height="100"
+              width="100"
+              x="0"
+              y="0"
+            />
+          </svg>
+        </button>
+      </div>
+       
+      <div
+        class="build-menu-cards"
+      >
+        <button
+          class="build-menu-card btn btn-card"
+        >
+          <svg
+            class="p-1"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 100 100"
+            width="100%"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <rect
+              fill="url(#content-Loeschtrupp)"
+              height="100"
+              width="100"
+              x="0"
+              y="0"
+            />
+          </svg>
+           
+          <span
+            class="d-flex justify-content-end mt-1"
+          >
+            <span
+              class="build-costs"
+            >
+              10
+            </span>
+          </span>
+        </button>
+        <button
+          class="build-menu-card btn btn-card"
+        >
+          <svg
+            class="p-1"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 100 100"
+            width="100%"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <rect
+              fill="url(#content-Loeschturm)"
+              height="100"
+              width="100"
+              x="0"
+              y="0"
+            />
+          </svg>
+           
+          <span
+            class="d-flex justify-content-end mt-1"
+          >
+            <span
+              class="build-costs"
+            >
+              25
+            </span>
+          </span>
+        </button>
+        <button
+          class="build-menu-card btn btn-card"
+        >
+          <svg
+            class="p-1"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 100 100"
+            width="100%"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <rect
+              fill="url(#content-Loeschkran)"
+              height="100"
+              width="100"
+              x="0"
+              y="0"
+            />
+          </svg>
+           
+          <span
+            class="d-flex justify-content-end mt-1"
+          >
+            <span
+              class="build-costs"
+            >
+              40
+            </span>
+          </span>
+        </button>
+        <button
+          class="build-menu-card btn btn-card"
+        >
+          <svg
+            class="p-1"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 100 100"
+            width="100%"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <rect
+              fill="url(#content-Loeschschiff)"
+              height="100"
+              width="100"
+              x="0"
+              y="0"
+            />
+          </svg>
+           
+          <span
+            class="d-flex justify-content-end mt-1"
+          >
+            <span
+              class="build-costs"
+            >
+              100
+            </span>
+          </span>
+        </button>
+        <button
+          class="build-menu-card btn btn-card"
+        >
+          <svg
+            class="p-1"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 100 100"
+            width="100%"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <rect
+              fill="url(#content-Loeschzeppelin)"
+              height="100"
+              width="100"
+              x="0"
+              y="0"
+            />
+          </svg>
+           
+          <span
+            class="d-flex justify-content-end mt-1"
+          >
+            <span
+              class="build-costs"
+            >
+              150
+            </span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="card my-2"
+    id="help"
+  >
+    <div
+      class="card-body"
+    >
+      <h2
+        class="card-title h5"
+      >
+        help
+      </h2>
+       
+    </div>
+  </div>
+</div>
+`;

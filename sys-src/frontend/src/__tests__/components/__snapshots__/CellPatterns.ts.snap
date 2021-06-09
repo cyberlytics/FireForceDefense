@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CellPatterns.vue cell patterns match snapshot 1`] = `
+<defs>
+  <pattern
+    height="1"
+    id="cell-Abgebrannt"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/cell-Abgebrannt.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="cell-Feld"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/cell-Feld.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="cell-Gebirge"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/cell-Gebirge.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="cell-Lavasee"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/cell-Lavasee.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="cell-See"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/cell-See.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="cell-Vulkangestein"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/cell-Vulkangestein.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="cell-Waldboden"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/cell-Waldboden.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="cell-Wiese"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/cell-Wiese.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="cell-Wueste"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/cell-Wueste.svg"
+      y="0"
+    />
+  </pattern>
+</defs>
+`;

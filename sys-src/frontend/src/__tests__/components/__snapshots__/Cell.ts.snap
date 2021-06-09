@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cell.vue cell of type "Abgebrannt" with fire has smoke 1`] = `
+<g
+  transform="translate(0,0)"
+>
+  <polygon
+    fill="url(#cell-Abgebrannt)"
+    points="51.961524228,-30 51.961524228,30 0,60 -51.961524228,30 -51.961524228,-30 0,-60"
+    stroke="#000"
+  />
+   
+  <!---->
+   
+  <rect
+    fill="url(#smoke)"
+    fill-opacity=".4"
+    height="73.48469226"
+    width="73.48469226"
+    x="-36.742346142"
+    y="-36.742346142"
+  />
+   
+  <!---->
+   
+  <rect
+    fill="url(#fire-1)"
+    height="73.48469226"
+    width="73.48469226"
+    x="-36.742346142"
+    y="-36.742346142"
+  />
+   
+  <!---->
+   
+  <!---->
+</g>
+`;
+
+exports[`Cell.vue cell with content matches snapshot 1`] = `
+<g
+  transform="translate(0,0)"
+>
+  <polygon
+    fill="url(#cell-Wiese)"
+    points="51.961524228,-30 51.961524228,30 0,60 -51.961524228,30 -51.961524228,-30 0,-60"
+    stroke="#000"
+  />
+   
+  <rect
+    fill="url(#content-Baumgruppe)"
+    height="73.48469226"
+    width="73.48469226"
+    x="-36.742346142"
+    y="-36.742346142"
+  />
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+</g>
+`;
+
+exports[`Cell.vue cell with damaged content has indicator 1`] = `
+<g
+  transform="translate(0,0)"
+>
+  <polygon
+    fill="url(#cell-Wiese)"
+    points="51.961524228,-30 51.961524228,30 0,60 -51.961524228,30 -51.961524228,-30 0,-60"
+    stroke="#000"
+  />
+   
+  <rect
+    fill="url(#content-Loeschturm)"
+    height="73.48469226"
+    width="73.48469226"
+    x="-36.742346142"
+    y="-36.742346142"
+  />
+   
+  <!---->
+   
+  <g>
+    <rect
+      class="damage-bad"
+      height="6"
+      width="60"
+      x="-30"
+      y="-39"
+    />
+     
+    <rect
+      class="damage-good"
+      height="6"
+      width="57"
+      x="-30"
+      y="-39"
+    />
+  </g>
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+</g>
+`;
+
+exports[`Cell.vue cell with damaged, undestroyable content has no indicator 1`] = `
+<g
+  transform="translate(0,0)"
+>
+  <polygon
+    fill="url(#cell-Wiese)"
+    points="51.961524228,-30 51.961524228,30 0,60 -51.961524228,30 -51.961524228,-30 0,-60"
+    stroke="#000"
+  />
+   
+  <rect
+    fill="url(#content-Steinbrocken)"
+    height="73.48469226"
+    width="73.48469226"
+    x="-36.742346142"
+    y="-36.742346142"
+  />
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+</g>
+`;
+
+exports[`Cell.vue cell with fire and "Brandreste" as content has smoke 1`] = `
+<g
+  transform="translate(0,0)"
+>
+  <polygon
+    fill="url(#cell-Wiese)"
+    points="51.961524228,-30 51.961524228,30 0,60 -51.961524228,30 -51.961524228,-30 0,-60"
+    stroke="#000"
+  />
+   
+  <rect
+    fill="url(#content-Brandreste)"
+    height="73.48469226"
+    width="73.48469226"
+    x="-36.742346142"
+    y="-36.742346142"
+  />
+   
+  <rect
+    fill="url(#smoke)"
+    fill-opacity=".4"
+    height="73.48469226"
+    width="73.48469226"
+    x="-36.742346142"
+    y="-36.742346142"
+  />
+   
+  <!---->
+   
+  <rect
+    fill="url(#fire-1)"
+    height="73.48469226"
+    width="73.48469226"
+    x="-36.742346142"
+    y="-36.742346142"
+  />
+   
+  <!---->
+   
+  <!---->
+</g>
+`;
+
+exports[`Cell.vue cell with fire matches snapshot 1`] = `
+<g
+  transform="translate(0,0)"
+>
+  <polygon
+    fill="url(#cell-Wiese)"
+    points="51.961524228,-30 51.961524228,30 0,60 -51.961524228,30 -51.961524228,-30 0,-60"
+    stroke="#000"
+  />
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+   
+  <rect
+    fill="url(#fire-4)"
+    height="73.48469226"
+    width="73.48469226"
+    x="-36.742346142"
+    y="-36.742346142"
+  />
+   
+  <!---->
+   
+  <!---->
+</g>
+`;
+
+exports[`Cell.vue empty cell matches snapshot 1`] = `
+<g
+  transform="translate(0,0)"
+>
+  <polygon
+    fill="url(#cell-Wiese)"
+    points="51.961524228,-30 51.961524228,30 0,60 -51.961524228,30 -51.961524228,-30 0,-60"
+    stroke="#000"
+  />
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+</g>
+`;
