@@ -4,7 +4,7 @@ import YAML from 'yamljs';
 import swaggerUi from 'swagger-ui-express';
 import AccountsController from './AccountsController';
 import GameController from './GameController';
-import {connect} from "./mongoose";
+import { connect } from './mongoose';
 
 export default class Server {
     public app: Express;
