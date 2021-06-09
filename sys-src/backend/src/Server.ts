@@ -4,6 +4,7 @@ import YAML from 'yamljs';
 import swaggerUi from 'swagger-ui-express';
 import AccountsController from './AccountsController';
 import GameController from './GameController';
+import { connect } from './mongoose';
 
 export default class Server {
     public app: Express;
@@ -24,6 +25,9 @@ export default class Server {
         this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentation));
 
         this.initControllers();
+
+        //temporary place for 'connect()' for testing purpose
+        connect();
     }
 
     registerAppGet(location: string | RegExp, func: (req: express.Request, res: express.Response) => void): void {
