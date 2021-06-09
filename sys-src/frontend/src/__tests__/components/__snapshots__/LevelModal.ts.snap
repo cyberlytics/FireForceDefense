@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LevelModal.vue level modal matches snapshot 1`] = `
+<div
+  class="modal"
+  id="level-menu-modal"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+  >
+    <div
+      class="modal-content"
+    >
+      <div
+        class="modal-header"
+      >
+        <h2
+          class="modal-title h5"
+        >
+          menu
+        </h2>
+         
+        <button
+          aria-label="Close"
+          class="close"
+          data-dismiss="modal"
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+          >
+            ×
+          </span>
+        </button>
+      </div>
+       
+      <div
+        class="modal-body"
+      >
+        <div
+          class="text-center"
+        >
+          
+                    Game is paused
+                
+        </div>
+         
+        <hr
+          class="my-3"
+        />
+         
+        <button
+          class="btn btn-primary btn-block btn-lg"
+        >
+          
+                    back to level selection
+                
+        </button>
+         
+        <!---->
+         
+        <hr
+          class="my-3"
+        />
+         
+        <button
+          class="btn btn-primary btn-block btn-lg"
+        >
+          
+                    Restart Level
+                
+        </button>
+         
+        <!---->
+         
+        <hr
+          class="my-3"
+        />
+         
+        <button
+          aria-label="Close"
+          class="btn btn-primary btn-block btn-lg"
+          data-dismiss="modal"
+        >
+          
+                    continue playing
+                
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

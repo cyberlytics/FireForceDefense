@@ -1,4 +1,5 @@
 build
-public
 dist
 coverage
+node_modules
+.idea

@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UtilityPatterns.vue utility patterns match snapshot 1`] = `
+<defs>
+  <pattern
+    height="1"
+    id="utility-Coin"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/utilities-Coin.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="utility-Abbauen"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/utilities-Abbauen.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="utility-Nothilfe"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/utilities-Nothilfe.svg"
+      y="0"
+    />
+  </pattern>
+</defs>
+`;

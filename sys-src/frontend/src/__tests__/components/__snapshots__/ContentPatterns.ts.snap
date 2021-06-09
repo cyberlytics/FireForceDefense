@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContentPatterns.vue content patterns match snapshot 1`] = `
+<defs>
+  <pattern
+    height="1"
+    id="content-Loeschkran"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/content-Loeschkran.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="content-Loeschschiff"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/content-Loeschschiff.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="content-Loeschzeppelin"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/content-Loeschzeppelin.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="content-Loeschtrupp"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/content-Loeschtrupp.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="content-Loeschturm"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/content-Loeschturm.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="content-Basis"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/content-Basis.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="content-Haus"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/content-Haus.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="content-Baumgruppe"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/content-Baumgruppe.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="content-Steinbrocken"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/content-Steinbrocken.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="content-Brandreste"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/content-Brandreste.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="content-Totholz"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/content-Totholz.svg"
+      y="0"
+    />
+  </pattern>
+</defs>
+`;

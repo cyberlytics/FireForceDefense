@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RangePreview.vue range preview matches snapshot 1`] = `
+<g
+  style="pointer-events: none;"
+  transform="translate(0,0)"
+>
+  <defs>
+    <radialgradient
+      id="extinguish-range-gradient"
+    >
+      <stop
+        offset="10%"
+        stop-color="#FFFFFF"
+      />
+       
+      <stop
+        offset="70%"
+        stop-color="#80DDFF"
+      />
+       
+      <stop
+        offset="95%"
+        stop-color="#00BBFF"
+      />
+       
+      <stop
+        offset="100%"
+        stop-color="#80DDFF"
+      />
+    </radialgradient>
+  </defs>
+   
+  <circle
+    cx="0"
+    cy="0"
+    fill="url('#extinguish-range-gradient')"
+    fill-opacity="0.3"
+    r="216.33307652783935"
+  />
+</g>
+`;

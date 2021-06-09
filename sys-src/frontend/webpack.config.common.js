@@ -98,6 +98,7 @@ module.exports = {
             '@effects': path.resolve(__dirname, 'src/effects'),
             '@levels': path.resolve(__dirname, 'src/levels'),
             '@model': path.resolve(__dirname, 'src/model'),
+            '@components': path.resolve(__dirname, 'src/components'),
         },
         extensions: ['.tsx', '.ts', '.js', '.scss', '.vue'],
     },

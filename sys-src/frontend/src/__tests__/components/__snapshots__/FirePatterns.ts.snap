@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FirePatterns.vue fire patterns match snapshot 1`] = `
+<defs>
+  <pattern
+    height="1"
+    id="fire-1"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/fire_intensity1.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="fire-2"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/fire_intensity2.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="fire-3"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/fire_intensity3.svg"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="fire-4"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <image
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="/assets/fire_intensity4.svg"
+      y="0"
+    />
+  </pattern>
+</defs>
+`;
