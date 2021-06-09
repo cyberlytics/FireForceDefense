@@ -1,3 +1,5 @@
+image: node:14
+
 stages:
     - dependencies
     - lint
@@ -12,7 +14,7 @@ cache:
 
 default:
     tags:
-        - linux
+        - cluster
 
 install_dependencies_backend:
     stage: dependencies
@@ -30,34 +32,40 @@ lint_backend:
     stage: lint
     script:
         - cd sys-src/backend
+        - npm install
         - npm run lint
 
 lint_frontend:
     stage: lint
     script:
         - cd sys-src/frontend
+        - npm install
         - npm run lint
 
 build_backend:
     stage: build
     script:
         - cd sys-src/backend
+        - npm install
         - npm run build
 
 build_frontend:
     stage: build
     script:
         - cd sys-src/frontend
+        - npm install
         - npm run build
 
 test_backend:
     stage: test
     script:
         - cd sys-src/backend
+        - npm install
         - npm run test
 
 test_frontend:
     stage: test
     script:
         - cd sys-src/frontend
+        - npm install
         - npm run test

@@ -15,14 +15,8 @@ module.exports = {
         new VueLoaderPlugin(),
         new CopyPlugin({
             patterns: [
-                {
-                    from: path.resolve(__dirname, 'assets'),
-                    to: path.resolve(__dirname, 'dist/assets'),
-                },
-                {
-                    from: path.resolve(__dirname, 'src/index.html'),
-                    to: path.resolve(__dirname, 'dist/index.html'),
-                },
+                { from: path.resolve(__dirname, 'assets'), to: path.resolve(__dirname, 'dist/assets') },
+                { from: path.resolve(__dirname, 'src/index.html'), to: path.resolve(__dirname, 'dist/index.html') },
             ],
         }),
     ],
@@ -104,6 +98,7 @@ module.exports = {
             '@effects': path.resolve(__dirname, 'src/effects'),
             '@levels': path.resolve(__dirname, 'src/levels'),
             '@model': path.resolve(__dirname, 'src/model'),
+            '@components': path.resolve(__dirname, 'src/components'),
             '@services': path.resolve(__dirname, 'src/services'),
         },
         extensions: ['.tsx', '.ts', '.js', '.scss', '.vue'],
