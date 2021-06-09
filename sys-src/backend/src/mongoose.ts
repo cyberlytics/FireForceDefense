@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 let database: mongoose.Connection;
 
-export const connect = () => {
+export const connect = (): void => {
     const url = 'mongodb://localhost:27017/';
     const options = {
         useCreateIndex: true,
@@ -24,9 +24,9 @@ export const connect = () => {
     });
 };
 
-export const disconnect = () => {
+export const disconnect = (): void => {
     if (!database) {
         return;
     }
-    mongoose.disconnect((err) => {});
+    mongoose.disconnect();
 };
