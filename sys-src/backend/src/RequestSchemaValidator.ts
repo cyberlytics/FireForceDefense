@@ -1,7 +1,7 @@
 import type { Request, NextFunction } from 'express';
 import type Joi from 'joi';
 
-export default function validateRequestSchema(req: Request, next: NextFunction, schema: Joi.Schema) {
+export default function validateRequestSchema(req: Request, next: NextFunction, schema: Joi.Schema): void {
     const validationOptions = {
         abortEarly: false,
         allowUnknown: true,
