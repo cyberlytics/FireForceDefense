@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Credits.vue credits match snapshot 1`] = `
+<div
+  class="main-menu-bg"
+>
+  <div
+    class="main-menu"
+  >
+    <div>
+      <img
+        alt="FireForceDefense"
+        class="img-fluid"
+        src="/assets/logo/logo.png"
+        style="width: 250px;"
+      />
+    </div>
+     
+    <h2>
+      Credits
+    </h2>
+     
+    <p>
+      Cameron Barbee
+    </p>
+     
+    <p>
+      Philipp Stangl
+    </p>
+     
+    <p>
+      Sebastian Schuscha
+    </p>
+     
+    <p>
+      Thomas Ammann
+    </p>
+     
+    <p>
+      Thomas Stangl
+    </p>
+     
+    <p>
+      Tobias Schotter
+    </p>
+     
+    <hr
+      class="mb-3"
+    />
+     
+    <p
+      class="small"
+    >
+      
+            Feuerball-Animation: CC BY 4.0 by "EK"
+      <br />
+       
+      <a
+        href="https://lottiefiles.com/13581-dancing-fire"
+      >
+        https://lottiefiles.com/13581-dancing-fire
+      </a>
+    </p>
+     
+    <hr
+      class="mb-3"
+    />
+     
+    <div>
+      <a
+        class="btn btn-primary btn-block btn-lg"
+      >
+        back
+      </a>
+    </div>
+  </div>
+</div>
+`;

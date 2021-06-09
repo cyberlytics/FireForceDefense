@@ -1,0 +1,328 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EffectPatterns.vue effect patterns match snapshot 1`] = `
+<defs>
+  <radialgradient
+    id="thunder-background"
+  >
+    <stop
+      offset="10%"
+      stop-color="#000"
+      stop-opacity=".5"
+    />
+     
+    <stop
+      offset="100%"
+      stop-color="#000"
+      stop-opacity="0"
+    />
+  </radialgradient>
+   
+  <radialgradient
+    id="fireball-background"
+  >
+    <stop
+      offset="10%"
+      stop-color="#fd7e14"
+      stop-opacity=".5"
+    />
+     
+    <stop
+      offset="85%"
+      stop-color="#ffae0d"
+      stop-opacity=".3"
+    />
+     
+    <stop
+      offset="100%"
+      stop-color="#ffc107"
+      stop-opacity="0"
+    />
+  </radialgradient>
+   
+  <filter
+    id="lava-filter-mask"
+  >
+    <fecolormatrix
+      in="SourceGraphic"
+      type="matrix"
+      values="1 1 1 1 0
+                               1 1 1 1 0
+                               1 1 1 1 0
+                               0 0 0 1 0"
+    />
+  </filter>
+   
+  <filter
+    id="lava-filter-extend"
+  >
+    <fegaussianblur
+      stdDeviation="2"
+    />
+  </filter>
+   
+  <filter
+    id="lava-filter-drop"
+  >
+    <feturbulence
+      baseFrequency="0.15"
+      numOctaves="3"
+      result="turbulence"
+      type="fractalNoise"
+    />
+     
+    <fedisplacementmap
+      in="SourceGraphic"
+      in2="turbulence"
+      scale="50"
+      xChannelSelector="R"
+      yChannelSelector="G"
+    />
+  </filter>
+   
+  <pattern
+    height="1"
+    id="lava-animation"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <use
+      height="180"
+      width="180"
+      x="-40"
+      xlink:href="#animation-effect-Lava"
+      y="-30"
+    />
+  </pattern>
+   
+  <pattern
+    height="1"
+    id="lava-drops"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="-50 -50 100 100"
+    width="1"
+  >
+    <circle
+      cx="0"
+      cy="0"
+      fill="transparent"
+      filter="url(#lava-filter-drop)"
+      r="47"
+      stroke="#fff"
+      stroke-dasharray="10 30"
+      stroke-linecap="round"
+      stroke-width="5"
+    />
+  </pattern>
+   
+  <pattern
+    height="1"
+    id="smoke"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <use
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="#animation-smoke"
+      y="0"
+    />
+  </pattern>
+   
+  <pattern
+    height=".35"
+    id="effect-Regen"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 70"
+    width=".5"
+  >
+    <use
+      height="200"
+      width="200"
+      x="-50"
+      xlink:href="#animation-effect-Regen"
+      y="-65"
+    />
+  </pattern>
+   
+  <pattern
+    height="1"
+    id="effect-Gewitter"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <rect
+      fill="url(#thunder-background)"
+      height="100"
+      width="100"
+      x="0"
+      y="0"
+    />
+     
+    <use
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="#animation-effect-Gewitter"
+      y="0"
+    />
+  </pattern>
+   
+  <pattern
+    height="1"
+    id="effect-Feuerball"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <rect
+      fill="url(#fireball-background)"
+      height="100"
+      width="100"
+      x="0"
+      y="0"
+    />
+     
+    <use
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="#animation-effect-Feuerball"
+      y="0"
+    />
+  </pattern>
+   
+  <pattern
+    height="1"
+    id="effect-Lava"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <rect
+      fill="url(#lava-animation)"
+      filter="url(#lava-filter-extend)"
+      height="100"
+      width="100"
+      x="0"
+      y="00"
+    />
+     
+    <mask
+      height="100"
+      id="lava-mask"
+      width="100"
+      x="0"
+      y="0"
+    >
+      <g
+        transform="translate(50,50)"
+      >
+        <circle
+          class="lava-pulse"
+          cx="0"
+          cy="0"
+          fill="url(#lava-drops)"
+          r="50"
+        />
+      </g>
+       
+      <rect
+        fill="url(#lava-animation)"
+        fill-opacity=".7"
+        filter="url(#lava-filter-mask)"
+        height="100"
+        width="100"
+        x="0"
+        y="00"
+      />
+    </mask>
+     
+    <image
+      height="100"
+      mask="url(#lava-mask)"
+      width="100"
+      x="0"
+      xlink:href="/assets/lava.svg"
+      y="0"
+    />
+  </pattern>
+   
+  <pattern
+    height="1"
+    id="effect-Feuer1"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <use
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="#animation-effect-Feuer1"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="effect-Feuer2"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <use
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="#animation-effect-Feuer2"
+      y="0"
+    />
+  </pattern>
+  <pattern
+    height="1"
+    id="effect-Feuer3"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100"
+    width="1"
+  >
+    <use
+      height="100"
+      width="100"
+      x="0"
+      xlink:href="#animation-effect-Feuer3"
+      y="0"
+    />
+  </pattern>
+   
+  <pattern
+    height="10"
+    id="effect-debug"
+    patternUnits="userSpaceOnUse"
+    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 10 10"
+    width="10"
+  >
+    <line
+      stroke="#f0f"
+      stroke-opacity=".3"
+      x1="0"
+      x2="10"
+      y1="0"
+      y2="10"
+    />
+     
+    <line
+      stroke="#f0f"
+      stroke-opacity=".3"
+      x1="0"
+      x2="10"
+      y1="10"
+      y2="0"
+    />
+  </pattern>
+</defs>
+`;
