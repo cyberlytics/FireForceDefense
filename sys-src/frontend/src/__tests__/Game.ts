@@ -16,7 +16,7 @@ const mockedAxios = mocked(axios, true);
 describe('Game', () => {
     beforeEach(() => {
         User.getInstance().logout();
-        User.getInstance().login('test-user-jest');
+        User.getInstance().login('test-user-jest', 'test123');
     });
 
     test('throw exception when unkown level id supplied', () => {
