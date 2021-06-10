@@ -67,7 +67,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue';
 import { userService } from '@services/user.service';
 import logo from './logo.vue';
@@ -97,7 +97,7 @@ export default Vue.extend({
             const user = User.getInstance();
             user.login(this.username, this.password);
             this.loading = true;
-            this.$validator.validateAll().then((isValid) => {
+            this.$validator.validateAll().then((isValid: boolean) => {
                 if (!isValid) {
                     this.loading = false;
                     return;
