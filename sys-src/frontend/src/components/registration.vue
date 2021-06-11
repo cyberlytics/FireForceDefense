@@ -6,7 +6,7 @@
                 <h5 class="headlineRegistration">{{ $t('registration') }}</h5>
                 <div class="mb-3">
                     <input
-                        id="nickname"
+                        id="username"
                         v-model="name"
                         :class="{ falseInput: isFalseName }"
                         :placeholder="$t('user name')"
