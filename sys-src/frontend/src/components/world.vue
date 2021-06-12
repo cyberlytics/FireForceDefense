@@ -44,6 +44,7 @@ import L from 'leaflet';
 import { LControl, LIcon, LMap, LMarker, LTileLayer } from 'vue2-leaflet';
 import World from '@model/World';
 import Score from '@model/Score';
+import { userService } from '@services/user.service';
 
 export default Vue.extend({
     components: {
@@ -142,6 +143,7 @@ export default Vue.extend({
             this.$router.push(`/level/${levelId}`);
         },
         goToStartMenu() {
+            userService.logout();
             this.world.leaveWorld();
             this.$router.push('/');
         },
