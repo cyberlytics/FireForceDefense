@@ -10,7 +10,9 @@
 \usepackage{graphicx}
 \usepackage{ngerman}
 
-\title{\LARGE 
+\hypersetup{hidelinks}
+
+\title{\LARGE
 \textbf{FireForceDefense} \\ Technical Report
 }
 
@@ -23,7 +25,13 @@
 \thispagestyle{empty}
 \pagestyle{empty}
 
-\section{BAUSTEINSICHT}
+\section{Einführung und Ziele}
+
+Im vorliegenden Projekt soll das Tower-Defense-Spiel „FireForceDefense“ erweitert werden.
+Ziel ist es, das Spiel um eine einfache Benutzerverwaltung, d.h. Registrierung und Anmeldung, zu ergänzen.
+Außerdem soll eine Rangliste geschaffen werden, wofür eine Spielstand-Speicherung notwendig ist.
+
+\section{Bausteinsicht}
 Diese Sicht zeigt die statische Zerlegung des Systems in Bausteine sowie
 deren Beziehungen.  %\cite{c1}
 
@@ -35,30 +43,68 @@ deren Beziehungen.  %\cite{c1}
 \end{figure}
 
 
-\subsection{GESAMTSYSTEM}
+\subsection{Gesamtsystem}
 %Whitebox-Beschreibung des Gesamtsystems,
 %zusammen mit Blackbox-Beschreibungen der darin enthaltenen Bausteine.
-Die Anwendung basiert auf einer Client-Server Architektur (\ref{fig:context}).  
+Die Anwendung basiert auf einer Client-Server-Architektur (\ref{fig:context}).
 Frontend und Backend kommunizieren über eine RESTful-API.
 
 
-\subsection{FRONTEND}
+\subsection{Frontend}
 Dieser Abschnitt beschreibt die client-seitige Frontend-Architektur.
-Für die Repräsentation der Anwendung im client-seitigen Frontend wird das Framework Vue.js verwendet. 
+Das Frontend wird unter Zuhilfenahme des Frameworks Vue.js realisiert.
 
+Es ist selbst in mehrere Unter-Bausteine zerlegt:
 
-\subsection{BACKEND}
-Dieser Abschnitt beschreibt die server-seitige Backend-Architektur. \\
+\subsubsection{Model}
 
-\textbf{Datenbank}
+Dieser Baustein enthält die Logik für den Problembereich im Frontend.
+Die eigentlichen Anzeigekomponenten besitzen Referenzen auf die Instanzen der Klassen des Model-Bereichs,
+sodass Eingaben an das Model weitergegeben und dort verarbeitet werden können.
+Schließlich besitzt das Model Schnittstellen, mittels denen Informationen über den aktuellen Zustand abgefragt werden können,
+um basierend darauf die Anzeige anzupassen.
+
+Im Model ist beispielsweise die Spiellogik und die Schnittstelle zum Speichern und Abrufen von Spielständen verortet.
+
+\subsubsection{Components}
+
+In diesem Modul sind die Vue-Komponenten gesammelt, mit denen die eigentliche Anzeige im Webbrowser realisiert wird.
+Die Komponenten sind dabei hierarchisch geordnet, so besteht ein Level beispielsweise aus einer Sidebar und der LevelMap,
+die LevelMap wiederum enthält einzelne Zellen und so weiter.
+
+Die Komponenten behandeln alle Eingaben und senden bei Bedarf entsprechende Nachrichten an das Model.
+
+\subsubsection{SCSS}
+
+Hier werden zentral genutzte Stile im SCSS-Format abgelegt.
+
+\subsubsection{Lang}
+
+Dieser Baustein ist für die Internationalisierung, genauer gesagt die Übersetzung, zuständig.
+Aktuell ist lediglich eine deutsche Sprachvariante hinterlegt.
+
+\subsubsection{Levels}
+
+Dieses Modul enthält die Level-Definitionen.
+Eine Level-Definition beschreibt den initialen Aufbau des Spielfelds und die auftretenden Effekte.
+Jedes Level muss anhand der jeweiligen Definition im LevelManager des Model-Bereichs registriert werden.
+
+\subsubsection{Cells, Contents und Effects}
+
+In diesen drei Bausteinen sind die verschiedenen, konkreten Zell-, Inhalts- bzw. Effekt-Typen samt ihren jeweiligen Eigenschaften hinterlegt.
+
+\subsection{Backend}
+Dieser Abschnitt beschreibt die server-seitige Backend-Architektur.
+
+\subsubsection{Datenbank}
 
 Die Speicherung der Daten erfolgt im dokumentenorientierten NoSQL-Datenbankmanagementsystem \textit{MongoDB}.  Zusätzlich wird die Bibliothek  \textit{mongoose} für das Object Data Modeling (ODM) verwendet.  \\
 
-\textbf{Laufzeitumgebung}
+\subsubsection{Laufzeitumgebung}
 
 JavaScript-basierte Plattform Node.js mit dem serverseitigen Webframework ExpressJS.
 
-\section{VERTEILUNGSSICHT}
+\section{Verteilungssicht}
 Das Spiel wird in einem Docker Container bei dem Cloud-Anbieter \textit{Amazon Web Services} bereitgestellt. \\
 
 Dieser Abschnitt beschreibt:
@@ -73,7 +119,7 @@ Dieser Abschnitt beschreibt:
   Zuordnung von Softwareartefakten zu Bestandteilen der Infrastruktur
 \end{itemize}
 
-\section{QUERSCHNITTLICHE KONZEPTE}
+\section{Querschnittliche Konzepte}
 
 Dieser Abschnitt beschreibt übergreifende, prinzipielle Regelungen und
 Lösungsansätze, die an mehreren Stellen relevant sind.
@@ -100,6 +146,6 @@ Lösungsansätze, die an mehreren Stellen relevant sind.
 \end{thebibliography}
 
 
-\addtolength{\textheight}{-12cm} 
+\addtolength{\textheight}{-12cm}
 
 \end{document}
