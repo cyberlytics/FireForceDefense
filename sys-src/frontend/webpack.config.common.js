@@ -99,6 +99,7 @@ module.exports = {
             '@levels': path.resolve(__dirname, 'src/levels'),
             '@model': path.resolve(__dirname, 'src/model'),
             '@components': path.resolve(__dirname, 'src/components'),
+            '@services': path.resolve(__dirname, 'src/services'),
         },
         extensions: ['.tsx', '.ts', '.js', '.scss', '.vue'],
     },
