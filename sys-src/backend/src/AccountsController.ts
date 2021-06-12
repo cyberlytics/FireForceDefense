@@ -3,6 +3,11 @@ import { Router } from 'express';
 import Joi from 'joi';
 import validateRequestSchema from './RequestSchemaValidator';
 
+import { User } from './UserModel';
+import { Secret } from './secret';
+import jwt from 'jsonwebtoken';
+
+
 /**
  * API Handling for /accounts paths.
  */
@@ -56,7 +61,59 @@ export default class AccountsController {
 
     private login = (req: Request, res: Response) => {
         // TODO
-        return res.status(200).json({ message: 'Login' });
+        // TODO Testausgaben entfernen
+        console.log("Username Request Body: " + req.body.username);
+
+        User.findOne({
+            $or: [
+                {username: req.body.username},
+                {email: req.body.email}
+            ]
+
+
+        }).exec( (err: string, users: any) =>{
+            if(err){
+
+                // Server Error: Anfrage konnte nicht bearbeitet werden
+                console.log("Error: " + err);
+                return res.status(500).send({ message: err });
+
+            } else if(!users){
+
+                // Angefragter Benutzer wurde nicht gefunden
+                console.log("Benutzer nicht gefunden!");
+                return res.status(404).send({ message: "User Not found." });
+            } else{
+                // Angefragter Benutzer wurde gefunden
+                // Passwort abgleichen
+                // TODO Passworthash ableichen
+                let validPassword;
+                req.body.password == users.password ? validPassword = true : validPassword= false;
+
+                if(!validPassword){
+                    return res.status(401).send({
+                        accessToken: null,
+                        message: "Invalid Password!"
+                    });
+                }
+
+                // Javawebtoken mit einer Gültigkeit von 12 Stunden
+                var jwToken = jwt.sign({ id: users.id }, Secret.key, {
+                    expiresIn: 42200 // 12 hours
+                });
+
+                // Response mit UserId, Username, Email und Token
+                res.status(200).send({
+                    id: users._id,
+                    username: users.username,
+                    email: users.email,
+                    token: jwToken
+                });
+            }
+
+
+        });
+
     };
 
     private refreshTokenSchema = (req: Request, res: Response, next: NextFunction) => {
