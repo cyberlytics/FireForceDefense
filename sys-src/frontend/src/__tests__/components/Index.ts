@@ -3,7 +3,7 @@ import Index from '@components/index.vue';
 import Vue from 'vue';
 import VeeValidate from 'vee-validate';
 
-Vue.use(VeeValidate)
+Vue.use(VeeValidate);
 
 describe('Index.vue', () => {
     test('index matches snapshot', () => {
