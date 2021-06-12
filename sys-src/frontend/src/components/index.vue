@@ -85,6 +85,7 @@ export default Vue.extend({
             submitted: false,
             loading: false,
             error: '',
+            message: '',
         };
     },
     created() {
@@ -106,6 +107,7 @@ export default Vue.extend({
                 if (this.username && this.password) {
                     userService.login(user.getNickname(), user.getPassword()).then(
                         () => {
+                            console.log('World URL');
                             this.$router.push('/world');
                         },
                         (error) => {

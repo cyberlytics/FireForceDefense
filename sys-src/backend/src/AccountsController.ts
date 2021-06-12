@@ -7,7 +7,6 @@ import { User } from './UserModel';
 import { Secret } from './secret';
 import jwt from 'jsonwebtoken';
 
-
 /**
  * API Handling for /accounts paths.
  */
@@ -62,44 +61,51 @@ export default class AccountsController {
     private login = (req: Request, res: Response) => {
         // TODO
         // TODO Testausgaben entfernen
-        console.log("Username Request Body: " + req.body.username);
+        console.log('Username Request Body: ' + req.body.username);
 
         User.findOne({
-            $or: [
-                {username: req.body.username},
-                {email: req.body.email}
-            ]
-
-
-        }).exec( (err: string, users: any) =>{
-            if(err){
-
+            $or: [{ username: req.body.username }, { email: req.body.email }],
+        }).exec((err: string, users: any) => {
+            if (err) {
                 // Server Error: Anfrage konnte nicht bearbeitet werden
-                console.log("Error: " + err);
+                console.log('Error: ' + err);
                 return res.status(500).send({ message: err });
-
-            } else if(!users){
-
+            } else if (!users) {
                 // Angefragter Benutzer wurde nicht gefunden
-                console.log("Benutzer nicht gefunden!");
-                return res.status(404).send({ message: "User Not found." });
-            } else{
+                console.log('Benutzer nicht gefunden!');
+                return res.status(404).send({ message: 'User Not found.' });
+            } else {
                 // Angefragter Benutzer wurde gefunden
                 // Passwort abgleichen
                 // TODO Passworthash ableichen
                 let validPassword;
-                req.body.password == users.password ? validPassword = true : validPassword= false;
+                req.body.password == users.password ? (validPassword = true) : (validPassword = false);
 
-                if(!validPassword){
+                if (!validPassword) {
                     return res.status(401).send({
-                        accessToken: null,
-                        message: "Invalid Password!"
+                        token: null,
+                        message: 'Invalid Password!',
                     });
                 }
 
+                // TODO Anpassen
+                //  bcrypt.compare(req.body.password, users.password).then((ismatch: boolean) => {
+                //     // Javawebtoken mit einer Gültigkeit von 12 Stunden
+                //      if(ismatch){
+                //          const jwToken = jwt.sign({ id: users.id }, Secret.key, {
+                //              expiresIn: 42200, // 12 hours
+                //          });
+                //         } else{
+                //          return res.status(401).send({
+                //              token: null,
+                //              message: 'Invalid Password!',
+                //          });
+                //      }
+                // })
+
                 // Javawebtoken mit einer Gültigkeit von 12 Stunden
-                var jwToken = jwt.sign({ id: users.id }, Secret.key, {
-                    expiresIn: 42200 // 12 hours
+                const jwToken = jwt.sign({ id: users.id }, Secret.key, {
+                    expiresIn: 42200, // 12 hours
                 });
 
                 // Response mit UserId, Username, Email und Token
@@ -107,13 +113,10 @@ export default class AccountsController {
                     id: users._id,
                     username: users.username,
                     email: users.email,
-                    token: jwToken
+                    token: jwToken,
                 });
             }
-
-
         });
-
     };
 
     private refreshTokenSchema = (req: Request, res: Response, next: NextFunction) => {
