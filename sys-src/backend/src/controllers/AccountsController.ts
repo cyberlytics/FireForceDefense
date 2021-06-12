@@ -1,12 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 import { Router } from 'express';
 import Joi from 'joi';
-import validateRequestSchema from '@middleware/RequestSchemaValidator';
-import * as accountService from '@service/AccountService';
-
-import { User } from './UserModel';
-import { Secret } from './secret';
-import jwt from 'jsonwebtoken';
+import validateRequestSchema from '../middleware/RequestSchemaValidator';
+import * as accountService from '../services/AccountService';
 
 /**
  * API Handling for /accounts paths.
@@ -59,78 +55,29 @@ export default class AccountsController {
         validateRequestSchema(req, next, schema);
     };
 
-    private login = (req: Request, res: Response) => {
-        // TODO
-        // TODO Testausgaben entfernen
-        console.log('Username Request Body: ' + req.body.username);
-
-        User.findOne({
-            $or: [{ username: req.body.username }, { email: req.body.email }],
-        }).exec((err: string, users: any) => {
-            if (err) {
-                // Server Error: Anfrage konnte nicht bearbeitet werden
-                console.log('Error: ' + err);
-                return res.status(500).send({ message: err });
-            } else if (!users) {
-                // Angefragter Benutzer wurde nicht gefunden
-                console.log('Benutzer nicht gefunden!');
-                return res.status(404).send({ message: 'User Not found.' });
-            } else {
-                // Angefragter Benutzer wurde gefunden
-                // Passwort abgleichen
-                // TODO Passworthash ableichen
-                let validPassword;
-                req.body.password == users.password ? (validPassword = true) : (validPassword = false);
-
-                if (!validPassword) {
-                    return res.status(401).send({
-                        token: null,
-                        message: 'Invalid Password!',
-                    });
-                }
-
-                // TODO Anpassen
-                //  bcrypt.compare(req.body.password, users.password).then((ismatch: boolean) => {
-                //     // Javawebtoken mit einer Gültigkeit von 12 Stunden
-                //      if(ismatch){
-                //          const jwToken = jwt.sign({ id: users.id }, Secret.key, {
-                //              expiresIn: 42200, // 12 hours
-                //          });
-                //         } else{
-                //          return res.status(401).send({
-                //              token: null,
-                //              message: 'Invalid Password!',
-                //          });
-                //      }
-                // })
-
-                // Javawebtoken mit einer Gültigkeit von 12 Stunden
-                const jwToken = jwt.sign({ id: users.id }, Secret.key, {
-                    expiresIn: 42200, // 12 hours
-                });
-
-                // Response mit UserId, Username, Email und Token
-                res.status(200).send({
-                    id: users._id,
-                    username: users.username,
-                    email: users.email,
-                    token: jwToken,
-                });
-            }
-        });
+    private login = (req: Request, res: Response, next: NextFunction) => {
+        const { username, email, password } = req.body;
+        const ip = req.ip;
+        accountService
+            .login({ username, email, password, ip })
+            .then(({ refreshToken, ...account }) => {
+                this.refreshTokenCookie(res, refreshToken);
+                res.json(account);
+            })
+            .catch(next);
     };
 
     private refreshTokenSchema = (req: Request, res: Response, next: NextFunction) => {
         const schema = Joi.object({
             token: Joi.string().empty(''),
-            ipAddress: Joi.string().empty(''),
+            ip: Joi.string().empty(''),
         });
         validateRequestSchema(req, next, schema);
     };
 
     private refreshToken = (req: Request, res: Response, next: NextFunction) => {
-        const ip: string = req.ip;
-        const token: string = req.cookies.refreshToken;
+        const ip = req.ip;
+        const token = req.cookies.refreshToken;
         accountService
             .refreshToken({ token, ip })
             .then(({ refreshToken, ...account }) => {
@@ -160,10 +107,11 @@ export default class AccountsController {
     private revokeToken = (req: Request, res: Response, next: NextFunction) => {
         const token = req.body.token || req.cookies.refreshToken;
         if (!token) {
-            return res.status(400).json({ message: 'Token is required!' });
+            return res.status(400).json({ message: 'Token is required' });
         }
-        accountService.revokeToken({ token, ip: req.ip })
-            .then(() => res.json({ message: 'Token revoked' }))
+        accountService
+            .revokeToken({ token, ip: req.ip })
+            .then(() => res.json({ message: 'Token successfully revoked' }))
             .catch(next);
     };
 }
