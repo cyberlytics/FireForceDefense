@@ -1,7 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 import { Router } from 'express';
 import Joi from 'joi';
-import validateRequestSchema from './RequestSchemaValidator';
+import validateRequestSchema from '@middleware/RequestSchemaValidator';
+import * as accountService from '@service/AccountService';
 
 import { User } from './UserModel';
 import { Secret } from './secret';
@@ -127,9 +128,26 @@ export default class AccountsController {
         validateRequestSchema(req, next, schema);
     };
 
-    private refreshToken = (req: Request, res: Response) => {
-        // TODO
-        return res.status(200).json({ message: 'Refresh Token' });
+    private refreshToken = (req: Request, res: Response, next: NextFunction) => {
+        const ip: string = req.ip;
+        const token: string = req.cookies.refreshToken;
+        accountService
+            .refreshToken({ token, ip })
+            .then(({ refreshToken, ...account }) => {
+                this.refreshTokenCookie(res, refreshToken);
+                res.json(account);
+            })
+            .catch(next);
+    };
+
+    private refreshTokenCookie = (res: Response, token: string) => {
+        // refresh token expires after 24 hours
+        const expireyDelta = 24 * 60 * 60 * 1000;
+        const cookieOptions = {
+            httpOnly: true,
+            expires: new Date(Date.now() + expireyDelta),
+        };
+        res.cookie('refreshToken', token, cookieOptions);
     };
 
     private revokeTokenSchema = (req: Request, res: Response, next: NextFunction) => {
@@ -139,8 +157,13 @@ export default class AccountsController {
         validateRequestSchema(req, next, schema);
     };
 
-    private revokeToken = (req: Request, res: Response) => {
-        // TODO
-        return res.status(200).json({ message: 'Revoke token' });
+    private revokeToken = (req: Request, res: Response, next: NextFunction) => {
+        const token = req.body.token || req.cookies.refreshToken;
+        if (!token) {
+            return res.status(400).json({ message: 'Token is required!' });
+        }
+        accountService.revokeToken({ token, ip: req.ip })
+            .then(() => res.json({ message: 'Token revoked' }))
+            .catch(next);
     };
 }
