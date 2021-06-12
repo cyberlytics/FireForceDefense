@@ -3,7 +3,7 @@ import path from 'path';
 import YAML from 'yamljs';
 import swaggerUi from 'swagger-ui-express';
 import AccountsController from './AccountsController';
-import GameController from './GameController';
+import GameController from './controller/GameController';
 import { connect } from './mongoose';
 
 export default class Server {
