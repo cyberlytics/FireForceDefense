@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Index.vue index matches snapshot 1`] = `
+<div
+  class="main-menu-bg"
+>
+  <div
+    class="main-menu"
+  >
+    <div>
+      <img
+        alt="FireForceDefense"
+        class="img-fluid"
+        src="/assets/logo/logo.png"
+        style="width: 250px;"
+      />
+    </div>
+     
+    <form
+      name="form"
+    >
+      <div
+        class="input-group mb-3"
+      >
+        <div
+          class="input-group-prepend w-50"
+        >
+          <label
+            class="input-group-text w-100"
+            id="username"
+          >
+            E-Mail:
+          </label>
+        </div>
+         
+        <input
+          aria-invalid="false"
+          aria-required="true"
+          class="form-control"
+          id="nickname"
+          name="nickname"
+          type="text"
+        />
+      </div>
+       
+      <div
+        class="input-group mb-3"
+      >
+        <div
+          class="input-group-prepend w-50"
+        >
+          <label
+            class="input-group-text w-100"
+            for="password"
+          >
+            Password
+          </label>
+        </div>
+         
+        <input
+          aria-invalid="false"
+          aria-required="true"
+          class="form-control"
+          id="Password"
+          name="password"
+          type="password"
+        />
+      </div>
+       
+      <div
+        class="mb-3"
+      >
+        <button
+          class="btn btn-primary btn-block btn-lg"
+          type="submit"
+        >
+          
+                    log in
+                
+        </button>
+      </div>
+       
+      <div
+        class="input-group"
+      >
+        <!---->
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <div
+        class="mb-3"
+      >
+        <a>
+          Forgot password?
+        </a>
+      </div>
+       
+      <hr
+        class="mb-3"
+      />
+       
+      <div
+        class="mb-3"
+      >
+        <div>
+          <a
+            class="btn btn-primary btn-block btn-lg"
+          >
+            register
+          </a>
+        </div>
+      </div>
+       
+      <div
+        class="mb-3"
+      >
+        <a>
+          Credits
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+`;

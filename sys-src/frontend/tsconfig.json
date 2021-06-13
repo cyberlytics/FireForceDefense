@@ -17,7 +17,9 @@
             "@contents/*": ["src/contents/*"],
             "@effects/*": ["src/effects/*"],
             "@levels/*": ["src/levels/*"],
-            "@model/*": ["src/model/*"]
+            "@model/*": ["src/model/*"],
+            "@components/*": ["src/components/*"],
+            "@services/*": ["src/services/*"]
         },
         "resolveJsonModule": true
     },
