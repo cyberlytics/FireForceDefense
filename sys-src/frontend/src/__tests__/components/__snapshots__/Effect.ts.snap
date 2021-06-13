@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Effect.vue effect matches snapshot 1`] = `
+<g
+  style="pointer-events: none;"
+  transform="translate(0,0)"
+>
+  <!---->
+   
+  <circle
+    cx="0"
+    cy="0"
+    fill="url(#effect-Lava)"
+    r="216.33307652783935"
+  />
+   
+  <!---->
+</g>
+`;

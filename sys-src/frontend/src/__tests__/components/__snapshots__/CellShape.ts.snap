@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CellShape.vue cell shape matches snapshot 1`] = `
+<polygon
+  points="51.961524228,-30 51.961524228,30 0,60 -51.961524228,30 -51.961524228,-30 0,-60"
+  transform="translate(0,0)"
+/>
+`;

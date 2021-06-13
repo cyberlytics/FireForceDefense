@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Confirm.vue confirm matches snapshot 1`] = `
+<div>
+  <p
+    class="text-center"
+  >
+    snapshot-test-question
+  </p>
+   
+  <div
+    class="d-flex flex-row justify-content-between"
+  >
+    <div>
+      <button
+        class="btn btn-danger btn-block btn-lg"
+      >
+        
+                snapshot-test-yes
+            
+      </button>
+    </div>
+     
+    <div>
+      <button
+        class="btn btn-success btn-block btn-lg"
+      >
+        
+                snapshot-test-no
+            
+      </button>
+    </div>
+  </div>
+</div>
+`;

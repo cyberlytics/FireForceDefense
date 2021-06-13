@@ -24,13 +24,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue, { PropType } from 'vue';
 import type ContentDerivedType from '@model/ContentDerivedType';
 
 export default Vue.extend({
     components: {},
     props: {
-        contentToBuild: { type: Object as () => ContentDerivedType, required: true },
+        contentToBuild: { type: Function as PropType<ContentDerivedType>, required: false, default: null },
         mouseX: { type: Number, required: true },
         mouseY: { type: Number, required: true },
         removeMode: { type: Boolean },

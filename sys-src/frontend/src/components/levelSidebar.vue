@@ -73,7 +73,7 @@
                 <div class="build-menu-cards">
                     <button
                         v-for="content in buildableContents"
-                        :key="content"
+                        :key="content ? undefined : undefined"
                         class="build-menu-card btn btn-card"
                         @click.stop="$emit('content-selected', content)"
                         @mouseenter="setHelpText(new content().description)"
