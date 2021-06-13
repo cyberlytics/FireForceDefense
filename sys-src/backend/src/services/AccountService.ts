@@ -35,6 +35,45 @@ async function login(request: {
     };
 }
 
+async function register(request: {
+    username: string;
+    email: string;
+    password: string;
+    ip: string;
+}): Promise<{ id: Types.ObjectId; username: string; email: string; jwtToken: string; refreshToken: string }> {
+    if (
+        await AccountModel.findOne({
+            $and: [{ username: request.username }, { email: request.email }],
+        })
+    ) {
+        throw 'Account already exists';
+    }
+    const account = new AccountModel(request);
+    bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.hash(request.password, salt, function (err, hash) {
+            // Store hash in DB.
+            account.passwordHash = hash;
+        });
+    });
+
+    await account.save();
+
+    // generate and save refresh token
+    const refreshToken = generateRefreshToken(account, request.ip);
+    await refreshToken.save();
+
+    // generate jwt
+    const accessToken = generateAccessToken(account);
+
+    return {
+        id: account.id,
+        username: account.username,
+        email: account.email,
+        jwtToken: accessToken,
+        refreshToken: refreshToken.token,
+    };
+}
+
 async function refreshToken(request: {
     ip: string;
     token: string;
@@ -93,4 +132,4 @@ function generateRefreshToken(account: AccountDoc, ip: string) {
     });
 }
 
-export { login, refreshToken, revokeToken };
+export { register, login, refreshToken, revokeToken };

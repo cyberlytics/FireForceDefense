@@ -42,8 +42,12 @@ export default class AccountsController {
     };
 
     private register = (req: Request, res: Response) => {
-        // TODO
-        return res.status(200).json({ message: 'Register' });
+        const { username, email, password } = req.body;
+        const ip = req.ip;
+        accountService.register({ username, email, password, ip }).then(({ refreshToken, ...account }) => {
+            this.refreshTokenCookie(res, refreshToken);
+            res.json(account);
+        });
     };
 
     private loginSchema = (req: Request, res: Response, next: NextFunction) => {
