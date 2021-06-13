@@ -7,11 +7,11 @@ const scoreSchema: Schema = new Schema(
         level: Number,
         stars: Number,
         money: Number,
-        burnedFields: Number
+        burnedFields: Number,
     },
     {
-        timestamps: true
-    }
+        timestamps: true,
+    },
 );
 
 export default mongoose.model<IScores>('Scores', scoreSchema);

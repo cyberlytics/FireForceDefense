@@ -1,5 +1,5 @@
-import type {NextFunction, Request, Response} from 'express';
-import {Router} from 'express';
+import type { NextFunction, Request, Response } from 'express';
+import { Router } from 'express';
 import Joi from 'joi';
 import mongoose from 'mongoose';
 import validateRequestSchema from '../RequestSchemaValidator';
@@ -20,35 +20,35 @@ export default class GameController {
     }
 
     private getScoresById = (req: Request, res: Response) => {
-        const id = req.params.id
+        const id = req.params.id;
         Scores.findById(id)
             .exec()
-            .then(results => {
+            .then((results) => {
                 return res.status(200).json({
-                    scoreData: results
+                    scoreData: results,
                 });
             })
             .catch((error) => {
                 return res.status(500).json({
                     message: error.message,
-                    error
+                    error,
                 });
             });
     };
 
     private deleteScoresById = (req: Request, res: Response) => {
-        const id = req.params.id
-        Scores.deleteOne({id: id})
+        const id = req.params.id;
+        Scores.deleteOne({ id: id })
             .exec()
-            .then(results => {
+            .then((results) => {
                 return res.status(200).json({
-                    scoreData: results
+                    scoreData: results,
                 });
             })
             .catch((error) => {
                 return res.status(500).json({
                     message: error.message,
-                    error
+                    error,
                 });
             });
     };
@@ -65,12 +65,13 @@ export default class GameController {
     };
 
     private saveScores = async (req: Request, res: Response) => {
-        let {username, level, stars, money, burnedFields} = req.body;
+        const { username, level, stars, money, burnedFields } = req.body;
 
         try {
             if (
                 (await Scores.exists({
-                    username: username, level: level,
+                    username: username,
+                    level: level,
                 })) === false
             ) {
                 const scores = new Scores({
@@ -79,7 +80,7 @@ export default class GameController {
                     level,
                     stars,
                     money,
-                    burnedFields
+                    burnedFields,
                 });
 
                 return scores
@@ -87,41 +88,38 @@ export default class GameController {
                     .then((result) => {
                         return res.status(201).json({
                             scoreData: result,
-                            message: "New data inserted"
-                        })
+                            message: 'New data inserted',
+                        });
                     })
                     .catch((error) => {
                         return res.status(500).json({
                             message: error.message,
-                            error
+                            error,
                         });
                     });
             } else {
-                const filter = {username: username, level: level};
-                const update = {stars: stars, money: money, burnedFields: burnedFields}
-                //let scores = await Scores.findOneAndUpdate(filter, update);
-                return Scores
-                    .findOneAndUpdate(filter, update)
+                const filter = { username: username, level: level };
+                const update = { stars: stars, money: money, burnedFields: burnedFields };
+
+                return Scores.findOneAndUpdate(filter, update)
                     .then((result) => {
                         return res.status(201).json({
                             scoreData: result,
-                            message: "Old data updated"
-                        })
+                            message: 'Old data updated',
+                        });
                     })
                     .catch((error) => {
                         return res.status(500).json({
                             message: error.message,
-                            error
+                            error,
                         });
                     });
             }
         } catch (error) {
             return res.status(400).json({
                 message: error.message,
-                error
+                error,
             });
         }
-
-
     };
 }
