@@ -3,7 +3,7 @@ import {Router} from 'express';
 import Joi from 'joi';
 import mongoose from 'mongoose';
 import validateRequestSchema from '../RequestSchemaValidator';
-import LevelData from '../models/LevelData';
+import Scores from '../models/Scores';
 
 /**
  * API Handling for /game paths.
@@ -13,15 +13,15 @@ export default class GameController {
     public router = Router();
 
     constructor() {
-        this.router.get(`${this.path}/:id`, this.getLevelDataById);
-        this.router.delete(`${this.path}/:id`, this.deleteLevelDataById);
+        this.router.get(`${this.path}/:id`, this.getScoresById);
+        this.router.delete(`${this.path}/:id`, this.deleteScoresById);
 
-        this.router.post(`${this.path}/save`, this.levelDataSchema, this.saveLevelData);
+        this.router.post(`${this.path}/save`, this.scoresSchema, this.saveScores);
     }
 
-    private getLevelDataById = (req: Request, res: Response) => {
+    private getScoresById = (req: Request, res: Response) => {
         const id = req.params.id
-        LevelData.findById(id)
+        Scores.findById(id)
             .exec()
             .then(results => {
                 return res.status(200).json({
@@ -36,9 +36,9 @@ export default class GameController {
             });
     };
 
-    private deleteLevelDataById = (req: Request, res: Response) => {
+    private deleteScoresById = (req: Request, res: Response) => {
         const id = req.params.id
-        LevelData.deleteOne({id: id})
+        Scores.deleteOne({id: id})
             .exec()
             .then(results => {
                 return res.status(200).json({
@@ -53,7 +53,7 @@ export default class GameController {
             });
     };
 
-    private levelDataSchema = (req: Request, res: Response, next: NextFunction) => {
+    private scoresSchema = (req: Request, res: Response, next: NextFunction) => {
         const schema = Joi.object({
             username: Joi.string().required(),
             date: Joi.date().required(),
@@ -66,10 +66,13 @@ export default class GameController {
     };
 
     //todo update for id (or username+level in case username is unique)
-    private saveLevelData = (req: Request, res: Response) => {
-        let {username, date, level, stars, money, timeUsed, burnedFields} = req.body;
+    private saveScores = (req: Request, res: Response) => {
+        let {id, username, date, level, stars, money, burnedFields} = req.body;
+        //if(isSet(id)){
+        // do update otherwise insert new data
+        //}
 
-        const levelData = new LevelData({
+        const scores = new Scores({
             _id: new mongoose.Types.ObjectId(),
             username,
             date,
@@ -79,7 +82,7 @@ export default class GameController {
             burnedFields
         });
 
-        return levelData
+        return scores
             .save()
             .then((result) => {
                 return res.status(201).json({
