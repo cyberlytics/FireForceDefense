@@ -58,7 +58,9 @@
                 </div>
                 <hr class="mb-3" />
                 <div>
-                    <router-link class="btn btn-primary btn-block btn-lg" to="/credits">{{ $t('Credits') }}</router-link>
+                    <router-link class="btn btn-primary btn-block btn-lg" to="/credits">{{
+                        $t('Credits')
+                    }}</router-link>
                 </div>
             </form>
         </div>

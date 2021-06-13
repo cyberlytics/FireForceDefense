@@ -36,7 +36,7 @@ export const router = new VueRouter({
 // Redirect to '/' when user is not logged in
 
 router.beforeEach((to, from, next) => {
-    const publicPages = ['/', '/credits'];
+    const publicPages = ['/', '/credits', '/registration'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = User.getInstance().isLoggedIn();
 
