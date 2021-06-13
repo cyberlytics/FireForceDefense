@@ -112,7 +112,8 @@ export default Vue.extend({
                         },
                         (error) => {
                             this.loading = false;
-                            this.message = error;
+                            console.log(error);
+                            this.message = error.response.data.message;
                         },
                     );
                 }
