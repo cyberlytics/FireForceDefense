@@ -1,8 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-import type ILevelData from '../interfaces/LevelData';
-import Joi from "joi";
+import type IScores from '../types/Scores';
 
-const levelDataSchema: Schema = new Schema(
+const scoreSchema: Schema = new Schema(
     {
         username: String,
         date: Date,
@@ -16,4 +15,4 @@ const levelDataSchema: Schema = new Schema(
     }
 );
 
-export default mongoose.model<ILevelData>('LevelData', levelDataSchema);
+export default mongoose.model<IScores>('Scores', scoreSchema);

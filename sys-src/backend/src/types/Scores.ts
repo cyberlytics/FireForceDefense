@@ -1,6 +1,6 @@
 import type { Document } from 'mongoose';
 
-export default interface ILevelData extends Document {
+export default interface IScores extends Document {
     username: String;
     date: Date;
     level: Number;
