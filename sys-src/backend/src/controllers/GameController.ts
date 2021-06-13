@@ -56,7 +56,6 @@ export default class GameController {
     private scoresSchema = (req: Request, res: Response, next: NextFunction) => {
         const schema = Joi.object({
             username: Joi.string().required(),
-            date: Joi.date().required(),
             level: Joi.number().integer().required(),
             stars: Joi.number().integer().max(3).required(),
             money: Joi.number().integer().required(),
@@ -65,35 +64,64 @@ export default class GameController {
         validateRequestSchema(req, next, schema);
     };
 
-    //todo update for id (or username+level in case username is unique)
-    private saveScores = (req: Request, res: Response) => {
-        let {id, username, date, level, stars, money, burnedFields} = req.body;
-        //if(isSet(id)){
-        // do update otherwise insert new data
-        //}
+    private saveScores = async (req: Request, res: Response) => {
+        let {username, level, stars, money, burnedFields} = req.body;
 
-        const scores = new Scores({
-            _id: new mongoose.Types.ObjectId(),
-            username,
-            date,
-            level,
-            stars,
-            money,
-            burnedFields
-        });
-
-        return scores
-            .save()
-            .then((result) => {
-                return res.status(201).json({
-                    scoreData: result
-                })
-            })
-            .catch((error) => {
-                return res.status(500).json({
-                    message: error.message,
-                    error
+        try {
+            if (
+                (await Scores.exists({
+                    username: username, level: level,
+                })) === false
+            ) {
+                const scores = new Scores({
+                    _id: new mongoose.Types.ObjectId(),
+                    username,
+                    level,
+                    stars,
+                    money,
+                    burnedFields
                 });
+
+                return scores
+                    .save()
+                    .then((result) => {
+                        return res.status(201).json({
+                            scoreData: result,
+                            message: "New data inserted"
+                        })
+                    })
+                    .catch((error) => {
+                        return res.status(500).json({
+                            message: error.message,
+                            error
+                        });
+                    });
+            } else {
+                const filter = {username: username, level: level};
+                const update = {stars: stars, money: money, burnedFields: burnedFields}
+                //let scores = await Scores.findOneAndUpdate(filter, update);
+                return Scores
+                    .findOneAndUpdate(filter, update)
+                    .then((result) => {
+                        return res.status(201).json({
+                            scoreData: result,
+                            message: "Old data updated"
+                        })
+                    })
+                    .catch((error) => {
+                        return res.status(500).json({
+                            message: error.message,
+                            error
+                        });
+                    });
+            }
+        } catch (error) {
+            return res.status(400).json({
+                message: error.message,
+                error
             });
+        }
+
+
     };
 }
