@@ -25,6 +25,10 @@ exports[`Credits.vue credits match snapshot 1`] = `
     </p>
      
     <p>
+      Christian Piffel
+    </p>
+     
+    <p>
       Philipp Stangl
     </p>
      
@@ -38,6 +42,10 @@ exports[`Credits.vue credits match snapshot 1`] = `
      
     <p>
       Thomas Stangl
+    </p>
+     
+    <p>
+      Tim Hoffmann
     </p>
      
     <p>
