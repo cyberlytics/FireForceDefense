@@ -22,11 +22,12 @@ export const connect = () => {
     database.on('error', () => {
         console.log('Error connecting to database');
     });
+    return;
 };
 
 export const disconnect = () => {
     if (!database) {
         return;
     }
-    mongoose.disconnect(() => {});
+    mongoose.disconnect(() => {return;});
 };
