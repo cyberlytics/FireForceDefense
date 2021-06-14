@@ -28,5 +28,5 @@ export const disconnect = () => {
     if (!database) {
         return;
     }
-    mongoose.disconnect((err) => {});
+    mongoose.disconnect(() => {});
 };
