@@ -11,6 +11,7 @@ import credits from './components/credits.vue';
 import level from './components/level.vue';
 import world from './components/world.vue';
 import User from './model/User';
+import registration from './components/registration.vue';
 import VeeValidate from 'vee-validate';
 
 Vue.use(VueRouter);
@@ -22,6 +23,7 @@ Vue.use(VeeValidate);
 const routes = [
     { path: '/', component: index },
     { path: '/credits', component: credits },
+    { path: '/registration', component: registration },
     { path: '/world', component: world },
     { path: '/level/:levelID', component: level, props: true },
 ];
@@ -34,7 +36,7 @@ export const router = new VueRouter({
 // Redirect to '/' when user is not logged in
 
 router.beforeEach((to, from, next) => {
-    const publicPages = ['/', '/credits'];
+    const publicPages = ['/', '/credits', '/registration'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = User.getInstance().isLoggedIn();
 
