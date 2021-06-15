@@ -4,10 +4,12 @@
             <logo />
             <h2>{{ $t('Credits') }}</h2>
             <p>Cameron Barbee</p>
+            <p>Christian Piffel</p>
             <p>Philipp Stangl</p>
             <p>Sebastian Schuscha</p>
             <p>Thomas Ammann</p>
             <p>Thomas Stangl</p>
+            <p>Tim Hoffmann</p>
             <p>Tobias Schotter</p>
             <hr class="mb-3" />
             <p class="small">

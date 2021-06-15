@@ -98,10 +98,6 @@ exports[`Index.vue index matches snapshot 1`] = `
         </a>
       </div>
        
-      <hr
-        class="mb-3"
-      />
-       
       <div
         class="mb-3"
       >
@@ -114,10 +110,14 @@ exports[`Index.vue index matches snapshot 1`] = `
         </div>
       </div>
        
-      <div
+      <hr
         class="mb-3"
-      >
-        <a>
+      />
+       
+      <div>
+        <a
+          class="btn btn-primary btn-block btn-lg"
+        >
           Credits
         </a>
       </div>
