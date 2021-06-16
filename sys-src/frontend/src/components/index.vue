@@ -85,6 +85,7 @@ export default Vue.extend({
             submitted: false,
             loading: false,
             error: '',
+            message: '',
         };
     },
     created() {
@@ -110,7 +111,7 @@ export default Vue.extend({
                         },
                         (error) => {
                             this.loading = false;
-                            this.message = error;
+                            this.message = error.response.data.message;
                         },
                     );
                 }

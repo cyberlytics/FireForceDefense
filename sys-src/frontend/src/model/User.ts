@@ -40,8 +40,6 @@ export default class User {
     public login(nickname: string, password: string): void {
         this.nickname = nickname;
         this.password = password;
-        localStorage.setItem('nickname', nickname);
-        localStorage.setItem('password', password);
         this.invalidateScores();
     }
 

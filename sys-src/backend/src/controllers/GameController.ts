@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import { Router } from 'express';
 import Joi from 'joi';
-import validateRequestSchema from './RequestSchemaValidator';
+import validateRequestSchema from '../middleware/RequestSchemaValidator';
 
 /**
  * API Handling for /game paths.
