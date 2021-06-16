@@ -14,4 +14,4 @@ const scoreSchema: Schema = new Schema(
     },
 );
 
-export default mongoose.model<IScores>('Scores', scoreSchema);
+export const GameModel = mongoose.model<IScores>('Scores', scoreSchema);
