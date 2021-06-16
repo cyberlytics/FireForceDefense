@@ -107,12 +107,10 @@ export default Vue.extend({
                 if (this.username && this.password) {
                     userService.login(user.getNickname(), user.getPassword()).then(
                         () => {
-                            console.log('World URL');
                             this.$router.push('/world');
                         },
                         (error) => {
                             this.loading = false;
-                            console.log(error);
                             this.message = error.response.data.message;
                         },
                     );
