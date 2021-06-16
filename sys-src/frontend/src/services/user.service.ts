@@ -14,8 +14,6 @@ function isUsernameAnEmail(username: string): boolean {
 }
 
 async function login(username: string, password: string): Promise<unknown> {
-    // TODO Ausgabe entfernen
-    console.log('Login Frontend Funktion');
     let email: string;
     let response: AxiosResponse;
     if (isUsernameAnEmail(username)) {
@@ -32,11 +30,8 @@ async function login(username: string, password: string): Promise<unknown> {
     }
 
     if (response.data.token) {
-        // TODO Ausgabe entfernen
-        console.log('Accesstoken recieved');
         localStorage.setItem('user', JSON.stringify(response.data));
     }
-    console.log(response.data.message);
     return response.data;
 }
 
