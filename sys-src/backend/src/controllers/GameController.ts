@@ -1,9 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 import { Router } from 'express';
 import Joi from 'joi';
-import mongoose from 'mongoose';
 import validateRequestSchema from '../RequestSchemaValidator';
-import Scores from '../models/Scores';
+import * as gameService from '../services/GameServices';
 
 /**
  * API Handling for /game paths.
@@ -19,38 +18,63 @@ export default class GameController {
         this.router.post(`${this.path}/save`, this.scoresSchema, this.saveScores);
     }
 
-    private getScoresById = (req: Request, res: Response) => {
+    private getScoresById = (req: Request, res: Response, next: NextFunction) => {
         const id = req.params.id;
-        Scores.findById(id)
-            .exec()
+        gameService
+            .findScoreById(id)
             .then((results) => {
-                return res.status(200).json({
+                return res.json({
                     scoreData: results,
                 });
             })
-            .catch((error) => {
-                return res.status(500).json({
-                    message: error.message,
-                    error,
-                });
-            });
+            .catch(next);
     };
 
-    private deleteScoresById = (req: Request, res: Response) => {
+    private deleteScoresById = (req: Request, res: Response, next: NextFunction) => {
         const id = req.params.id;
-        Scores.deleteOne({ id: id })
-            .exec()
-            .then((results) => {
-                return res.status(200).json({
-                    scoreData: results,
+
+        gameService
+            .deleteScoreById(id)
+            .then((result) => {
+                res.json({
+                    deletedData: result,
+                    message: 'Scores deleted!',
                 });
             })
-            .catch((error) => {
-                return res.status(500).json({
-                    message: error.message,
-                    error,
-                });
+            .catch(next);
+    };
+
+    private saveScores = async (req: Request, res: Response, next: NextFunction) => {
+        const { username, level, stars, money, burnedFields } = req.body;
+
+        try {
+            if ((await gameService.userCheck(username, level)) === false) {
+                return gameService
+                    .createScore({ username, level, stars, money, burnedFields })
+                    .then((result) => {
+                        return res.json({
+                            scoreData: result,
+                            message: 'New data inserted',
+                        });
+                    })
+                    .catch(next);
+            } else {
+                return gameService
+                    .updateScore({ username, level, stars, money, burnedFields })
+                    .then((result) => {
+                        return res.json({
+                            scoreData: result,
+                            message: 'Old data updated',
+                        });
+                    })
+                    .catch(next);
+            }
+        } catch (error) {
+            return res.json({
+                message: error.message,
+                error,
             });
+        }
     };
 
     private scoresSchema = (req: Request, res: Response, next: NextFunction) => {
@@ -62,64 +86,5 @@ export default class GameController {
             burnedFields: Joi.number().integer().required(),
         });
         validateRequestSchema(req, next, schema);
-    };
-
-    private saveScores = async (req: Request, res: Response) => {
-        const { username, level, stars, money, burnedFields } = req.body;
-
-        try {
-            if (
-                (await Scores.exists({
-                    username: username,
-                    level: level,
-                })) === false
-            ) {
-                const scores = new Scores({
-                    _id: new mongoose.Types.ObjectId(),
-                    username,
-                    level,
-                    stars,
-                    money,
-                    burnedFields,
-                });
-
-                return scores
-                    .save()
-                    .then((result) => {
-                        return res.status(201).json({
-                            scoreData: result,
-                            message: 'New data inserted',
-                        });
-                    })
-                    .catch((error) => {
-                        return res.status(500).json({
-                            message: error.message,
-                            error,
-                        });
-                    });
-            } else {
-                const filter = { username: username, level: level };
-                const update = { stars: stars, money: money, burnedFields: burnedFields };
-
-                return Scores.findOneAndUpdate(filter, update)
-                    .then((result) => {
-                        return res.status(201).json({
-                            scoreData: result,
-                            message: 'Old data updated',
-                        });
-                    })
-                    .catch((error) => {
-                        return res.status(500).json({
-                            message: error.message,
-                            error,
-                        });
-                    });
-            }
-        } catch (error) {
-            return res.status(400).json({
-                message: error.message,
-                error,
-            });
-        }
     };
 }
