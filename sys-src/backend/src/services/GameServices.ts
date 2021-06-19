@@ -52,7 +52,12 @@ async function updateScore(request: {
     time: number;
 }): Promise<IScores> {
     const filter = { username: request.username, level: request.level };
-    const update = { stars: request.stars, money: request.money, burnedFields: request.burnedFields, time: request.time };
+    const update = {
+        stars: request.stars,
+        money: request.money,
+        burnedFields: request.burnedFields,
+        time: request.time,
+    };
 
     const scores = await GameModel.findOneAndUpdate(filter, update);
 
