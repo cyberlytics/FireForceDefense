@@ -35,6 +35,7 @@ async function createScore(request: {
     stars: number;
     money: number;
     burnedFields: number;
+    time: number;
 }): Promise<IScores> {
     const scores = new GameModel(request);
     await scores.save();
@@ -48,9 +49,10 @@ async function updateScore(request: {
     stars: number;
     money: number;
     burnedFields: number;
+    time: number;
 }): Promise<IScores> {
     const filter = { username: request.username, level: request.level };
-    const update = { stars: request.stars, money: request.money, burnedFields: request.burnedFields };
+    const update = { stars: request.stars, money: request.money, burnedFields: request.burnedFields, time: request.time };
 
     const scores = await GameModel.findOneAndUpdate(filter, update);
 

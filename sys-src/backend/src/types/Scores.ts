@@ -6,4 +6,5 @@ export default interface IScores extends Document {
     stars: number;
     money: number;
     burnedFields: number;
+    time: number;
 }
