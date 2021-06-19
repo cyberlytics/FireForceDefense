@@ -16,5 +16,6 @@ module.exports = {
         '^@levels/(.*)$': '<rootDir>/src/levels/$1',
         '^@model/(.*)$': '<rootDir>/src/model/$1',
         '^@components/(.*)$': '<rootDir>/src/components/$1',
+        '^@services/(.*)$': '<rootDir>/src/services/$1',
     },
 };

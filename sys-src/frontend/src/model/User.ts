@@ -12,11 +12,13 @@ export default class User {
     // TODO: Store this in a configuration file.
     private readonly backendURL = 'https://pmaem20b.uber.space/';
     private _scoresValid = false;
+    private password: string | null;
 
     private constructor() {
         const nickname = localStorage.getItem('nickname');
+        const password = localStorage.getItem('password');
         if (nickname) {
-            this.login(nickname);
+            this.login(nickname, password);
         }
         this.invalidateScores();
     }
@@ -31,10 +33,13 @@ export default class User {
     public getNickname(): string {
         return this.nickname;
     }
+    public getPassword(): string {
+        return this.password;
+    }
 
-    public login(nickname: string): void {
+    public login(nickname: string, password: string): void {
         this.nickname = nickname;
-        localStorage.setItem('nickname', nickname);
+        this.password = password;
         this.invalidateScores();
     }
 
@@ -86,7 +91,9 @@ export default class User {
     }
 
     private async postScoreToServer(levelID: string, stars: number) {
-        return await Axios.post(`${this.backendURL}api/${this.nickname}`, { [levelID]: stars });
+        return await Axios.post(`${this.backendURL}api/${this.nickname}`, {
+            [levelID]: stars,
+        });
     }
 
     public postScore(levelID: string, score: Score): boolean {
@@ -125,7 +132,7 @@ export default class User {
     }
 
     public isLoggedIn(): boolean {
-        return this.nickname !== null;
+        return localStorage.getItem('user') != null;
     }
 
     public invalidateScores(): void {
