@@ -8,6 +8,7 @@ const scoreSchema: Schema = new Schema(
         stars: Number,
         money: Number,
         burnedFields: Number,
+        time: Number
     },
     {
         timestamps: true,

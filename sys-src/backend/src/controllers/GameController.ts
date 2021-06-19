@@ -45,12 +45,12 @@ export default class GameController {
     };
 
     private saveScores = async (req: Request, res: Response, next: NextFunction) => {
-        const { username, level, stars, money, burnedFields } = req.body;
+        const { username, level, stars, money, burnedFields, time } = req.body;
 
         try {
             if ((await gameService.userCheck(username, level)) === false) {
                 return gameService
-                    .createScore({ username, level, stars, money, burnedFields })
+                    .createScore({ username, level, stars, money, burnedFields, time })
                     .then((result) => {
                         return res.json({
                             scoreData: result,
@@ -60,7 +60,7 @@ export default class GameController {
                     .catch(next);
             } else {
                 return gameService
-                    .updateScore({ username, level, stars, money, burnedFields })
+                    .updateScore({ username, level, stars, money, burnedFields, time })
                     .then((result) => {
                         return res.json({
                             scoreData: result,
@@ -84,6 +84,7 @@ export default class GameController {
             stars: Joi.number().integer().max(3).required(),
             money: Joi.number().integer().required(),
             burnedFields: Joi.number().integer().required(),
+            time: Joi.number().integer().required(),
         });
         validateRequestSchema(req, next, schema);
     };
