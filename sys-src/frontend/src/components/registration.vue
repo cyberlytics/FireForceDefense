@@ -70,7 +70,6 @@
                     <div v-if="message" class="alert alert-danger" role="alert">
                         {{ message }}
                     </div>
-
                 </form>
             </div>
         </div>
@@ -80,8 +79,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import logo from './logo.vue';
-import User from "@model/User";
-import {userService} from "@services/user.service";
+import User from '@model/User';
+import { userService } from '@services/user.service';
 
 export default Vue.extend({
     components: {
@@ -150,22 +149,22 @@ export default Vue.extend({
             user.register(this.name, this.email, this.pw1);
             this.loading = true;
 
-                if (this.isFalseMail || this.isFalsePw || this.isFalseName) {
-                    this.loading = false;
-                    return;
-                }
+            if (this.isFalseMail || this.isFalsePw || this.isFalseName) {
+                this.loading = false;
+                return;
+            }
 
-                if (this.name && this.email && this.pw1) {
-                    userService.register(user.getUsername(), user.getEmail(), user.getPassword()).then(
-                        () => {
-                            this.$router.push('/world');
-                        },
-                        (error) => {
-                            this.loading = false;
-                            this.message = error;
-                        },
-                    );
-                }
+            if (this.name && this.email && this.pw1) {
+                userService.register(user.getUsername(), user.getEmail(), user.getPassword()).then(
+                    () => {
+                        this.$router.push('/world');
+                    },
+                    (error) => {
+                        this.loading = false;
+                        this.message = error;
+                    },
+                );
+            }
         },
     },
 });
