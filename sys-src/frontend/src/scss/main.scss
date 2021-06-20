@@ -298,3 +298,55 @@ $font-family-sans-serif: 'TitilliumWeb';
 .damage-bad {
     fill: theme-color('danger');
 }
+
+.scoreboard-div {
+    min-height: 100vh;
+    background-size: cover;
+    background-image: url(../../assets/img/Pattern-Randomized.svg);
+    padding: map_get($spacers, 4);
+    background-attachment: fixed;
+    display: block;
+    height: 100%;
+    flex: available;
+}
+
+.scoreboard-button-div {
+    margin-bottom: 75.2px;
+}
+
+.scoreboard-table-div {
+    display: block;
+}
+
+.scoreboard-table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 37.6px;
+    width: 60%;
+    table-layout: fixed;
+}
+
+.scoreboard-button-td {
+    width: 20%;
+}
+
+.scoreboard-table-td-button {
+    width: 100%;
+    background-color: white;
+}
+
+.scoreboard-body-td {
+    text-align: left;
+    padding: 8px;
+}
+
+.scoreboard-body-tr:nth-child(odd) {
+    border-top: 1px solid black;
+    color: black;
+}
+
+.scoreboard-body-tr:nth-child(even) {
+    background: rgba(194, 194, 194, 0.2);
+    border-top: 1px solid black;
+    color: black;
+}
