@@ -36,7 +36,6 @@ export default class AccountsController {
             username: Joi.string().required(),
             email: Joi.string().email().required(),
             password: Joi.string().min(4).required(),
-            confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
         });
         validateRequestSchema(req, next, schema);
     };
