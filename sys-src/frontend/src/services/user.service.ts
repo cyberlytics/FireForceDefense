@@ -36,12 +36,11 @@ async function login(username: string, password: string): Promise<unknown> {
     return response.data;
 }
 
-async function register(username: string,  email: string, password: string ): Promise<unknown> {
-    let response: AxiosResponse;
-    response = await axios.post(API_URL + '/accounts/register', {
+async function register(username: string, email: string, password: string): Promise<unknown> {
+    const response = await axios.post(API_URL + '/accounts/register', {
         username,
         email,
-        password
+        password,
     });
 
     if (response.data.jwtToken) {

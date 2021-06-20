@@ -119,7 +119,8 @@ $font-family-sans-serif: 'TitilliumWeb';
     border-color: var(--primary);
 }
 
-.infoBox, .creditsBox {
+.infoBox,
+.creditsBox {
     font-weight: bold;
     color: var(--border);
 }
