@@ -102,18 +102,6 @@ $font-family-sans-serif: 'TitilliumWeb';
     box-shadow: 5px 10px #888888;
     border-radius: 5px;
 }
-#Password {
-    opacity: 0.7;
-    box-shadow: 5px 10px #888888;
-    border-radius: 5px;
-}
-
-#nickname {
-    opacity: 0.7;
-    box-shadow: 5px 10px #888888;
-    border-radius: 5px;
-}
-
 .headlineRegistration {
     color: var(--border);
     box-shadow: 1px 8px 3px -7px;
@@ -131,10 +119,12 @@ $font-family-sans-serif: 'TitilliumWeb';
     border-color: var(--primary);
 }
 
-.infoBox {
+.infoBox, .creditsBox {
     font-weight: bold;
-    text-align: left;
     color: var(--border);
+}
+.infoBox {
+    text-align: left;
 }
 
 .build-menu-cards {
