@@ -22,49 +22,43 @@ exports[`Index.vue index matches snapshot 1`] = `
       <div
         class="input-group mb-3"
       >
-        <div
-          class="input-group-prepend w-50"
-        >
-          <label
-            class="input-group-text w-100"
-            id="username"
-          >
-            E-Mail:
-          </label>
-        </div>
-         
         <input
           aria-invalid="false"
           aria-required="true"
-          class="form-control"
-          id="nickname"
-          name="nickname"
+          class="form-control inputFields"
+          id="username"
+          name="username"
+          placeholder="user name/email"
+          required="required"
           type="text"
         />
       </div>
        
       <div
+        class="mb-3"
+      >
+        <!---->
+      </div>
+       
+      <div
         class="input-group mb-3"
       >
-        <div
-          class="input-group-prepend w-50"
-        >
-          <label
-            class="input-group-text w-100"
-            for="password"
-          >
-            Password
-          </label>
-        </div>
-         
         <input
           aria-invalid="false"
           aria-required="true"
-          class="form-control"
+          class="form-control inputFields"
           id="Password"
           name="password"
+          placeholder="password"
+          required="required"
           type="password"
         />
+      </div>
+       
+      <div
+        class="mb-3"
+      >
+        <!---->
       </div>
        
       <div
@@ -80,35 +74,17 @@ exports[`Index.vue index matches snapshot 1`] = `
         </button>
       </div>
        
-      <div
-        class="input-group"
-      >
-        <!---->
-         
-        <!---->
-         
-        <!---->
-      </div>
+      <!---->
        
-      <div
-        class="mb-3"
-      >
-        <a>
-          Forgot password?
-        </a>
-      </div>
-       
-      <div
-        class="mb-3"
-      >
-        <div>
-          <a
-            class="btn btn-primary btn-block btn-lg"
-          >
-            register
-          </a>
-        </div>
-      </div>
+      <a>
+        Forgot password? 
+      </a>
+      
+            ·
+            
+      <a>
+        register
+      </a>
        
       <hr
         class="mb-3"
