@@ -229,7 +229,13 @@ export default class Game {
         } else {
             this._score = Score.UNLOCKED;
         }
-        LevelManager.getInstance().postScore(this.levelDefinition.levelID, this.score, this.totalMoney, this.gameStepCounter, this.burnedCells);
+        LevelManager.getInstance().postScore(
+            this.levelDefinition.levelID,
+            this.score,
+            this.totalMoney,
+            this.gameStepCounter,
+            this.burnedCells,
+        );
     }
 
     private countStars(): Score {

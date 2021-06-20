@@ -11,6 +11,7 @@ export default class User {
     private levelScores: Scores = {};
     // TODO: Store this in a configuration file.
     //private readonly backendURL = 'https://pmaem20b.uber.space/';
+    //Todo replace by final mongoDB url
     private readonly backendURL = 'http://localhost:3000/';
     private _scoresValid = false;
     private password: string | null;
@@ -51,7 +52,7 @@ export default class User {
     }
 
     private async getScoresFromServer() {
-        return await Axios.get(`${this.backendURL}game/scores/${this.nickname}`);
+        return await Axios.get(`${this.backendURL}game/${this.nickname}`);
     }
 
     public getScores(cb: (scores: Scores) => void): void {
@@ -65,8 +66,8 @@ export default class User {
                 this._scoresValid = true;
                 this.levelScores = {};
                 for (let i = 0; i < data.length; i++) {
-                    let level = data[i].level;
-                    let stars = data[i].stars
+                    const level = data[i].level;
+                    const stars = data[i].stars;
 
                     switch (stars) {
                         case 1: {
@@ -102,7 +103,7 @@ export default class User {
             stars: stars,
             money: money,
             burnedFields: burnedCells,
-            time: time
+            time: time,
         });
     }
 
