@@ -43,7 +43,7 @@ async function register(request: {
 }): Promise<{ id: Types.ObjectId; username: string; email: string; jwtToken: string; refreshToken: string }> {
     if (
         await AccountModel.findOne({
-            $and: [{ username: request.username }, { email: request.email }],
+            $or: [{ username: request.username }, { email: request.email }],
         })
     ) {
         throw 'Account already exists';

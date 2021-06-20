@@ -40,13 +40,16 @@ export default class AccountsController {
         validateRequestSchema(req, next, schema);
     };
 
-    private register = (req: Request, res: Response) => {
+    private register = (req: Request, res: Response, next: NextFunction) => {
         const { username, email, password } = req.body;
         const ip = req.ip;
-        accountService.register({ username, email, password, ip }).then(({ refreshToken, ...account }) => {
-            this.refreshTokenCookie(res, refreshToken);
-            res.json(account);
-        });
+        accountService
+            .register({ username, email, password, ip })
+            .then(({ refreshToken, ...account }) => {
+                this.refreshTokenCookie(res, refreshToken);
+                res.json(account);
+            })
+            .catch(next);
     };
 
     private loginSchema = (req: Request, res: Response, next: NextFunction) => {
