@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <button type="submit" :disabled="loading" class="btn btn-primary btn-block btn-lg">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">
                         {{ $t('log in') }}
                     </button>
                 </div>
@@ -44,7 +44,7 @@
                     {{ message }}
                 </div>
 
-                <router-link class="" to="/authentification">{{ $t('Forgot password?') }} </router-link>
+                <router-link class="" to="/">{{ $t('Forgot password?') }} </router-link>
                 ·
                 <router-link class="" to="/registration">{{ $t('register') }}</router-link>
                 <hr class="mb-3" />
@@ -74,7 +74,6 @@ export default Vue.extend({
             username: '',
             password: '',
             submitted: false,
-            loading: false,
             error: '',
             message: '',
         };
@@ -88,10 +87,8 @@ export default Vue.extend({
         handleLogin() {
             const user = User.getInstance();
             user.login(this.username, this.password);
-            this.loading = true;
             this.$validator.validateAll().then((isValid: boolean) => {
                 if (!isValid) {
-                    this.loading = false;
                     return;
                 }
 
@@ -101,8 +98,7 @@ export default Vue.extend({
                             this.$router.push('/world');
                         },
                         (error) => {
-                            this.loading = false;
-                            this.message = error;
+                            this.message = error.response.statusText;
                         },
                     );
                 }

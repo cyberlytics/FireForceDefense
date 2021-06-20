@@ -63,7 +63,7 @@
                     </div>
                     <hr class="mb-3" />
                     <div class="mb-3">
-                        <button type="submit" :disabled="loading" class="btn btn-primary btn-block btn-lg">
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">
                             {{ $t('register') }}
                         </button>
                     </div>
@@ -96,7 +96,6 @@ export default Vue.extend({
             isFalseMail: false,
             isFalsePw: false,
             isFalseName: false,
-            loading: false,
             error: '',
             message: '',
         };
@@ -147,10 +146,8 @@ export default Vue.extend({
         handleRegister() {
             const user = User.getInstance();
             user.register(this.name, this.email, this.pw1);
-            this.loading = true;
 
             if (this.isFalseMail || this.isFalsePw || this.isFalseName) {
-                this.loading = false;
                 return;
             }
 
@@ -160,8 +157,7 @@ export default Vue.extend({
                         this.$router.push('/world');
                     },
                     (error) => {
-                        this.loading = false;
-                        this.message = error;
+                        this.message = error.response.statusText;
                     },
                 );
             }

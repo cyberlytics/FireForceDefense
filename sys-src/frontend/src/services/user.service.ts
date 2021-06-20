@@ -30,7 +30,7 @@ async function login(username: string, password: string): Promise<unknown> {
         });
     }
 
-    if (response.data.token) {
+    if (response.data.jwtToken) {
         localStorage.setItem('user', JSON.stringify(response.data));
     }
     return response.data;
