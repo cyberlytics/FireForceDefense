@@ -1,32 +1,47 @@
 import { GameModel } from '../models/Scores';
-import mongoose from 'mongoose';
 import type IScores from '../types/Scores';
 
-async function findScoreById(id: string): Promise<IScores> {
-    if (mongoose.isValidObjectId(id)) {
-        const scores = await GameModel.findById(id).exec();
-
-        if (scores == null) {
-            throw 'No data found!';
-        }
-        return scores;
-    } else {
-        throw 'Invalid ObjectId!';
-    }
+interface UserScores {
+    _id: string;
+    username: string;
+    scores: {
+        [level: string]: number;
+    };
 }
 
-async function deleteScoreById(id: string): Promise<IScores> {
-    if (mongoose.isValidObjectId(id)) {
-        const deletedScores = await GameModel.findOneAndDelete({ _id: id }).exec();
+interface ScoreboardEntry {
+    username: string;
+    stars: number;
+    burnedFields: number;
+    time: number;
+    money: number;
+}
 
-        if (deletedScores == null) {
-            throw 'No data found!';
-        }
+async function findScoresByUsername(username: string): Promise<UserScores[]> {
+    const scores = await GameModel.aggregate([
+        {
+            $match: { username },
+        },
+        {
+            $group: {
+                _id: '$username',
+                scores: {
+                    $push: { v: '$stars', k: '$level' },
+                },
+            },
+        },
+        {
+            $project: {
+                username: '$_id',
+                scores: { $arrayToObject: '$scores' },
+            },
+        },
+    ]).exec();
 
-        return deletedScores;
-    } else {
-        throw 'Invalid ObjectId!';
+    if (scores == null) {
+        throw 'No data found!';
     }
+    return scores;
 }
 
 async function createScore(request: {
@@ -45,7 +60,7 @@ async function createScore(request: {
 
 async function updateScore(request: {
     username: string;
-    level: number;
+    level: string;
     stars: number;
     money: number;
     burnedFields: number;
@@ -59,22 +74,45 @@ async function updateScore(request: {
         time: request.time,
     };
 
-    const scores = await GameModel.findOneAndUpdate(filter, update);
-
-    return scores;
+    return GameModel.findOneAndUpdate(filter, update);
 }
 
-async function userCheck(username: string, level: number): Promise<boolean> {
-    if (
+async function userCheck(username: string, level: string): Promise<boolean> {
+    return (
         (await GameModel.exists({
             username: username,
             level: level,
-        })) === false
-    ) {
-        return false;
-    } else {
-        return true;
-    }
+        })) !== false
+    );
 }
 
-export { findScoreById, deleteScoreById, createScore, updateScore, userCheck };
+async function findScoresByLevel(level: string): Promise<ScoreboardEntry[]> {
+    const pipeline: unknown[] = [
+        {
+            $group: {
+                _id: '$username',
+                username: { $first: '$username' },
+                stars: { $sum: '$stars' },
+                time: { $avg: '$time' },
+                money: { $avg: '$money' },
+                burnedFields: { $avg: '$burnedFields' },
+            },
+        },
+        {
+            $sort: {
+                stars: -1,
+                burnedFields: 1,
+                money: -1,
+                time: 1,
+            },
+        },
+    ];
+    if (level != null) {
+        pipeline.unshift({
+            $match: { level },
+        });
+    }
+    return GameModel.aggregate(pipeline).exec();
+}
+
+export { findScoresByUsername, createScore, updateScore, userCheck, findScoresByLevel };
