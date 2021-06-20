@@ -4,33 +4,35 @@
             <logo />
             <form name="form" @submit.prevent="handleLogin">
                 <div class="input-group mb-3">
-                    <div class="input-group-prepend w-50">
-                        <label id="username" class="input-group-text w-100">E-Mail:</label>
-                    </div>
-
                     <input
-                        id="nickname"
+                        id="username"
                         v-model="username"
                         v-validate="'required'"
-                        name="nickname"
+                        :placeholder="$t('user name') + '/' + $t('email')"
+                        name="username"
                         type="text"
-                        class="form-control"
+                        required
+                        class="form-control inputFields"
                     />
+                </div>
+                <div class="mb-3">
+                    <span v-if="errors.first('username')" class="infoBox mb-3">{{ $t('E-mail required') }}</span>
                 </div>
 
                 <div class="input-group mb-3">
-                    <div class="input-group-prepend w-50">
-                        <label for="password" class="input-group-text w-100">{{ $t('Password') }}</label>
-                    </div>
-
                     <input
                         id="Password"
                         v-model="password"
                         v-validate="'required'"
+                        :placeholder="$t('password')"
                         name="password"
                         type="password"
-                        class="form-control"
+                        required
+                        class="form-control inputFields"
                     />
+                </div>
+                <div class="mb-3">
+                    <span v-if="errors.first('password')" class="infoBox mb-3">{{ $t('Password required') }}</span>
                 </div>
 
                 <div class="mb-3">
@@ -38,24 +40,15 @@
                         {{ $t('log in') }}
                     </button>
                 </div>
-                <div class="input-group">
-                    <span v-if="errors.first('nickname')" class="alert-danger mb-3">{{ $t('E-mail required') }}</span>
-                    <span v-if="errors.first('password')" class="alert-danger mb-3">{{ $t('Password required') }}</span>
-                    <div v-if="message" class="alert alert-danger" role="alert">
-                        {{ message }}
-                    </div>
+                <div v-if="message" class="alert alert-danger" role="alert">
+                    {{ message }}
                 </div>
 
-                <div class="mb-3">
-                    <router-link class="" to="/authentification">{{ $t('Forgot password?') }}</router-link>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <router-link class="btn btn-primary btn-block btn-lg" to="/registration">{{
+                    <router-link class="" to="/authentification">{{ $t('Forgot password?') }} </router-link>
+                ·
+                <router-link class="" to="/registration">{{
                             $t('register')
                         }}</router-link>
-                    </div>
-                </div>
                 <hr class="mb-3" />
                 <div>
                     <router-link class="btn btn-primary btn-block btn-lg" to="/credits">{{
@@ -105,13 +98,13 @@ export default Vue.extend({
                 }
 
                 if (this.username && this.password) {
-                    userService.login(user.getNickname(), user.getPassword()).then(
+                    userService.login(user.getUsername(), user.getPassword()).then(
                         () => {
                             this.$router.push('/world');
                         },
                         (error) => {
                             this.loading = false;
-                            this.message = error.response.data.message;
+                            this.message = error;
                         },
                     );
                 }
