@@ -42,6 +42,7 @@ export default class Game {
     private gameStepRemainingTime: number | null = null; // Remaining time for the game step timeout
     private gameStepTimeoutID: number | null = null; // ID for the game step timeout as returned by setTimeout
     private gameStepCounter = 0; // Number of fully executed game steps
+    private burnedCells = 0; //Number of burned cells
 
     constructor(levelID: string) {
         this.effectManager = new EffectManager();
@@ -228,7 +229,7 @@ export default class Game {
         } else {
             this._score = Score.UNLOCKED;
         }
-        LevelManager.getInstance().postScore(this.levelDefinition.levelID, this.score);
+        LevelManager.getInstance().postScore(this.levelDefinition.levelID, this.score, this.totalMoney, this.gameStepCounter, this.burnedCells);
     }
 
     private countStars(): Score {
@@ -292,6 +293,7 @@ export default class Game {
                 if (content) {
                     this.placeContentAt(content, cell.position);
                 }
+                this.burnedCells++;
             }
         });
     }
