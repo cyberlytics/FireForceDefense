@@ -1,42 +1,12 @@
 import { GameModel } from '../models/Scores';
-import mongoose, {EnforceDocument} from 'mongoose';
 import type IScores from '../types/Scores';
 
-async function findScoreById(id: string): Promise<IScores> {
-    if (mongoose.isValidObjectId(id)) {
-        const scores = await GameModel.findById(id).exec();
-
-        if (scores == null) {
-            throw 'No data found!';
-        }
-        return scores;
-    } else {
-        throw 'Invalid ObjectId!';
-    }
-}
-
-async function findScores(name: string): Promise<Array<EnforceDocument<IScores, {}>>>{
-
-    const scores = await GameModel.find({username: name}).exec();
+async function findScores(name: string): Promise<IScores[]> {
+    const scores = await GameModel.find({ username: name }).exec();
     if (scores == null) {
         throw 'No data found!';
     }
-    return scores;
-
-}
-
-async function deleteScoreById(id: string): Promise<IScores> {
-    if (mongoose.isValidObjectId(id)) {
-        const deletedScores = await GameModel.findOneAndDelete({ _id: id }).exec();
-
-        if (deletedScores == null) {
-            throw 'No data found!';
-        }
-
-        return deletedScores;
-    } else {
-        throw 'Invalid ObjectId!';
-    }
+    return Promise.resolve(scores);
 }
 
 async function createScore(request: {
@@ -87,4 +57,4 @@ async function userCheck(username: string, level: string): Promise<boolean> {
     }
 }
 
-export { findScoreById, findScores, deleteScoreById, createScore, updateScore, userCheck };
+export { findScores, createScore, updateScore, userCheck };

@@ -12,24 +12,9 @@ export default class GameController {
     public router = Router();
 
     constructor() {
-        this.router.get(`${this.path}/:id`, this.getScoresById);
-        this.router.get(`${this.path}/scores/:name`, this.getScores);
-        this.router.delete(`${this.path}/:id`, this.deleteScoresById);
-
+        this.router.get(`${this.path}/:name`, this.getScores);
         this.router.post(`${this.path}/save`, this.scoresSchema, this.saveScores);
     }
-
-    private getScoresById = (req: Request, res: Response, next: NextFunction) => {
-        const id = req.params.id;
-        gameService
-            .findScoreById(id)
-            .then((results) => {
-                return res.json({
-                    scoreData: results,
-                });
-            })
-            .catch(next);
-    };
 
     private getScores = (req: Request, res: Response, next: NextFunction) => {
         const name = req.params.name;
@@ -37,20 +22,6 @@ export default class GameController {
             .findScores(name)
             .then((results) => {
                 return res.json(results);
-            })
-            .catch(next);
-    };
-
-    private deleteScoresById = (req: Request, res: Response, next: NextFunction) => {
-        const id = req.params.id;
-
-        gameService
-            .deleteScoreById(id)
-            .then((result) => {
-                res.json({
-                    deletedData: result,
-                    message: 'Scores deleted!',
-                });
             })
             .catch(next);
     };
@@ -91,7 +62,9 @@ export default class GameController {
     private scoresSchema = (req: Request, res: Response, next: NextFunction) => {
         const schema = Joi.object({
             username: Joi.string().required(),
-            level: Joi.string().regex(/lvl[0-9]{3}/).required(),
+            level: Joi.string()
+                .regex(/lvl[0-9]{3}/)
+                .required(),
             stars: Joi.number().integer().max(3).required(),
             money: Joi.number().integer().required(),
             burnedFields: Joi.number().integer().required(),
