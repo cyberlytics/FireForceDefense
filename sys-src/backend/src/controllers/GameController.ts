@@ -13,6 +13,7 @@ export default class GameController {
 
     constructor() {
         this.router.get(`${this.path}/:id`, this.getScoresById);
+        this.router.get(`${this.path}/scores/:name`, this.getScores);
         this.router.delete(`${this.path}/:id`, this.deleteScoresById);
 
         this.router.post(`${this.path}/save`, this.scoresSchema, this.saveScores);
@@ -26,6 +27,16 @@ export default class GameController {
                 return res.json({
                     scoreData: results,
                 });
+            })
+            .catch(next);
+    };
+
+    private getScores = (req: Request, res: Response, next: NextFunction) => {
+        const name = req.params.name;
+        gameService
+            .findScores(name)
+            .then((results) => {
+                return res.json(results);
             })
             .catch(next);
     };
@@ -80,7 +91,7 @@ export default class GameController {
     private scoresSchema = (req: Request, res: Response, next: NextFunction) => {
         const schema = Joi.object({
             username: Joi.string().required(),
-            level: Joi.number().integer().required(),
+            level: Joi.string().regex(/lvl[0-9]{3}/).required(),
             stars: Joi.number().integer().max(3).required(),
             money: Joi.number().integer().required(),
             burnedFields: Joi.number().integer().required(),

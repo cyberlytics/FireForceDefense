@@ -1,5 +1,5 @@
 import { GameModel } from '../models/Scores';
-import mongoose from 'mongoose';
+import mongoose, {EnforceDocument} from 'mongoose';
 import type IScores from '../types/Scores';
 
 async function findScoreById(id: string): Promise<IScores> {
@@ -13,6 +13,16 @@ async function findScoreById(id: string): Promise<IScores> {
     } else {
         throw 'Invalid ObjectId!';
     }
+}
+
+async function findScores(name: string): Promise<Array<EnforceDocument<IScores, {}>>>{
+
+    const scores = await GameModel.find({username: name}).exec();
+    if (scores == null) {
+        throw 'No data found!';
+    }
+    return scores;
+
 }
 
 async function deleteScoreById(id: string): Promise<IScores> {
@@ -45,7 +55,7 @@ async function createScore(request: {
 
 async function updateScore(request: {
     username: string;
-    level: number;
+    level: string;
     stars: number;
     money: number;
     burnedFields: number;
@@ -64,7 +74,7 @@ async function updateScore(request: {
     return scores;
 }
 
-async function userCheck(username: string, level: number): Promise<boolean> {
+async function userCheck(username: string, level: string): Promise<boolean> {
     if (
         (await GameModel.exists({
             username: username,
@@ -77,4 +87,4 @@ async function userCheck(username: string, level: number): Promise<boolean> {
     }
 }
 
-export { findScoreById, deleteScoreById, createScore, updateScore, userCheck };
+export { findScoreById, findScores, deleteScoreById, createScore, updateScore, userCheck };
