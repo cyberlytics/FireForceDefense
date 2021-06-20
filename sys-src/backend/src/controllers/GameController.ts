@@ -12,35 +12,16 @@ export default class GameController {
     public router = Router();
 
     constructor() {
-        this.router.get(`${this.path}/:id`, this.getScoresById);
-        this.router.delete(`${this.path}/:id`, this.deleteScoresById);
-
-        this.router.post(`${this.path}/save`, this.scoresSchema, this.saveScores);
+        this.router.get(`${this.path}/score/:username`, this.getScoresByUsername);
+        this.router.post(`${this.path}/score`, this.scoresSchema, this.saveScores);
+        this.router.get(`${this.path}/scoreboard`, this.scoreboardSchema, this.getScoreBoard);
     }
 
-    private getScoresById = (req: Request, res: Response, next: NextFunction) => {
-        const id = req.params.id;
+    private getScoresByUsername = (req: Request, res: Response, next: NextFunction) => {
+        const username = req.params.username;
         gameService
-            .findScoreById(id)
-            .then((results) => {
-                return res.json({
-                    scoreData: results,
-                });
-            })
-            .catch(next);
-    };
-
-    private deleteScoresById = (req: Request, res: Response, next: NextFunction) => {
-        const id = req.params.id;
-
-        gameService
-            .deleteScoreById(id)
-            .then((result) => {
-                res.json({
-                    deletedData: result,
-                    message: 'Scores deleted!',
-                });
-            })
+            .findScoresByUsername(username)
+            .then((results) => res.json(results?.[0]))
             .catch(next);
     };
 
@@ -77,14 +58,29 @@ export default class GameController {
         }
     };
 
+    private getScoreBoard = (req: Request, res: Response, next: NextFunction) => {
+        const { level } = req.body;
+        gameService
+            .findScoresByLevel(level)
+            .then((results) => res.json(results))
+            .catch(next);
+    };
+
     private scoresSchema = (req: Request, res: Response, next: NextFunction) => {
         const schema = Joi.object({
             username: Joi.string().required(),
-            level: Joi.number().integer().required(),
-            stars: Joi.number().integer().max(3).required(),
-            money: Joi.number().integer().required(),
-            burnedFields: Joi.number().integer().required(),
-            time: Joi.number().integer().required(),
+            level: Joi.string().required(),
+            stars: Joi.number().integer().min(0).max(3).required(),
+            money: Joi.number().integer().min(0).required(),
+            burnedFields: Joi.number().integer().min(0).required(),
+            time: Joi.number().integer().min(0).required(),
+        });
+        validateRequestSchema(req, next, schema);
+    };
+
+    private scoreboardSchema = (req: Request, res: Response, next: NextFunction) => {
+        const schema = Joi.object({
+            level: Joi.string(),
         });
         validateRequestSchema(req, next, schema);
     };

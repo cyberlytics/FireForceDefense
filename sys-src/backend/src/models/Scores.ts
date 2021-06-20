@@ -4,7 +4,7 @@ import type IScores from '../types/Scores';
 const scoreSchema: Schema = new Schema(
     {
         username: String,
-        level: Number,
+        level: String,
         stars: Number,
         money: Number,
         burnedFields: Number,
