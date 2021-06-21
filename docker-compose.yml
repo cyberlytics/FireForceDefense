@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+    frontend:
+        build: ./sys-src/frontend
+        ports:
+            - '8000:80'
+        depends_on:
+            - backend
+    backend:
+        environment:
+            DB: ${DB}
+            DB_KEY: ${DB_KEY}
+            SECRET_KEY: ${SECRET_KEY}
+        build: ./sys-src/backend
+        ports:
+            - '3000:3000'
