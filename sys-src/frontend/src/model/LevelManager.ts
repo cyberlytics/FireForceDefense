@@ -61,9 +61,9 @@ export default class LevelManager {
         });
     }
 
-    public postScore(levelID: string, score: Score): void {
+    public postScore(levelID: string, score: Score, money: number, time: number, burnedCells: number): void {
         if (Object.prototype.hasOwnProperty.call(this.levelIdToIndex, levelID)) {
-            User.getInstance().postScore(levelID, score);
+            User.getInstance().postScore(levelID, score, money, time, burnedCells);
         }
     }
 
