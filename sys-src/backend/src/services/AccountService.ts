@@ -49,12 +49,9 @@ async function register(request: {
         throw 'Account already exists';
     }
     const account = new AccountModel(request);
-    bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(request.password, salt, function (err, hash) {
-            // Store hash in DB.
-            account.passwordHash = hash;
-        });
-    });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(request.password, salt);
+    account.passwordHash = hashedPassword;
 
     await account.save();
 
@@ -102,7 +99,7 @@ async function refreshToken(request: {
 }
 
 function generateAccessToken(account: AccountDoc) {
-    return jwt.sign({ id: account.id }, process.env.SECRET_KEY, { expiresIn: '1h' });
+    return jwt.sign({ id: account.id }, 'secret', { expiresIn: '1h' });
 }
 
 async function revokeToken(request: { token: string; ip: string }): Promise<void> {
