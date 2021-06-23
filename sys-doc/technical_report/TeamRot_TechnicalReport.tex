@@ -100,6 +100,27 @@ Dieser Abschnitt beschreibt die server-seitige Backend-Architektur.
 
 Die Speicherung der Daten erfolgt im dokumentenorientierten NoSQL-Datenbankmanagementsystem \textit{MongoDB}.  Zusätzlich wird die Bibliothek  \textit{mongoose} für das Object Data Modeling (ODM) verwendet.  \\
 
+Grundlegend wurden die Daten in drei Collections unterteilt:
+\begin{itemize}
+\item
+\textit{Accounts:} Hier werden die nötigen Informationen eines Benutzers gespeichert, um
+eine Login- und Registrierungsfunktion zu gewährleisten. Das wäre einerseits ein
+einzigartiger Benutzername, eine E-Mailadresse, ein verschlüsseltes Passwort, sowie
+ein Datum, welches den Registrierungszeitpunkt festhält.
+\item
+\textit{Refreshtokens:} In dieser Dokumentensammlung werden alle nötigen Informationen für
+das Session-Handling gespeichert. Das wäre einerseits die von MongoDB automatisch
+erstellte ID der einzelnen Benutzer, um jedem Benutzer seinen entsprechenden Token
+zuweisen zu können. Dazu wird der entsprechende Token gespeichert, sowie ein Verfallsdatum
+des Tokens, ein Erstellungsdatum des Dokumentes und abschließend ein Wert, welcher die
+IP des Erstellers festhält.
+\item
+\textit{Scores:} Diese Sammlung an Dokumenten speichert grundlegend alle relevanten Aspekte des
+Spielstandes. Einerseits den Benutzernamen, das Level, die erreichten Sterne, das
+übriggebliebene Geld, sowie die verwendete Zeit und die Anzahl an verbrannten Zellen.
+Anhand dieser Informationen wird die Reihenfolge der Rangliste berechnet.
+\end{itemize}
+
 \subsubsection{Laufzeitumgebung}
 
 JavaScript-basierte Plattform Node.js mit dem serverseitigen Webframework ExpressJS.
