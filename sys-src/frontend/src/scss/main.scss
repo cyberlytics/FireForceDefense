@@ -298,3 +298,137 @@ $font-family-sans-serif: 'TitilliumWeb';
 .damage-bad {
     fill: theme-color('danger');
 }
+
+.scoreboard-div {
+    height: 100vh;
+    background-size: cover;
+    background-image: url(../../assets/img/Pattern-Randomized.svg);
+    padding: map_get($spacers, 4);
+    background-attachment: fixed;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.scoreboard-button-div {
+    padding-bottom: 5vh;
+    height: 10vh;
+}
+
+.scoreboard-button-table-div {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    height: 10vh;
+}
+
+.scoreboard-button-table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 37.6px;
+    overflow: hidden;
+    width: 100%;
+    min-width: 380px;
+    table-layout: fixed;
+}
+
+.scoreboard-button-td {
+    width: 20%;
+}
+
+.scoreboard-table-td-button {
+    width: 100%;
+    background-color: white;
+}
+
+.scoreboard-table-td-button:hover {
+    background-color: rgba(255, 0, 19, 1);
+}
+
+.scoreboard-table-td-button:focus {
+    background-color: rgba(255, 0, 19, 1);
+    color: white;
+}
+
+.scoreboard-data-table-div {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    height: 65vh;
+}
+
+.scoreboard-data-table {
+    width: 100%;
+    display: block;
+    min-width: 380px;
+}
+.scoreboard-data-thead {
+    display: inline-block;
+    width: 100%;
+    height: 5vh;
+}
+
+.scoreboard-data-tr-header {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin: 0px;
+    padding-bottom: 6px;
+}
+
+.scoreboard-data-tbody {
+    display: inline-block;
+    width: 100%;
+    height: 60vh;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.scoreboard-data-tr {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 6px;
+}
+
+.scoreboard-data-tr:nth-child(odd) {
+    background: rgba(194, 194, 194, 0.15);
+    border-top: 1px solid black;
+    color: black;
+}
+
+.scoreboard-data-tr:nth-child(even) {
+    background: rgba(194, 194, 194, 0.4);
+    border-top: 1px solid black;
+    color: black;
+}
+
+.scoreboard-data-tr-user {
+    display: flex;
+    width: 100%;
+    text-align: center;
+    padding: 6px;
+    background: rgba(255, 0, 19, 1);
+    border-top: 1px solid black;
+    color: black;
+    position: sticky;
+    top: 0%;
+    bottom: 0%;
+}
+
+.scoreboard-data-th {
+    display: inline-table;
+    width: calc(100% / 6);
+    float: left;
+}
+
+.scoreboard-data-td {
+    display: inline-table;
+    width: calc(100% / 6);
+    float: left;
+}

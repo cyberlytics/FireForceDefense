@@ -59,7 +59,7 @@ export default class GameController {
     };
 
     private getScoreBoard = (req: Request, res: Response, next: NextFunction) => {
-        const { level } = req.body;
+        const level = req.query.level !== undefined ? req.query.level.toString() : null;
         gameService
             .findScoresByLevel(level)
             .then((results) => res.json(results))
