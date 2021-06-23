@@ -11,7 +11,7 @@ export default class User {
     private email: string | null;
     private levelScores: Scores = {};
     // TODO: Store this in a configuration file.
-    private readonly backendURL = 'https://pmaem20b.uber.space/';
+    private readonly backendURL = 'http://localhost:3000/';
     private _scoresValid = false;
     private password: string | null;
 
@@ -62,7 +62,7 @@ export default class User {
     }
 
     private async getScoresFromServer() {
-        return await Axios.get(`${this.backendURL}api/${this.username}`);
+        return await Axios.get(`${this.backendURL}game/score/${this.nickname}`);
     }
 
     public getScores(cb: (scores: Scores) => void): void {
@@ -102,13 +102,18 @@ export default class User {
             });
     }
 
-    private async postScoreToServer(levelID: string, stars: number) {
-        return await Axios.post(`${this.backendURL}api/${this.username}`, {
-            [levelID]: stars,
+    private async postScoreToServer(levelID: string, stars: number, money: number, time: number, burnedCells: number) {
+        return await Axios.post(`${this.backendURL}game/score`, {
+            username: this.nickname,
+            level: levelID,
+            stars: stars,
+            money: money,
+            burnedFields: burnedCells,
+            time: time,
         });
     }
 
-    public postScore(levelID: string, score: Score): boolean {
+    public postScore(levelID: string, score: Score, money: number, time: number, burnedCells: number): boolean {
         let stars = 0;
         switch (score) {
             case Score.ONE_STAR: {
@@ -136,7 +141,7 @@ export default class User {
             return false;
         }
         this.levelScores[levelID] = score;
-        this.postScoreToServer(levelID, stars).catch((err) => {
+        this.postScoreToServer(levelID, stars, money, time, burnedCells).catch((err) => {
             console.error(err);
             return false;
         });

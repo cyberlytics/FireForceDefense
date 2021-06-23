@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { AccountModel } from './models/Account';
 import { RefreshTokenModel } from './models/RefreshToken';
+import 'universal-dotenv/register';
 
 mongoose.Promise = global.Promise;
 
