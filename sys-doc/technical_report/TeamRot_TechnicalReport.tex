@@ -98,9 +98,10 @@ Dieser Abschnitt beschreibt die server-seitige Backend-Architektur.
 
 \subsubsection{Datenbank}
 
-Die Speicherung der Daten erfolgt im dokumentenorientierten NoSQL-Datenbankmanagementsystem \textit{MongoDB}.  Zusätzlich wird die Bibliothek  \textit{mongoose} für das Object Data Modeling (ODM) verwendet.  \\
+Die Speicherung der Daten erfolgt im dokumentenorientierten NoSQL-Datenbankmanagementsystem \textit{MongoDB}.
+Zusätzlich wird die Bibliothek  \textit{mongoose} für das Object Data Modeling (ODM) verwendet. \\
+Der folgende Teilbereich beschreibt die Unterteilung der Daten in drei Collection:
 
-Grundlegend wurden die Daten in drei Collections unterteilt:
 \begin{itemize}
 \item
 \textit{Accounts:} Hier werden die nötigen Informationen eines Benutzers gespeichert, um
