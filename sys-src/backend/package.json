@@ -4,7 +4,7 @@
     "description": "",
     "main": "dist/index.js",
     "scripts": {
-        "test": "jest --coverage",
+        "test": "jest",
         "build": "tsc",
         "prestart": "npm run build",
         "start": "node .",
