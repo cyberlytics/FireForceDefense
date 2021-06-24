@@ -355,7 +355,9 @@ $font-family-sans-serif: 'TitilliumWeb';
     margin-left: auto;
     margin-right: auto;
     width: 60%;
-    height: 65vh;
+    padding: map-get($spacers, 4);
+    background: rgba(255, 255, 255, .5);
+    border-radius: $border-radius-lg;
 }
 
 .scoreboard-data-table {
