@@ -19,7 +19,7 @@ it('Should login user', async (done) => {
     done();
 });
 
-it('refresh token', async (done) => {
+it('Should refresh user token', async (done) => {
     const resUser = await request(s.app).post('/accounts/register').send({
         username: 'dummy1',
         email: 'dummy1@gmail.com',
@@ -27,11 +27,13 @@ it('refresh token', async (done) => {
     });
 
     const token = await RefreshTokenModel.findOne().populate('account');
-    console.log(token)
     const res = await request(s.app).post('/accounts/refresh-token').send({
 
     }).set("Cookie", [`refreshToken=${token.token}`]);
-console.log(res.body)
+
+    expect(res.body.username).toBeTruthy()
+    expect(res.body.email).toBeTruthy();
+    expect(res.body.jwtToken).toBeTruthy();
     done();
 });
 
@@ -42,9 +44,11 @@ it('Should save user to database', async (done) => {
         password: '123456',
         confirmPassword: '123456',
     });
-    console.log(res.body)
+
     expect(res.body.username).toBeTruthy();
     expect(res.body.email).toBeTruthy();
     expect(res.body.jwtToken).toBeTruthy();
     done();
 });
+
+
