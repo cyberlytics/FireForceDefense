@@ -8,9 +8,7 @@
                 <tr>
                     <td class="scoreboard-button-td">
                         <b-button
-                            ref="start"
-                            autofocus
-                            variant="outline-danger"
+                            :variant="levelFilter === null || levelFilter === undefined ? 'primary' : 'outline-primary'"
                             class="scoreboard-table-td-button"
                             @click="buttonAll"
                         >
