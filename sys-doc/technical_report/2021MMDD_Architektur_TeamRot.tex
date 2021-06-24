@@ -96,7 +96,7 @@ In diesen drei Bausteinen sind die verschiedenen, konkreten Zell-, Inhalts- bzw.
 \subsection{Backend}
 Dieser Abschnitt beschreibt die server-seitige Backend-Architektur.
 
-\subsubsection{Datenbank}
+\subsubsection{Datenbank} \label{datenbank}
 
 Die Speicherung der Daten erfolgt im dokumentenorientierten NoSQL-Datenbankmanagementsystem \textit{MongoDB}.  Zusätzlich wird die Bibliothek  \textit{mongoose} für das Object Data Modeling (ODM) verwendet.  \\
 
@@ -105,19 +105,56 @@ Die Speicherung der Daten erfolgt im dokumentenorientierten NoSQL-Datenbankmanag
 JavaScript-basierte Plattform Node.js mit dem serverseitigen Webframework ExpressJS.
 
 \section{Verteilungssicht}
-Das Spiel wird in einem Docker Container bei dem Cloud-Anbieter \textit{Amazon Web Services} bereitgestellt. \\
+Das Verteilungssicht beschreibt die Verteilung des Gesamtsystems,  wichtige Begründungen für diese Verteilungsstruktur und die Zuordnung von Softwareartefakten zu Bestandteilen der Infrastruktur. 
+Zentrale Bestandteile der Verteilungsstruktur sind (A) das Kubernetes Cluster,  (B) das Datenbank-Cluster und (C) die GitLab CI/CD-Pipeline. 
 
-Dieser Abschnitt beschreibt:
-\begin{itemize}
-\item
-  die Verteilung des Gesamtsystems,
-\item
-  wichtige Begründungen für diese Verteilungsstruktur,
-\item
-  Qualitäts- und/oder Leistungsmerkmale dieser Infrastruktur,
-\item
-  Zuordnung von Softwareartefakten zu Bestandteilen der Infrastruktur
-\end{itemize}
+\subsection{Kubernetes Cluster}
+
+Für ein Kubernetes-Cluster wurde sich entschieden, aufgrund der Tatsache, das mehrere virtuelle Cluster (sog. Namespaces) auf demselben physischen Cluster unterstützt werden. Dadurch kann die CI/CD Pipeline im \textit{Gitlab-managed-apps} Namespace laufen, währenddessen die Anwendung auf einem anderen Namespace bereitgestellt wird.
+
+Das Kubernetes Cluster wird über den Elastic Kubernetes Service des Cloud-Providers Amazon Web Services bereitgestellt.  Aus datenschutzrechtlichen Gründen werden nur Cloud Server, die der Verfügbarkeitszone Frankfurt (eu-central-1) angehörig sind, verwendet. 
+
+\subsection{Datenbank-Cluster}
+Das Datenbank-Cluster besteht aus drei Replikationen. Es stellt jeweils eine Datenbank für den Entwicklungs- und Produktionsbetrieb bereit. Näheres zur Datenbank wird im Abschnitt \ref{datenbank} erklärt.
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[scale=0.22]{images/infrastructure}
+      \caption{Cloud Infrastruktur}
+      \label{fig:infrastructure}
+\end{figure}
+
+
+\subsection{CI/CD-Pipeline}
+
+Für die Bereitstellung der CI/CD Pipeline ist ein Kubernetes-Executor\cite{c1} auf dem Kubernetes Cluster verantwortlich.  Dieser verbindet sich mit der Kubernetes Cluster API und erstellt einen Pod für jeden GitLab CI Job. Dieser Pod besteht aus einem Build-Container und einem zusätzlichen Container für jeden Service. Die Pipeline umfasst das Erstellen, Testen und Bereitstellen der Anwendung.  Folgende vier Stages durchläuft jeder Push in das Gitlab-Repository:
+
+\subsubsection{Dependencies}
+
+Installation der npm-Pakete in das Verzeichnis node\_modules.
+
+\subsubsection{Lint}
+
+Durchführung statischer Code-Analysen.
+
+\subsubsection{Build}
+
+Alle notwendigen Bau-/Vorbereitungsaufgaben der Anwendung werden ausgeführt.
+
+\subsubsection{Test}
+
+Durchführung von Unit Tests, um die Korrektheit des Codes zu validieren.  \\
+
+Die letzten beiden Stages werden nur im main-Zweig des Repositories durchlaufen, um die Anwendung für den Produktionsbetrieb bereitzustellen.
+
+\subsubsection{Dockerize}
+
+Wenn alle Unit Tests bestanden sind, wird für Front- und Backend jeweils ein Docker-Image gebaut. Anschließend werden beide Images im Docker-Registry abgelegt, damit sie für die nächste Stage (Deploy) verfügbar sind.  
+
+\subsubsection{Deploy}
+
+In der letzten Phase werden die Docker Images aus der Docker-Registry auf dem Kubernetes Cluster als Container bereitgestellt. Die Anwendung ist dann,  bis einschließlich dem Tag der Präsentation, öffentlich zugänglich.
+
 
 \section{Querschnittliche Konzepte}
 
@@ -137,11 +174,7 @@ Lösungsansätze, die an mehreren Stellen relevant sind.
 \begin{thebibliography}{99}
 % APA-Citation https://www.scribbr.de/category/apa-standard/
 
-% Book
-\bibitem{c1} Schmidt, B. (2020). Richtig zitieren: Eine Anleitung für Studierende (2. Aufl.). Springer.
-
-% Website
-\bibitem{c2} Erichsen, C. (2020, 17. Juli). Inklusion im Internet: So werden Social-Media-Inhalte barrierefrei. \url{t3n. https://t3n.de/magazin/inklusion-im-internet-so-werden-249553/}
+\bibitem{c1} GitLab.  Gitlab Runner: Kubernetes executor.   \url{https://docs.gitlab.com/runner/executors/kubernetes.html}
 
 \end{thebibliography}
 
