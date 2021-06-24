@@ -90,6 +90,7 @@ export default Vue.extend({
     data() {
         return {
             items: null,
+            levelFilter: null,
             username: localStorage.getItem('username'),
         };
     },
