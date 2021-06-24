@@ -33,6 +33,9 @@
             <l-control position="topleft">
                 <button class="btn btn-primary" @click="goToStartMenu">Zum Menü</button>
             </l-control>
+            <l-control position="topright">
+                <button class="btn btn-primary" @click="goToScoreBoard">Rangliste</button>
+            </l-control>
         </l-map>
     </div>
 </template>
@@ -146,6 +149,9 @@ export default Vue.extend({
             userService.logout();
             this.world.leaveWorld();
             this.$router.push('/');
+        },
+        goToScoreBoard() {
+            this.$router.push('/scoreboard');
         },
         centerMapToCurrentLevel() {
             setTimeout(() => {
