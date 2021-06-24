@@ -10,7 +10,7 @@
                         <b-button
                             :variant="levelFilter === null || levelFilter === undefined ? 'primary' : 'outline-primary'"
                             class="scoreboard-table-td-button"
-                            @click="buttonAll"
+                            @click="filter()"
                         >
                             Alle
                         </b-button>
