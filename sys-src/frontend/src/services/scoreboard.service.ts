@@ -7,7 +7,7 @@ export const scoreboardService = {
 };
 
 async function getData(level: string): Promise<unknown> {
-     const config =
+    const config =
         level === null || level === undefined
             ? {}
             : {
