@@ -90,11 +90,7 @@ export default Vue.extend({
             this.$router.push('/world');
         },
         getUserTR(name: string): boolean {
-            if (name == this.username) {
-                return false;
-            } else {
-                return true;
-            }
+            return name != this.username;
         },
     },
 });
