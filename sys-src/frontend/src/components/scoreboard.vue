@@ -94,11 +94,7 @@ export default Vue.extend({
         };
     },
     mounted() {
-        scoreboardService.getLevelAllData().then((response) => {
-            this.items = response;
-            this.username = localStorage.getItem('username');
-        });
-        this.focusButton();
+        this.filter();
     },
     methods: {
         buttonAll() {
