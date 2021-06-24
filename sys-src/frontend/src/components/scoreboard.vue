@@ -113,9 +113,6 @@ export default Vue.extend({
                 return true;
             }
         },
-        focusButton() {
-            this.$refs.start.focus();
-        },
     },
 });
 </script>
