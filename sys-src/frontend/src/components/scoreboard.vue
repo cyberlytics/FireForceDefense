@@ -21,7 +21,7 @@
                             class="scoreboard-table-td-button"
                             @click="filter(`lvl${lvl.padStart(3, '0')}`)"
                         >
-                            Level {{lvl}}
+                            Level {{ lvl }}
                         </b-button>
                     </td>
                 </tr>
@@ -84,7 +84,7 @@ export default Vue.extend({
             this.levelFilter = level;
             scoreboardService.getData(level).then((response) => {
                 this.items = response;
-            })
+            });
         },
         goToMap() {
             this.$router.push('/world');
