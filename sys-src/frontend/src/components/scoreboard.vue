@@ -97,30 +97,11 @@ export default Vue.extend({
         this.filter();
     },
     methods: {
-        buttonAll() {
-            scoreboardService.getLevelAllData().then((response) => {
+        filter(level: string = undefined) {
+            this.levelFilter = level;
+            scoreboardService.getData(level).then((response) => {
                 this.items = response;
-            });
-        },
-        buttonLevel1() {
-            scoreboardService.getLevel1Data().then((response) => {
-                this.items = response;
-            });
-        },
-        buttonLevel2() {
-            scoreboardService.getLevel2Data().then((response) => {
-                this.items = response;
-            });
-        },
-        buttonLevel3() {
-            scoreboardService.getLevel3Data().then((response) => {
-                this.items = response;
-            });
-        },
-        buttonLevel4() {
-            scoreboardService.getLevel4Data().then((response) => {
-                this.items = response;
-            });
+            })
         },
         goToMap() {
             this.$router.push('/world');
