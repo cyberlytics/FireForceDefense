@@ -3,11 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:3000';
 
 export const scoreboardService = {
-    getLevelAllData,
-    getLevel1Data,
-    getLevel2Data,
-    getLevel3Data,
-    getLevel4Data,
+    getData,
 };
 
 async function getData(level: string): Promise<unknown> {
