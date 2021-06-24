@@ -7,11 +7,14 @@ export const scoreboardService = {
 };
 
 async function getData(level: string): Promise<unknown> {
-    const config = level === null || level === undefined ? {} : {
-        params: {
-            level,
-        },
-    };
+     const config =
+        level === null || level === undefined
+            ? {}
+            : {
+                  params: {
+                      level,
+                  },
+              };
     const response = await axios.get(API_URL + '/game/scoreboard', config);
     return response.data;
 }
