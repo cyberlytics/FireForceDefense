@@ -62,7 +62,7 @@ export default class User {
     }
 
     private async getScoresFromServer() {
-        return await Axios.get(`${this.backendURL}game/score/${this.nickname}`);
+        return await Axios.get(`${this.backendURL}game/score/${this.username}`);
     }
 
     public getScores(cb: (scores: Scores) => void): void {
@@ -104,7 +104,7 @@ export default class User {
 
     private async postScoreToServer(levelID: string, stars: number, money: number, time: number, burnedCells: number) {
         return await Axios.post(`${this.backendURL}game/score`, {
-            username: this.nickname,
+            username: this.username,
             level: levelID,
             stars: stars,
             money: money,
