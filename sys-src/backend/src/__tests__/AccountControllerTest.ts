@@ -1,8 +1,7 @@
 import server from '../Server';
 import request from 'supertest';
 import { setupDB } from './databaseTestSetup';
-import {AccountModel} from "../models/Account";
-import {RefreshTokenModel} from "../models/RefreshToken";
+import { RefreshTokenModel } from '../models/RefreshToken';
 const s = new server();
 
 setupDB();
@@ -12,26 +11,25 @@ it('Should login user', async (done) => {
         email: 'dummy1@gmail.com',
         password: '123456',
     });
-    console.log(res.body);
-    expect(res.body.username)
+    expect(res.body.username);
     expect(res.body.email).toBeTruthy();
     expect(res.body.jwtToken).toBeTruthy();
     done();
 });
 
 it('Should refresh user token', async (done) => {
-    const resUser = await request(s.app).post('/accounts/register').send({
+    await request(s.app).post('/accounts/register').send({
         username: 'dummy1',
         email: 'dummy1@gmail.com',
         password: '123456',
     });
 
     const token = await RefreshTokenModel.findOne().populate('account');
-    const res = await request(s.app).post('/accounts/refresh-token').send({
-
-    }).set("Cookie", [`refreshToken=${token.token}`]);
-
-    expect(res.body.username).toBeTruthy()
+    const res = await request(s.app)
+        .post('/accounts/refresh-token')
+        .send({})
+        .set('Cookie', [`refreshToken=${token.token}`]);
+    expect(res.body.username).toBeTruthy();
     expect(res.body.email).toBeTruthy();
     expect(res.body.jwtToken).toBeTruthy();
     done();
@@ -51,4 +49,23 @@ it('Should save user to database', async (done) => {
     done();
 });
 
+it('Should revoke token', async (done) => {
+    await request(s.app).post('/accounts/register').send({
+        username: 'dummy3',
+        email: 'dummy3@gmail.com',
+        password: '1233456',
+    });
+    const token = await RefreshTokenModel.findOne().populate('account');
 
+    await request(s.app)
+        .post('/accounts/refresh-token')
+        .send({})
+        .set('Cookie', [`refreshToken=${token.token}`]);
+
+    const res = await request(s.app).post('/accounts/revoke-token').send({
+        token: token.replacedByToken,
+    });
+    expect(res.body.message).toBe('Token successfully revoked');
+
+    done();
+});
