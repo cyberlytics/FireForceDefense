@@ -339,16 +339,13 @@ $font-family-sans-serif: 'TitilliumWeb';
 
 .scoreboard-table-td-button {
     width: 100%;
-    background-color: white;
-}
-
-.scoreboard-table-td-button:hover {
-    background-color: rgba(255, 0, 19, 1);
-}
-
-.scoreboard-table-td-button:focus {
-    background-color: rgba(255, 0, 19, 1);
-    color: white;
+    box-shadow: none;
+    &.btn-outline-primary {
+        background-color: white;
+    }
+    &:hover, &:focus {
+        background-color: theme-color('primary');
+    }
 }
 
 .scoreboard-data-table-div {
