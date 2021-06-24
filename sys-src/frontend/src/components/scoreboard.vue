@@ -15,29 +15,13 @@
                             Alle
                         </b-button>
                     </td>
-                    <td class="scoreboard-button-td">
-                        <b-button variant="outline-danger" class="scoreboard-table-td-button" @click="buttonLevel1">
-                            Level1
-                        </b-button>
-                    </td>
-                    <td class="scoreboard-button-td">
-                        <b-button variant="outline-danger" class="scoreboard-table-td-button" @click="buttonLevel2">
-                            Level 2
-                        </b-button>
-                    </td>
-                    <td class="scoreboard-button-td">
+                    <td v-for="lvl in ['1', '2', '3', '4']" :key="lvl" class="scoreboard-button-td">
                         <b-button
-                            id="3"
-                            variant="outline-danger"
+                            :variant="levelFilter === `lvl${lvl.padStart(3, '0')}` ? 'primary' : 'outline-primary'"
                             class="scoreboard-table-td-button"
-                            @click="buttonLevel3"
+                            @click="filter(`lvl${lvl.padStart(3, '0')}`)"
                         >
-                            Level 3
-                        </b-button>
-                    </td>
-                    <td class="scoreboard-button-td">
-                        <b-button variant="outline-danger" class="scoreboard-table-td-button" @click="buttonLevel4">
-                            Level 4
+                            Level {{lvl}}
                         </b-button>
                     </td>
                 </tr>
