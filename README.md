@@ -61,6 +61,7 @@ In beiden Teilprojekten stehen jeweils folgende Kommandos zur Verfügung:
 |`npm run lint`|Überprüft den Codestyle und merkt Verstöße dagegen an.|
 |`npm run format`|Versucht, Verstöße gegen den Codestyle zu beheben und merkt die übrigen Verstöße an.|
 |`npm run test`|Führt die Tests aus.|
+|`docker-compose up`| Führt das Projekt in Docker Container aus.|
 
 ### Entwicklung einer Änderung
 

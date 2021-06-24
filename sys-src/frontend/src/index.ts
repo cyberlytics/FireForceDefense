@@ -2,6 +2,7 @@ import './scss/main.scss';
 import 'bootstrap';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import BootstrapVue from 'bootstrap-vue';
 import VueI18n from 'vue-i18n';
 import messages from './lang';
 import locale from './locale';
@@ -10,10 +11,12 @@ import index from './components/index.vue';
 import credits from './components/credits.vue';
 import level from './components/level.vue';
 import world from './components/world.vue';
+import scoreboard from './components/scoreboard.vue';
 import User from './model/User';
 import registration from './components/registration.vue';
 import VeeValidate from 'vee-validate';
 
+Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.config.productionTip = false;
@@ -26,6 +29,7 @@ const routes = [
     { path: '/registration', component: registration },
     { path: '/world', component: world },
     { path: '/level/:levelID', component: level, props: true },
+    { path: '/scoreboard', component: scoreboard },
 ];
 
 export const router = new VueRouter({
