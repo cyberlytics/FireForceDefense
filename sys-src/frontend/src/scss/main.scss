@@ -412,7 +412,7 @@ $font-family-sans-serif: 'TitilliumWeb';
     width: 100%;
     text-align: center;
     padding: 6px;
-    background: rgba(255, 0, 19, 1);
+    background: rgba(theme-color('primary'), .5);
     border-top: 1px solid black;
     color: black;
     position: sticky;
