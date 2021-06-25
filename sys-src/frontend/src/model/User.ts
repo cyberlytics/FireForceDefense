@@ -10,8 +10,7 @@ export default class User {
     private username: string | null;
     private email: string | null;
     private levelScores: Scores = {};
-    // TODO: Store this in a configuration file.
-    private readonly backendURL = 'http://localhost:3000/';
+    private readonly backendURL = process.env.API_URL;
     private _scoresValid = false;
     private password: string | null;
 
@@ -62,7 +61,7 @@ export default class User {
     }
 
     private async getScoresFromServer() {
-        return await Axios.get(`${this.backendURL}game/score/${this.username}`);
+        return await Axios.get(`${this.backendURL}/game/score/${this.username}`);
     }
 
     public getScores(cb: (scores: Scores) => void): void {
@@ -103,7 +102,7 @@ export default class User {
     }
 
     private async postScoreToServer(levelID: string, stars: number, money: number, time: number, burnedCells: number) {
-        return await Axios.post(`${this.backendURL}game/score`, {
+        return await Axios.post(`${this.backendURL}/game/score`, {
             username: this.username,
             level: levelID,
             stars: stars,
