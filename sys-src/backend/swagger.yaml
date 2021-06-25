@@ -242,7 +242,7 @@ paths:
                 name: username
                 description: Username
                 required: true
-                example: 'test_user'
+                example: 'maxmuster'
                 schema:
                     type: string
         get:
@@ -261,10 +261,10 @@ paths:
                                 properties:
                                     _id:
                                         type: string
-                                        example: 'test_user'
+                                        example: 'maxmuster'
                                     username:
                                         type: string
-                                        example: 'test_user'
+                                        example: 'maxmuster'
                                     scores:
                                         type: object
                                         properties:
@@ -292,7 +292,7 @@ paths:
                             properties:
                                 username:
                                     type: string
-                                    example: 'max@muster.com'
+                                    example: 'maxmuster'
                                 level:
                                     type: string
                                     example: 'lvl001'
@@ -328,7 +328,7 @@ paths:
                                         properties:
                                             username:
                                                 type: string
-                                                example: 'max@muster.com'
+                                                example: 'maxmuster'
                                             level:
                                                 type: string
                                                 example: 'lvl001'
