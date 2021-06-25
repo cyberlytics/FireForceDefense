@@ -7,15 +7,15 @@ import Score from './Score';
  */
 export default class User {
     private static instance: User;
-    private nickname: string | null;
+    private username: string | null;
+    private email: string | null;
     private levelScores: Scores = {};
-    // TODO: Store this in a configuration file.
-    private readonly backendURL = 'http://localhost:3000/';
+    private readonly backendURL = process.env.API_URL;
     private _scoresValid = false;
     private password: string | null;
 
     private constructor() {
-        const nickname = localStorage.getItem('nickname');
+        const nickname = localStorage.getItem('username');
         const password = localStorage.getItem('password');
         if (nickname) {
             this.login(nickname, password);
@@ -30,27 +30,38 @@ export default class User {
         return User.instance;
     }
 
-    public getNickname(): string {
-        return this.nickname;
+    public getUsername(): string {
+        return this.username;
     }
+
     public getPassword(): string {
         return this.password;
     }
 
-    public login(nickname: string, password: string): void {
-        this.nickname = nickname;
+    public getEmail(): string {
+        return this.email;
+    }
+
+    public login(username: string, password: string): void {
+        this.username = username;
         this.password = password;
         this.invalidateScores();
     }
 
+    public register(username: string, email: string, password: string): void {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     public logout(): void {
-        this.nickname = null;
-        localStorage.removeItem('nickname');
+        this.username = null;
+        localStorage.removeItem('username');
         this.invalidateScores();
     }
 
     private async getScoresFromServer() {
-        return await Axios.get(`${this.backendURL}game/score/${this.nickname}`);
+        return await Axios.get(`${this.backendURL}/game/score/${this.username}`);
     }
 
     public getScores(cb: (scores: Scores) => void): void {
@@ -91,8 +102,8 @@ export default class User {
     }
 
     private async postScoreToServer(levelID: string, stars: number, money: number, time: number, burnedCells: number) {
-        return await Axios.post(`${this.backendURL}game/score`, {
-            username: this.nickname,
+        return await Axios.post(`${this.backendURL}/game/score`, {
+            username: this.username,
             level: levelID,
             stars: stars,
             money: money,
