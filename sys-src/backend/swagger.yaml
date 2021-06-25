@@ -273,7 +273,7 @@ paths:
                                                 example: 3
                 '404':
                     $ref: '#/components/responses/NotFoundError'
-
+                    
 components:
     responses:
         NotFoundError:
