@@ -1,6 +1,6 @@
 <template>
     <div class="main-menu-bg">
-        <div class="main-menu">
+        <div class="main-menu creditsBox">
             <logo />
             <h2>{{ $t('Credits') }}</h2>
             <p>Cameron Barbee</p>
