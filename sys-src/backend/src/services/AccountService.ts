@@ -43,19 +43,13 @@ async function register(request: {
 }): Promise<{ id: Types.ObjectId; username: string; email: string; jwtToken: string; refreshToken: string }> {
     if (
         await AccountModel.findOne({
-            $and: [{ username: request.username }, { email: request.email }],
+            $or: [{ username: request.username }, { email: request.email }],
         })
     ) {
         throw 'Account already exists';
     }
     const account = new AccountModel(request);
-    bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(request.password, salt, function (err, hash) {
-            // Store hash in DB.
-            account.passwordHash = hash;
-        });
-    });
-
+    account.passwordHash = await bcrypt.hash(request.password, 10);
     await account.save();
 
     // generate and save refresh token

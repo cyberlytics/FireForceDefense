@@ -4,6 +4,7 @@ const API_URL = 'http://localhost:3000';
 
 export const userService = {
     login,
+    register,
     logout,
 };
 
@@ -29,7 +30,20 @@ async function login(username: string, password: string): Promise<unknown> {
         });
     }
 
-    if (response.data.token) {
+    if (response.data.jwtToken) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+    }
+    return response.data;
+}
+
+async function register(username: string, email: string, password: string): Promise<unknown> {
+    const response = await axios.post(API_URL + '/accounts/register', {
+        username,
+        email,
+        password,
+    });
+
+    if (response.data.jwtToken) {
         localStorage.setItem('user', JSON.stringify(response.data));
     }
     return response.data;
