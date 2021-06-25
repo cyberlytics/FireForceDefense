@@ -259,6 +259,9 @@ paths:
                             schema:
                                 type: object
                                 properties:
+                                    _id:
+                                        type: string
+                                        example: 'test_user'
                                     username:
                                         type: string
                                         example: 'test_user'
@@ -320,31 +323,37 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    username:
+                                    scoreData:
+                                        type: object
+                                        properties:
+                                            username:
+                                                type: string
+                                                example: 'max@muster.com'
+                                            level:
+                                                type: string
+                                                example: 'lvl001'
+                                            stars:
+                                                type: integer
+                                                example: 2
+                                            money:
+                                                type: integer
+                                                example: 300
+                                            burnedFields:
+                                                type: integer
+                                                example: 22
+                                            time:
+                                                type: integer
+                                                example: 300
+                                            createdAt:
+                                                type: string
+                                                example: '2021-06-20T14:47:03.699+00:00'
+                                            updatedAt:
+                                                type: string
+                                                example: '2021-06-20T14:47:03.699+00:00'
+                                    message:
                                         type: string
-                                        example: 'max@muster.com'
-                                    level:
-                                        type: string
-                                        example: 'lvl001'
-                                    stars:
-                                        type: integer
-                                        example: 2
-                                    money:
-                                        type: integer
-                                        example: 300
-                                    burnedFields:
-                                        type: integer
-                                        example: 22
-                                    time:
-                                        type: integer
-                                        example: 300
-                                    createdAt:
-                                        type: string
-                                        example: "2021-06-20T14:47:03.699+00:00"
-                                    updatedAt:
-                                        type: string
-                                        example: "2021-06-20T14:47:03.699+00:00"
-                                        
+                                        example: 'Old data updated'
+
 components:
     responses:
         NotFoundError:
