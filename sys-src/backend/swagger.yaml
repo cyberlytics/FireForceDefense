@@ -238,13 +238,13 @@ paths:
 
     /game/score/{username}:
         parameters:
-            -   in: path
-                name: username
-                description: Username
-                required: true
-                example: 'maxmuster'
-                schema:
-                    type: string
+            - in: path
+              name: username
+              description: Username
+              required: true
+              example: 'maxmuster'
+              schema:
+                  type: string
         get:
             tags:
                 - Game
