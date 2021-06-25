@@ -369,25 +369,25 @@ paths:
                                 type: array
                                 items:
                                     type: object
-                                        properties:
-                                            _id:
-                                                type: string
-                                                example: 'maxmuster'
-                                            username:
-                                                type: string
-                                                example: 'maxmuster'
-                                            stars:
-                                                type: integer
-                                                example: 3
-                                            time:
-                                                type: integer
-                                                example: 33
-                                            money:
-                                                type: integer
-                                                example: 300
-                                            burnedFields:
-                                                type: integer
-                                                example: 11
+                                    properties:
+                                        _id:
+                                            type: string
+                                            example: 'maxmuster'
+                                        username:
+                                            type: string
+                                            example: 'maxmuster'
+                                        stars:
+                                            type: integer
+                                            example: 3
+                                        time:
+                                            type: integer
+                                            example: 33
+                                        money:
+                                            type: integer
+                                            example: 300
+                                        burnedFields:
+                                            type: integer
+                                            example: 11
                 '404':
                     $ref: '#/components/responses/NotFoundError'
 
