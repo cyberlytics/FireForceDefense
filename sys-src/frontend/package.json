@@ -18,6 +18,7 @@
         "jquery": "^3.4.1",
         "leaflet": "^1.6.0",
         "popper.js": "^1.16.1",
+        "universal-dotenv": "^3.2.4",
         "vee-validate": "^2.2.15",
         "vue": "^2.6.11",
         "vue-i18n": "^8.15.3",

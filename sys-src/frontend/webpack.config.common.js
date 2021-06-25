@@ -2,6 +2,10 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const UniversalDotenv = require('universal-dotenv');
+const webpack = require('webpack');
+
+UniversalDotenv.init();
 
 module.exports = {
     mode: 'development',
@@ -18,6 +22,9 @@ module.exports = {
                 { from: path.resolve(__dirname, 'assets'), to: path.resolve(__dirname, 'dist/assets') },
                 { from: path.resolve(__dirname, 'src/index.html'), to: path.resolve(__dirname, 'dist/index.html') },
             ],
+        }),
+        new webpack.DefinePlugin({
+            'process.env.API_URL': JSON.stringify(process.env.API_URL),
         }),
     ],
     module: {
