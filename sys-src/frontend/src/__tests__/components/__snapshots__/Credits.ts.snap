@@ -5,7 +5,7 @@ exports[`Credits.vue credits match snapshot 1`] = `
   class="main-menu-bg"
 >
   <div
-    class="main-menu"
+    class="main-menu creditsBox"
   >
     <div>
       <img
