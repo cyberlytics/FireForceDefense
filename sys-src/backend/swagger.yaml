@@ -236,6 +236,44 @@ paths:
                 '404':
                     $ref: '#/components/responses/NotFoundError'
 
+    /game/score/{username}:
+        parameters:
+            -   in: path
+                name: username
+                description: Username
+                required: true
+                example: 'test_user'
+                schema:
+                    type: string
+        get:
+            tags:
+                - Game
+            summary: Get scores by username
+            description: Get scores by username. The numbers represent the achieved stars.
+            operationId: getScoresByUsername
+            responses:
+                '200':
+                    description: Details of scores
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    username:
+                                        type: string
+                                        example: 'test_user'
+                                    scores:
+                                        type: object
+                                        properties:
+                                            lvl101:
+                                                type: integer
+                                                example: 1
+                                            lvl102:
+                                                type: integer
+                                                example: 3
+                '404':
+                    $ref: '#/components/responses/NotFoundError'
+
 components:
     responses:
         NotFoundError:
