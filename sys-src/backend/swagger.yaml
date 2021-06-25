@@ -273,7 +273,78 @@ paths:
                                                 example: 3
                 '404':
                     $ref: '#/components/responses/NotFoundError'
-                    
+    /game/score:
+        post:
+            tags:
+                - Game
+            summary: Saves new Score data
+            description: Saves new Score data.
+            operationId: saveScores
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                username:
+                                    type: string
+                                    example: 'max@muster.com'
+                                level:
+                                    type: string
+                                    example: 'lvl001'
+                                stars:
+                                    type: integer
+                                    example: 2
+                                money:
+                                    type: integer
+                                    example: 300
+                                burnedFields:
+                                    type: integer
+                                    example: 22
+                                time:
+                                    type: integer
+                                    example: 300
+                            required:
+                                - username
+                                - level
+                                - stars
+                                - money
+                                - burnedFields
+                                - time
+            responses:
+                '200':
+                    description: Score details
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    username:
+                                        type: string
+                                        example: 'max@muster.com'
+                                    level:
+                                        type: string
+                                        example: 'lvl001'
+                                    stars:
+                                        type: integer
+                                        example: 2
+                                    money:
+                                        type: integer
+                                        example: 300
+                                    burnedFields:
+                                        type: integer
+                                        example: 22
+                                    time:
+                                        type: integer
+                                        example: 300
+                                    createdAt:
+                                        type: string
+                                        example: "2021-06-20T14:47:03.699+00:00"
+                                    updatedAt:
+                                        type: string
+                                        example: "2021-06-20T14:47:03.699+00:00"
+                                        
 components:
     responses:
         NotFoundError:
