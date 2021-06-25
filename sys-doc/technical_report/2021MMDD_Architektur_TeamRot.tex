@@ -105,14 +105,14 @@ Die Speicherung der Daten erfolgt im dokumentenorientierten NoSQL-Datenbankmanag
 JavaScript-basierte Plattform Node.js mit dem serverseitigen Webframework ExpressJS.
 
 \section{Verteilungssicht}
-Das Verteilungssicht beschreibt die Verteilung des Gesamtsystems,  wichtige Begründungen für diese Verteilungsstruktur und die Zuordnung von Softwareartefakten zu Bestandteilen der Infrastruktur. 
-Zentrale Bestandteile der Verteilungsstruktur sind (A) das Kubernetes Cluster,  (B) das Datenbank-Cluster und (C) die GitLab CI/CD-Pipeline. 
+Das Verteilungssicht beschreibt die Verteilung des Gesamtsystems,  wichtige Begründungen für diese Verteilungsstruktur und die Zuordnung von Softwareartefakten zu Bestandteilen der Infrastruktur.
+Zentrale Bestandteile der Verteilungsstruktur sind (A) das Kubernetes Cluster,  (B) das Datenbank-Cluster und (C) die GitLab CI/CD-Pipeline.
 
 \subsection{Kubernetes Cluster}
 
 Für ein Kubernetes-Cluster wurde sich entschieden, aufgrund der Tatsache, das mehrere virtuelle Cluster (sog. Namespaces) auf demselben physischen Cluster unterstützt werden. Dadurch kann die CI/CD Pipeline im \textit{Gitlab-managed-apps} Namespace laufen, währenddessen die Anwendung auf einem anderen Namespace bereitgestellt wird.
 
-Das Kubernetes Cluster wird über den Elastic Kubernetes Service des Cloud-Providers Amazon Web Services bereitgestellt.  Aus datenschutzrechtlichen Gründen werden nur Cloud Server, die der Verfügbarkeitszone Frankfurt (eu-central-1) angehörig sind, verwendet. 
+Das Kubernetes Cluster wird über den Elastic Kubernetes Service des Cloud-Providers Amazon Web Services bereitgestellt.  Aus datenschutzrechtlichen Gründen werden nur Cloud Server, die der Verfügbarkeitszone Frankfurt (eu-central-1) angehörig sind, verwendet.
 
 \subsection{Datenbank-Cluster}
 Das Datenbank-Cluster besteht aus drei Replikationen. Es stellt jeweils eine Datenbank für den Entwicklungs- und Produktionsbetrieb bereit. Näheres zur Datenbank wird im Abschnitt \ref{datenbank} erklärt.
@@ -149,12 +149,83 @@ Die letzten beiden Stages werden nur im main-Zweig des Repositories durchlaufen,
 
 \subsubsection{Dockerize}
 
-Wenn alle Unit Tests bestanden sind, wird für Front- und Backend jeweils ein Docker-Image gebaut. Anschließend werden beide Images im Docker-Registry abgelegt, damit sie für die nächste Stage (Deploy) verfügbar sind.  
+Wenn alle Unit Tests bestanden sind, wird für Front- und Backend jeweils ein Docker-Image gebaut. Anschließend werden beide Images im Docker-Registry abgelegt, damit sie für die nächste Stage (Deploy) verfügbar sind.
 
 \subsubsection{Deploy}
 
 In der letzten Phase werden die Docker Images aus der Docker-Registry auf dem Kubernetes Cluster als Container bereitgestellt. Die Anwendung ist dann,  bis einschließlich dem Tag der Präsentation, öffentlich zugänglich.
 
+
+\section{Entwicklungsumgebung und Tools}
+
+\subsection{IDE}
+
+Das Projekt ist so ausgerichtet, dass es keine Beschränkung auf eine bestimmte IDE gibt.
+Die meisten Teammitglieder verwenden JetBrains Phpstorm.
+
+\subsection{Paketverwaltung}
+
+Die Verwaltung der Abhängigkeiten erfolgt mit „npm“.
+
+\subsection{Linting}
+
+In beiden Unterprojekten (Frontend und Backend) wird jeweils „eslint“ in Verbindung mit „prettier“ verwendet,
+um die Einhaltung der Codierrichtlinien zu gewährleisten.
+
+Die Konfigurationen sind jeweils in den Dateien \texttt{eslintrc.js} und \texttt{prettierrc.js} hinterlegt.
+
+\subsection{Build-Tools}
+
+\subsubsection{Backend}
+
+Im Backend wird der Typescript Compiler „tsc“ verwendet, um die Dateien in ein Format zu überführen,
+welches mit \texttt{node} ausgeführt werden kann.
+
+Die Konfiguration findet sich dabei in der Datei \texttt{tsconfig.json}.
+
+\subsubsection{Frontend}
+
+Im Frontend ist Webpack dafür zuständig, die Anwendung aus dem Quellcode zu erstellen.
+Dabei gibt es zwei Varianten:
+Für Entwicklungszwecke wird ein Webpack-Dev-Server (mit Reload-Funktionalität) zum Bereitstellen der Anwendung verwendet,
+während für den Produktiveinsatz nur die benötigten Zieldateien erstellt werden, die dann mit einer beliebigen Server-Software ausgeliefert werden können.
+
+Die Webpack-Konfiguration erfolgt in den \texttt{webpack.config.*.js}-Dateien.
+Darin ist festgelegt, dass die CSS-Bestandteile in der Ausgabedatei \texttt{main.css} gesammelt werden.
+Die Index-Datei und die Assets werden in das Ausgabeverzeichnis kopiert, die Vue-Single-File-Component-Dateien werden übersetzt
+und Typescript wird zu JavaScript kompiliert.
+
+Ferner sind Alias-Namen für häufig genutzte Verzeichnisse definiert, um Pfadangaben zu vereinfachen.
+
+\subsection{Unit Tests}
+
+Unit-Tests werden mit „Jest“ realisiert.
+Snapshot-Tests für die Frontend-Komponenten sind dabei durch die Pakete „vue-jest“ und „vue-test-utils“ möglich.
+
+\section{Detailinformationen}
+
+Im Folgenden werden die beiden Bereiche „Session Handling“ und „Rangliste“, welche der Hauptfokus der diesjährigen Arbeiten waren, etwas genauer betrachtet.
+
+\subsection{Session Handling}
+
+TODO
+
+\subsection{Rangliste}
+
+Die Spielergebnisse werden nach der Beendigung eines jeden Levels als Dokument in der „scores“-Collection der MongoDB abgelegt.
+
+Basierend darauf wird backendseitig eine GET-Schnittstelle bereitgestellt,
+über welche – unter optionaler Angabe eines Levels, nach dem gefiltert werden soll – die aggregierten Spielstandsdaten abgefragt werden können.
+Diese Aggregation führt dazu, dass es pro Benutzername einen Eintrag gibt, welcher die aufaddierte Gesamtzahl der erreichten Sterne,
+die durchschnittlich benötigte Spieldauer, das durchschnittlich angesparte In-Game-Geld-Guthaben, sowie die durchschnittliche Anzahl der abgebrannten Felder enthält.
+
+Auch die Sortierung erfolgt bereits im Backend, und zwar nach folgenden Kriterien (in absteigender Priorität geordnet):
+Sternenanzahl (absteigend), Anzahl der verbrannten Felder (aufsteigend), Geld-Guthaben (absteigend) und Spielzeit (absteigend).
+
+Im Frontend werden diese Daten durch eine HTTP-Anfrage beschafft und durch eine Vue-Komponente auf einer eigenen Seite angezeigt.
+Dabei haben Benutzer*innen die Möglichkeit, entweder eine Gesamtansicht über alle Level hinweg oder eine nach einem bestimmten Level gefilterte Ansicht auszuwählen.
+
+Die eigene Ranglisten-Position wird hervorgehoben und fixiert angezeigt.
 
 \section{Querschnittliche Konzepte}
 
