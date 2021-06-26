@@ -236,6 +236,161 @@ paths:
                 '404':
                     $ref: '#/components/responses/NotFoundError'
 
+    /game/score/{username}:
+        parameters:
+            - in: path
+              name: username
+              description: Username
+              required: true
+              example: 'maxmuster'
+              schema:
+                  type: string
+        get:
+            tags:
+                - Game
+            summary: Get scores by username
+            description: Get scores by username. The numbers represent the achieved stars.
+            operationId: getScoresByUsername
+            responses:
+                '200':
+                    description: Details of scores
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    _id:
+                                        type: string
+                                        example: 'maxmuster'
+                                    username:
+                                        type: string
+                                        example: 'maxmuster'
+                                    scores:
+                                        type: object
+                                        properties:
+                                            lvl101:
+                                                type: integer
+                                                example: 1
+                                            lvl102:
+                                                type: integer
+                                                example: 3
+                '404':
+                    $ref: '#/components/responses/NotFoundError'
+    /game/score:
+        post:
+            tags:
+                - Game
+            summary: Saves new Score data
+            description: Saves new Score data.
+            operationId: saveScores
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                username:
+                                    type: string
+                                    example: 'maxmuster'
+                                level:
+                                    type: string
+                                    example: 'lvl001'
+                                stars:
+                                    type: integer
+                                    example: 2
+                                money:
+                                    type: integer
+                                    example: 300
+                                burnedFields:
+                                    type: integer
+                                    example: 22
+                                time:
+                                    type: integer
+                                    example: 300
+                            required:
+                                - username
+                                - level
+                                - stars
+                                - money
+                                - burnedFields
+                                - time
+            responses:
+                '200':
+                    description: Score details
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    scoreData:
+                                        type: object
+                                        properties:
+                                            username:
+                                                type: string
+                                                example: 'maxmuster'
+                                            level:
+                                                type: string
+                                                example: 'lvl001'
+                                            stars:
+                                                type: integer
+                                                example: 2
+                                            money:
+                                                type: integer
+                                                example: 300
+                                            burnedFields:
+                                                type: integer
+                                                example: 22
+                                            time:
+                                                type: integer
+                                                example: 300
+                                            createdAt:
+                                                type: string
+                                                example: '2021-06-20T14:47:03.699+00:00'
+                                            updatedAt:
+                                                type: string
+                                                example: '2021-06-20T14:47:03.699+00:00'
+                                    message:
+                                        type: string
+                                        example: 'Old data updated'
+    /game/scoreboard:
+        get:
+            tags:
+                - Game
+            summary: Gets data for scoreboard
+            description: Gets data for scoreboard
+            operationId: getScoreBoard
+            responses:
+                '200':
+                    description: Scoreboard data
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        _id:
+                                            type: string
+                                            example: 'maxmuster'
+                                        username:
+                                            type: string
+                                            example: 'maxmuster'
+                                        stars:
+                                            type: integer
+                                            example: 3
+                                        time:
+                                            type: integer
+                                            example: 33
+                                        money:
+                                            type: integer
+                                            example: 300
+                                        burnedFields:
+                                            type: integer
+                                            example: 11
+                '404':
+                    $ref: '#/components/responses/NotFoundError'
+
 components:
     responses:
         NotFoundError:
