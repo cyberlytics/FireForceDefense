@@ -4,7 +4,7 @@
     "description": "",
     "main": "dist/index.js",
     "scripts": {
-        "test": "jest",
+        "test": "jest  --runInBand --force-exit",
         "build": "tsc",
         "prestart": "npm run build",
         "start": "node .",
