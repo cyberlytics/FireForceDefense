@@ -157,7 +157,10 @@ export default Vue.extend({
                         this.$router.push('/world');
                     },
                     (error) => {
-                        this.message = error.response.statusText;
+                        this.message = /<pre>(.*?)<\/pre>/g
+                            .exec(error.response.data)[0]
+                            .replace(/<\/?pre>/g, '')
+                            .replace(/&\/?quot;/g, '');
                     },
                 );
             }
