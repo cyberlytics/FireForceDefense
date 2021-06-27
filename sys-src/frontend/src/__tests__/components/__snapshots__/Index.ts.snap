@@ -23,8 +23,6 @@ exports[`Index.vue index matches snapshot 1`] = `
         class="input-group mb-3"
       >
         <input
-          aria-invalid="false"
-          aria-required="true"
           class="form-control inputFields"
           id="username"
           name="username"
@@ -44,8 +42,6 @@ exports[`Index.vue index matches snapshot 1`] = `
         class="input-group mb-3"
       >
         <input
-          aria-invalid="false"
-          aria-required="true"
           class="form-control inputFields"
           id="Password"
           name="password"
