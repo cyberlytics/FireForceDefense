@@ -100,7 +100,7 @@ Dieser Abschnitt beschreibt die server-seitige Backend-Architektur.
 
 Die Speicherung der Daten erfolgt im dokumentenorientierten NoSQL-Datenbankmanagementsystem \textit{MongoDB}.
 Zusätzlich wird die Bibliothek  \textit{mongoose} für das Object Data Modeling (ODM) verwendet. \\
-Der folgende Teilbereich beschreibt die Unterteilung der Daten in drei Collection:
+Der folgende Teilbereich beschreibt die Unterteilung der Daten in drei Collections:
 
 \begin{itemize}
 \item
@@ -112,14 +112,13 @@ ein Datum, welches den Registrierungszeitpunkt festhält.
 \textit{Refreshtokens:} In dieser Dokumentensammlung werden alle nötigen Informationen für
 das Session-Handling gespeichert. Das ist einerseits die von MongoDB automatisch
 erstellte ID der einzelnen Benutzer, um jedem Benutzer seinen entsprechenden Token
-zuweisen zu können. Dazu wird der entsprechende Token gespeichert, sowie ein Verfallsdatum
-des Tokens, ein Erstellungsdatum des Dokumentes und abschließend ein Wert, welcher die
-IP des Erstellers festhält.
+zuweisen zu können. Dazu wird der entsprechende Token mit Verfallsdatum
+des Tokens,  Erstellungsdatum des Dokumentes und die IP des Erstellers gespeichert.
 \item
-\textit{Scores:} Diese Sammlung an Dokumenten speichert grundlegend alle relevanten Aspekte des
+\textit{Scores:} Diese Sammlung an Dokumenten speichert alle relevanten Aspekte des
 Spielstandes. Einerseits den Benutzernamen, das Level, die erreichten Sterne, das
 übriggebliebene Geld, sowie die verwendete Zeit und die Anzahl an verbrannten Zellen.
-Anhand dieser Informationen wird die Reihenfolge der Rangliste berechnet.
+Diese Informationen bilden die Grundlage für die Erstellung der Rangliste.
 \end{itemize}
 
 \subsubsection{Laufzeitumgebung}
@@ -171,7 +170,7 @@ Die letzten beiden Stages werden nur im main-Zweig des Repositories durchlaufen,
 
 \subsubsection{Dockerize}
 
-Wenn alle Unit Tests bestanden sind, wird für Front- und Backend jeweils ein Docker-Image gebaut. Anschließend werden beide Images im Docker-Registry abgelegt, damit sie für die nächste Stage (Deploy) verfügbar sind.
+Wenn alle Unit Tests bestanden sind, wird für Front- und Backend jeweils ein Docker-Image gebaut. Anschließend werden beide Images im Docker-Registry (Amazon ECR) abgelegt, damit sie für die nächste Stage (Deploy) verfügbar sind.  Aufgrund fehlender Berechtigungen kann nicht von der privaten GitLab Container-Registry Gebrauch gemacht werden.
 
 \subsubsection{Deploy}
 
@@ -230,7 +229,32 @@ Im Folgenden werden die beiden Bereiche „Session Handling“ und „Rangliste�
 
 \subsection{Session Handling}
 
-TODO
+Das Session Handling basiert auf dem Konzept der „Sliding-Sessions“.  Für die Implementierung des Konzepts werden „JSON-Web-Tokens“\cite{c2} verwendet. 
+
+\subsubsection{Token-Arten}
+
+Man unterscheidet zwischen folgenden zwei Token-Arten:
+
+\begin{itemize}
+\item 
+\textit{Access Token:}\\
+Enthalten alle notwendigen Informationen für den Zugriff auf eine Ressource.  Access Token sind kurzlebig und nur für 1 Stunde gültig.
+\item 
+\textit{Refresh Token:}\\
+Enthalten Informationen, um einen neuen Access Token zu erhalten, nachdem der Alte abgelaufen ist, oder der erstmalige Zugriff auf eine Ressource vom Server angefordert wird.  Refresh Token sind langlebig und für 7 Tage gültig.
+\end{itemize}
+
+Jede Sitzung (engl. Session) läuft nach einer gewissen Zeit der Inaktivität ab. 
+Verwendet der Benutzer einen abgelaufenen Access Token, wird die Sitzung als inaktiv betrachtet und ein neuer Access Token ist erforderlich.  Dieser kann mit einem Refresh Token, der auf dem Client als „HTTP-Only Cookie“ hinterlegt ist, bezogen werden (Cookie-based Session Management). Näheres zur Speicherung des Refresh Token befindet sich im Abschnitt \ref{refreshToken}.
+
+\subsubsection{Sitzungskennung}
+
+Eine Sitzungskennung wird einem Refresh Token zugeordnet. Die mit einer Sitzungskennung verbundenen Daten befinden sich in der Datenbank (siehe \ref{datenbank}). Eine Sitzungskennung ist:
+
+\begin{itemize}
+\item zufällig generiert durch einen „Pseudorandom number generator“ (PNRG).
+\item im Cookie gespeichert.
+\end{itemize}
 
 \subsection{Rangliste}
 
@@ -249,25 +273,25 @@ Dabei haben Benutzer*innen die Möglichkeit, entweder eine Gesamtansicht über a
 
 Die eigene Ranglisten-Position wird hervorgehoben und fixiert angezeigt.
 
-\section{Querschnittliche Konzepte}
+\section{Sicherheitskonzepte}
 
-Dieser Abschnitt beschreibt übergreifende, prinzipielle Regelungen und
-Lösungsansätze, die an mehreren Stellen relevant sind.
+Dieser Abschnitt beschreibt die angewendeten Sicherheitskonzepte, die für eine sichere Produktionsumgebung notwendig sind.
 
-\subsection{\texorpdfstring{\emph{\textless Konzept
-1\textgreater{}}}{\textless Konzept 1\textgreater{}}}
+\subsection{Passwort Hashing}
+Bei der Erstellung eines neuen Benutzerkontos wird vor der Speicherung in der Datenbank ein „Hash“ für das gesetzte Passwort berechnet. Vor dem Hashing wird eine zufällige Zeichenfolge, ein sogenannter „Salt“, dem Passwort hinzugefügt. Dadurch werden Kennwörter nicht jedes Mal auf dieselbe Weise gehasht. Somit können Angriffe wie Nachschlagetabellen, Wörterbuchangriffe oder Brute-Force unterbunden werden. 
 
-\emph{\textless Erklärung\textgreater{}}
+Wenn ein Benutzer versucht sich anzumelden, wird der Hash des eingegebenen Kennworts mit dem in der Datenbank gespeicherten Hash verglichen.  Stimmen die Hashes überein, kann der Benutzer auf das Konto zugreifen.
 
-\subsection{\texorpdfstring{\emph{\textless Konzept
-2\textgreater{}}}{\textless Konzept 2\textgreater{}}}
+\subsection{Refresh Token Speicherung} \label{refreshToken}
+Refresh Token sind langlebig. Das bedeutet, wenn ein Client einen Refresh Token vom Server erhält, muss dieser Token sicher gespeichert werden, damit dieser nicht von potenziellen Angreifern entwendet werden kann. Wenn ein Refresh Token entwendet wird, kann er verwendet werden, um neue Access Token zu erhalten und auf Ressourcen zugreifen, bis der Refresh Token abläuft.  Deshalb werden Refresh Token als Cookie mit dem HttpOnly-Attribut gespeichert. Dies verhindert, dass mittels einem „Cross-Site-Scripting (XSS)“-Angriff die Sitzungskennung gestohlen werden kann. 
 
-\emph{\textless Erklärung\textgreater{}}
 
 \begin{thebibliography}{99}
 % APA-Citation https://www.scribbr.de/category/apa-standard/
 
 \bibitem{c1} GitLab.  Gitlab Runner: Kubernetes executor.   \url{https://docs.gitlab.com/runner/executors/kubernetes.html}
+
+\bibitem{c2} JWT.  JSON-Web-Token: RFC 7519.   \url{https://datatracker.ietf.org/doc/html/rfc7519}
 
 \end{thebibliography}
 
