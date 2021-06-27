@@ -96,7 +96,10 @@ export default Vue.extend({
                             this.$router.push('/world');
                         },
                         (error) => {
-                            this.message = /<pre>(.*?)<\/pre>/g.exec(error.response.data)[0].replace(/<\/?pre>/g, '');
+                            this.message = /<pre>(.*?)<\/pre>/g
+                                .exec(error.response.data)[0]
+                                .replace(/<\/?pre>/g, '')
+                                .replace(/&\/?quot;/g, '');
                         },
                     );
                 }
