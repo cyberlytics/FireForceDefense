@@ -10,7 +10,7 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8000
+    targetPort: 80
   selector:
     app: frontend
     name: frontend
@@ -42,7 +42,7 @@ spec:
         image: 285302907374.dkr.ecr.eu-central-1.amazonaws.com/frontend
         imagePullPolicy: "Always"
         ports:
-        - containerPort: 8000
+        - containerPort: 80
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -54,7 +54,7 @@ metadata:
   namespace: fireforcedefense-27426248
 spec:
   rules:
-  - host: www.example.com
+  - host: a2366a6bda4cb4833b2497d8e04d18e4-f701077091d9e48b.elb.eu-central-1.amazonaws.com
     http:
       paths:
       - backend:
