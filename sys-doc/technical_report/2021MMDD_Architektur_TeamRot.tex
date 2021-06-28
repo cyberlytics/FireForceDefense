@@ -68,8 +68,8 @@ Im Model ist beispielsweise die Spiellogik und die Schnittstelle zum Speichern u
 
 \subsubsection{Components}
 
-In diesem Modul sind die VueKomponenten gesammelt, mit denen die eigentliche Anzeige im Webbrowser realisiert wird.
-Die Komponenten sind dabeihierarchisch geordnet, so besteht ein Level beispielsweise aus einer Sidebar und der LevelMap, die LevelMap wiederum enthält einzelne Zellen und so weiter.
+In diesem Modul sind die Vue-Komponenten gesammelt, mit denen die eigentliche Anzeige im Webbrowser realisiert wird.
+Die Komponenten sind dabei hierarchisch geordnet, so besteht ein Level beispielsweise aus einer Sidebar und der LevelMap, die LevelMap wiederum enthält einzelne Zellen und so weiter.
 Die Komponenten behandeln alle Eingaben und senden bei Bedarf entsprechende Nachrichten an das Model.
 Zusätzlich sind hier die neuen Vue-Komponenten für die Registrierung, die Anmeldung und die Rangliste hinterlegt.
 Sowohl die Registrierung, als auch die Anmeldung verfügen über eine Validierung der Benutzereingaben durch geeignete regular expressions.
@@ -93,7 +93,7 @@ Jedes Level muss anhand der jeweiligen Definition im LevelManager des Model-Bere
 
 In diesen drei Bausteinen sind die verschiedenen, konkreten Zell-, Inhalts- bzw. Effekt-Typen samt ihren jeweiligen Eigenschaften hinterlegt.
 
-\subsection{Services}
+\subsubsection{Services}
 
 Dieser Baustein wird im Frontend benötigt, um die relevanten Daten zur Registrierung bzw. zur Anmeldung, also den Nutzernamen, die Email-Adresse
 sowie das Passwort eines Benutzers, an die RESTful-API zu übergeben.
