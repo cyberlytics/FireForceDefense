@@ -4,7 +4,6 @@ variables:
     DOCKER_HOST: tcp://localhost:2375
     DOCKER_REGISTRY: 285302907374.dkr.ecr.eu-central-1.amazonaws.com
     AWS_DEFAULT_REGION: eu-central-1
-    KUBERNETES_SERVICE_ACCOUNT_OVERWRITE: gitlab
 
 image: node:14
 
@@ -125,7 +124,6 @@ deploy-prod:
         name: bitnami/kubectl:1.14
         entrypoint: [""]
     environment: eks
-    environment: KUBERNETES_SERVICE_ACCOUNT_OVERWRITE_ALLOWED
     only:
         - main
     script:
