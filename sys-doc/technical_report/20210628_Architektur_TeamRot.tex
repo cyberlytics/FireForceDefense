@@ -132,28 +132,28 @@ JavaScript-basierte Plattform Node.js mit dem serverseitigen Webframework Expres
 
 \section{Verteilungssicht}
 Das Verteilungssicht beschreibt die Verteilung des Gesamtsystems,  wichtige Begründungen für diese Verteilungsstruktur und die Zuordnung von Softwareartefakten zu Bestandteilen der Infrastruktur.
-Zentrale Bestandteile der Verteilungsstruktur sind (A) das Kubernetes Cluster,  (B) das Datenbank-Cluster und (C) die GitLab CI/CD-Pipeline.
+Zentrale Bestandteile der Verteilungsstruktur sind (A) das Kubernetes Cluster,  (B) das Datenbank-Cluster und (C) die GitLab CI/CD-Pipeline.  Die Verteilungsstruktur wird in Abbildung \ref{fig:infrastructure}  veranschaulicht.
 
 \subsection{Kubernetes Cluster}
 
 Für ein Kubernetes-Cluster wurde sich entschieden, aufgrund der Tatsache, das mehrere virtuelle Cluster (sog. Namespaces) auf demselben physischen Cluster unterstützt werden. Dadurch kann die CI/CD Pipeline im \textit{Gitlab-managed-apps} Namespace laufen, währenddessen die Anwendung auf einem anderen Namespace bereitgestellt wird.
 
-Das Kubernetes Cluster wird über den Elastic Kubernetes Service des Cloud-Providers Amazon Web Services bereitgestellt.  Aus datenschutzrechtlichen Gründen werden nur Cloud Server, die der Verfügbarkeitszone Frankfurt (eu-central-1) angehörig sind, verwendet.
+Das Kubernetes Cluster wird über den „Elastic Kubernetes Service“ des Cloud-Providers Amazon Web Services bereitgestellt.  Aus datenschutzrechtlichen Gründen werden nur Cloud Server, die der Verfügbarkeitszone Frankfurt (eu-central-1) angehörig sind, verwendet.  Damit die Anwendung, insbesondere der Frontend-Service mit dem Nginx-Server öffentlich erreichbar ist, wird auf dem Cluster ein Application Load Balancer (AWS ALB-Ingress\cite{c1}) bereitgestellt.  Die Aufgabe des Load Balancings wird, basierend auf der Ingress-Ressource\cite{c2},  vollständig von AWS übernommen.  
 
 \subsection{Datenbank-Cluster}
 Das Datenbank-Cluster besteht aus drei Replikationen. Es stellt jeweils eine Datenbank für den Entwicklungs- und Produktionsbetrieb bereit. Näheres zur Datenbank wird im Abschnitt \ref{datenbank} erklärt.
 
-\begin{figure}[thpb]
-      \centering
-      \includegraphics[scale=0.22]{images/infrastructure}
-      \caption{Cloud Infrastruktur}
-      \label{fig:infrastructure}
-\end{figure}
+\begin{figure*}[ht]
+	\centering
+	\includegraphics[width=\linewidth]{images/infrastructure}
+	\caption{Cloud Infrastruktur}
+	\label{fig:infrastructure}
+\end{figure*}
 
 
 \subsection{CI/CD-Pipeline}
 
-Für die Bereitstellung der CI/CD Pipeline ist ein Kubernetes-Executor\cite{c1} auf dem Kubernetes Cluster verantwortlich.  Dieser verbindet sich mit der Kubernetes Cluster API und erstellt einen Pod für jeden GitLab CI Job. Dieser Pod besteht aus einem Build-Container und einem zusätzlichen Container für jeden Service. Die Pipeline umfasst das Erstellen, Testen und Bereitstellen der Anwendung.  Folgende vier Stages durchläuft jeder Push in das Gitlab-Repository:
+Für die Bereitstellung der CI/CD Pipeline ist ein „Kubernetes-Executor“\cite{c3} auf dem Kubernetes Cluster verantwortlich.  Dieser verbindet sich mit der „Kubernetes Cluster API“ und erstellt einen Pod für jeden GitLab CI Job. Dieser Pod besteht aus einem Build-Container und einem zusätzlichen Container für jeden Service. Die Pipeline umfasst das Erstellen, Testen und Bereitstellen der Anwendung.  Folgende vier Stages durchläuft jeder \textit{Push} in das Gitlab-Repository:
 
 \subsubsection{Dependencies}
 
@@ -234,7 +234,7 @@ Im Folgenden werden die beiden Bereiche „Session Handling“ und „Rangliste�
 
 \subsection{Session Handling}
 
-Das Session Handling basiert auf dem Konzept der „Sliding-Sessions“.  Für die Implementierung des Konzepts werden „JSON-Web-Tokens“\cite{c2} verwendet. 
+Das Session Handling basiert auf dem Konzept der „Sliding-Sessions“.  Für die Implementierung des Konzepts werden „JSON-Web-Tokens“\cite{c4} verwendet. 
 
 \subsubsection{Token-Arten}
 
@@ -290,13 +290,17 @@ Wenn ein Benutzer versucht sich anzumelden, wird der Hash des eingegebenen Kennw
 \subsection{Refresh Token Speicherung} \label{refreshToken}
 Refresh Token sind langlebig. Das bedeutet, wenn ein Client einen Refresh Token vom Server erhält, muss dieser Token sicher gespeichert werden, damit dieser nicht von potenziellen Angreifern entwendet werden kann. Wenn ein Refresh Token entwendet wird, kann er verwendet werden, um neue Access Token zu erhalten und auf Ressourcen zugreifen, bis der Refresh Token abläuft.  Deshalb werden Refresh Token als Cookie mit dem HttpOnly-Attribut gespeichert. Dies verhindert, dass mittels einem „Cross-Site-Scripting (XSS)“-Angriff die Sitzungskennung gestohlen werden kann. 
 
+\vspace{3cm}
 
 \begin{thebibliography}{99}
-% APA-Citation https://www.scribbr.de/category/apa-standard/
 
-\bibitem{c1} GitLab.  Gitlab Runner: Kubernetes executor.   \url{https://docs.gitlab.com/runner/executors/kubernetes.html}
+\bibitem{c1} AWS.  Application load balancing on Amazon EKS.  \url{https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html}
 
-\bibitem{c2} JWT.  JSON-Web-Token: RFC 7519.   \url{https://datatracker.ietf.org/doc/html/rfc7519}
+\bibitem{c2} Kubernetes.  Ingress Ressource.  \url{https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource}
+
+\bibitem{c3} GitLab.  Gitlab Runner: Kubernetes executor.  \url{https://docs.gitlab.com/runner/executors/kubernetes.html}
+
+\bibitem{c4} JWT.  JSON-Web-Token: RFC 7519.  \url{https://datatracker.ietf.org/doc/html/rfc7519}
 
 \end{thebibliography}
 
