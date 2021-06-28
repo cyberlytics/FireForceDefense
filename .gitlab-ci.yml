@@ -1,6 +1,7 @@
 variables:
     REGISTRY: $CI_REGISTRY
     IMAGE_TAG: $CI_REGISTRY_IMAGE
+    DOCKER_HOST: tcp://localhost:2375
     DOCKER_REGISTRY: 285302907374.dkr.ecr.eu-central-1.amazonaws.com
     AWS_DEFAULT_REGION: eu-central-1
     KUBERNETES_SERVICE_ACCOUNT_OVERWRITE: gitlab
@@ -84,7 +85,7 @@ build-docker-backend:
     stage: dockerize-backend
     image: docker:stable
     services:
-        - docker:dind
+        - docker:18.09.7-dind
     only:
         - main
     before_script:
@@ -93,7 +94,6 @@ build-docker-backend:
         - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
         - aws --version
     script:
-        - export DOCKER_HOST=$DOCKER_PORT
         - cd sys-src/backend
         - docker build -t $DOCKER_REGISTRY/backend:latest .
         - docker push $DOCKER_REGISTRY/backend:latest
@@ -104,7 +104,7 @@ build-docker-frontend:
     stage: dockerize-frontend
     image: docker:stable
     services:
-        - docker:dind
+        - docker:18.09.7-dind
     only:
         - main
     before_script:
@@ -113,7 +113,6 @@ build-docker-frontend:
         - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
         - aws --version
     script:
-        - export DOCKER_HOST=$DOCKER_PORT
         - cd sys-src/frontend
         - docker build -t $DOCKER_REGISTRY/frontend:latest .
         - docker push $DOCKER_REGISTRY/frontend:latest
