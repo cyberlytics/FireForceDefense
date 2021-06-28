@@ -1,3 +1,10 @@
+variables:
+    REGISTRY: $CI_REGISTRY
+    IMAGE_TAG: $CI_REGISTRY_IMAGE
+    DOCKER_REGISTRY: 285302907374.dkr.ecr.eu-central-1.amazonaws.com
+    AWS_DEFAULT_REGION: eu-central-1
+    KUBERNETES_SERVICE_ACCOUNT_OVERWRITE: gitlab
+
 image: node:14
 
 stages:
@@ -5,6 +12,8 @@ stages:
     - lint
     - build
     - test
+    - dockerize
+    - deploy
 
 cache:
     key: "$CI_COMMIT_REF_NAME"
@@ -69,3 +78,55 @@ test_frontend:
         - cd sys-src/frontend
         - npm install
         - npm run test
+
+build-docker-backend:
+    stage: dockerize
+    image: docker:stable
+    services:
+        - docker:dind
+    only:
+        - main
+    before_script:
+        - apk add --no-cache curl jq python3 py3-pip
+        - pip install awscli
+        - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+        - aws --version
+    script:
+        - cd sys-src/backend
+        - docker build -t $DOCKER_REGISTRY/backend:latest .
+        - docker push $DOCKER_REGISTRY/backend:latest
+        - docker build -t $DOCKER_REGISTRY/backend:$CI_PIPELINE_IID .
+        - docker push $DOCKER_REGISTRY/backend:$CI_PIPELINE_IID
+
+build-docker-frontend:
+    stage: dockerize
+    image: docker:stable
+    services:
+        - docker:dind
+    only:
+        - main
+    before_script:
+        - apk add --no-cache curl jq python3 py3-pip
+        - pip install awscli
+        - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+        - aws --version
+    script:
+        - cd sys-src/frontend
+        - docker build -t $DOCKER_REGISTRY/frontend:latest .
+        - docker push $DOCKER_REGISTRY/frontend:latest
+        - docker build -t $DOCKER_REGISTRY/frontend:$CI_PIPELINE_IID .
+        - docker push $DOCKER_REGISTRY/frontend:$CI_PIPELINE_IID
+
+deploy-prod:
+    stage: deploy
+    image:
+        name: bitnami/kubectl:1.14
+        entrypoint: [""]
+    environment: eks
+    environment: KUBERNETES_SERVICE_ACCOUNT_OVERWRITE_ALLOWED
+    only:
+        - main
+    script:
+        - kubectl config set-context --current --namespace=fireforcedefense-27426248
+        - kubectl set image deployment frontend frontend=$DOCKER_REGISTRY/frontend:latest --namespace=fireforcedefense-27426248
+        - kubectl set image deployment backend backend=$DOCKER_REGISTRY/backend:latest --namespace=fireforcedefense-27426248
