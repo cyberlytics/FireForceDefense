@@ -93,6 +93,7 @@ build-docker-backend:
         - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
         - aws --version
     script:
+        - export DOCKER_HOST=$DOCKER_PORT
         - cd sys-src/backend
         - docker build -t $DOCKER_REGISTRY/backend:latest .
         - docker push $DOCKER_REGISTRY/backend:latest
@@ -112,6 +113,7 @@ build-docker-frontend:
         - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
         - aws --version
     script:
+        - export DOCKER_HOST=$DOCKER_PORT
         - cd sys-src/frontend
         - docker build -t $DOCKER_REGISTRY/frontend:latest .
         - docker push $DOCKER_REGISTRY/frontend:latest
