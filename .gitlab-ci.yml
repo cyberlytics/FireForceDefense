@@ -12,7 +12,8 @@ stages:
     - lint
     - build
     - test
-    - dockerize
+    - dockerize-backend
+    - dockerize-frontend
     - deploy
 
 cache:
@@ -80,7 +81,7 @@ test_frontend:
         - npm run test
 
 build-docker-backend:
-    stage: dockerize
+    stage: dockerize-backend
     image: docker:stable
     services:
         - docker:dind
@@ -99,7 +100,7 @@ build-docker-backend:
         - docker push $DOCKER_REGISTRY/backend:$CI_PIPELINE_IID
 
 build-docker-frontend:
-    stage: dockerize
+    stage: dockerize-frontend
     image: docker:stable
     services:
         - docker:dind
