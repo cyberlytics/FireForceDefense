@@ -12,8 +12,7 @@ stages:
     - lint
     - build
     - test
-    - dockerize-backend
-    - dockerize-frontend
+    - dockerize
     - deploy
 
 cache:
@@ -80,8 +79,8 @@ test_frontend:
         - npm install
         - npm run test
 
-build-docker-backend:
-    stage: dockerize-backend
+build_docker_backend:
+    stage: dockerize
     image: docker:stable
     services:
         - docker:18.09.7-dind
@@ -94,13 +93,15 @@ build-docker-backend:
         - aws --version
     script:
         - cd sys-src/backend
-        - docker build -t $DOCKER_REGISTRY/backend:latest .
+        - docker build --build-arg DB_KEY=$DB_KEY --build-arg SECRET_KEY=$SECRET_KEY
+          -t $DOCKER_REGISTRY/frontend:latest
+          -t $DOCKER_REGISTRY/frontend:$CI_PIPELINE_IID .
+        - docker build -t $DOCKER_REGISTRY/backend:latest -t $DOCKER_REGISTRY/backend:$CI_PIPELINE_IID .
         - docker push $DOCKER_REGISTRY/backend:latest
-        - docker build -t $DOCKER_REGISTRY/backend:$CI_PIPELINE_IID .
         - docker push $DOCKER_REGISTRY/backend:$CI_PIPELINE_IID
 
-build-docker-frontend:
-    stage: dockerize-frontend
+build_docker_frontend:
+    stage: dockerize
     image: docker:stable
     services:
         - docker:18.09.7-dind
@@ -113,12 +114,13 @@ build-docker-frontend:
         - aws --version
     script:
         - cd sys-src/frontend
-        - docker build -t $DOCKER_REGISTRY/frontend:latest .
+        - docker build --build-arg API_URL=$API_URL
+          -t $DOCKER_REGISTRY/frontend:latest
+          -t $DOCKER_REGISTRY/frontend:$CI_PIPELINE_IID .
         - docker push $DOCKER_REGISTRY/frontend:latest
-        - docker build -t $DOCKER_REGISTRY/frontend:$CI_PIPELINE_IID .
         - docker push $DOCKER_REGISTRY/frontend:$CI_PIPELINE_IID
 
-deploy-prod:
+deploy_production:
     stage: deploy
     image:
         name: bitnami/kubectl:1.14

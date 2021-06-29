@@ -2,6 +2,8 @@ FROM node:14-alpine AS build-stage
 
 WORKDIR /app
 
+ENV API_URL='http://localhost:3000'
+
 COPY . .
 
 RUN npm install --silent && npm run build
