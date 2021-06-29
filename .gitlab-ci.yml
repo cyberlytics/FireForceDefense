@@ -129,6 +129,6 @@ deploy_production:
     only:
         - main
     script:
-        - kubectl config set-context --current --namespace=fireforcedefense-27426248
-        - kubectl set image deployment frontend frontend=$DOCKER_REGISTRY/frontend:latest --namespace=fireforcedefense-27426248
-        - kubectl set image deployment backend backend=$DOCKER_REGISTRY/backend:latest --namespace=fireforcedefense-27426248
+        - kubectl config set-context --current --namespace=ffd-prod
+        - kubectl set image deployment frontend frontend=$DOCKER_REGISTRY/frontend:latest --namespace=ffd-prod
+        - kubectl set image deployment backend backend=$DOCKER_REGISTRY/backend:latest --namespace=ffd-prod
