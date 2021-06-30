@@ -15,7 +15,7 @@ const options = {
     useUnifiedTopology: true,
     useFindAndModify: false,
 };
-
+//Connect to database
 mongoose
     .connect(mongodbUri, options)
     .then(() => {
