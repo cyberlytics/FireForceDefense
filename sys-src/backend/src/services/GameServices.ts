@@ -44,6 +44,7 @@ async function findScoresByUsername(username: string): Promise<UserScores[]> {
     return scores;
 }
 
+// Create a new score and save it to database
 async function createScore(request: {
     username: string;
     level: string;
@@ -58,6 +59,7 @@ async function createScore(request: {
     return scores;
 }
 
+// Update an existing score in database
 async function updateScore(request: {
     username: string;
     level: string;
@@ -77,6 +79,7 @@ async function updateScore(request: {
     return GameModel.findOneAndUpdate(filter, update);
 }
 
+// Checks if the user exists
 async function userCheck(username: string, level: string): Promise<boolean> {
     return (
         (await GameModel.exists({
@@ -86,6 +89,7 @@ async function userCheck(username: string, level: string): Promise<boolean> {
     );
 }
 
+// Returns the data of a specific level
 async function findScoresByLevel(level: string): Promise<ScoreboardEntry[]> {
     const pipeline: unknown[] = [
         {
