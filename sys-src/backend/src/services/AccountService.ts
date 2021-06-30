@@ -11,10 +11,12 @@ async function login(request: {
     password: string;
     ip: string;
 }): Promise<{ id: Types.ObjectId; username: string; email: string; jwtToken: string; refreshToken: string }> {
+    //search user in database
     const account = await AccountModel.findOne({
         $or: [{ username: request.username }, { email: request.email }],
     });
-
+    //throw error if user entry does not exist in database
+    //or if typed password is not equal to users password in the database
     if (!account || !bcrypt.compareSync(request.password, account.passwordHash)) {
         throw 'Login failed';
     }
@@ -26,6 +28,7 @@ async function login(request: {
     // generate jwt
     const accessToken = generateAccessToken(account);
 
+    //return user data
     return {
         id: account.id,
         username: account.username,
@@ -41,6 +44,7 @@ async function register(request: {
     password: string;
     ip: string;
 }): Promise<{ id: Types.ObjectId; username: string; email: string; jwtToken: string; refreshToken: string }> {
+    //throw error if user exists with the same username or email in the database
     if (
         await AccountModel.findOne({
             $or: [{ username: request.username }, { email: request.email }],
@@ -49,6 +53,7 @@ async function register(request: {
         throw 'Account already exists';
     }
     const account = new AccountModel(request);
+    //Encrypt user password and save hashed password in database
     account.passwordHash = await bcrypt.hash(request.password, 10);
     await account.save();
 
@@ -59,6 +64,7 @@ async function register(request: {
     // generate jwt
     const accessToken = generateAccessToken(account);
 
+    //if success return user data
     return {
         id: account.id,
         username: account.username,
