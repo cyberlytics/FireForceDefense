@@ -2,7 +2,7 @@ FROM node:14-alpine AS build-stage
 
 WORKDIR /app
 
-ENV API_URL='http://backend-svc.fireforcedefense-27426248.svc.cluster.local:80'
+ENV API_URL='http://10.100.156.194:80'
 
 COPY . .
 
