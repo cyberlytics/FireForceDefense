@@ -7,7 +7,6 @@
                     <input
                         id="username"
                         v-model="username"
-                        v-validate="'required'"
                         :placeholder="$t('user name') + '/' + $t('email')"
                         name="username"
                         type="text"
@@ -23,7 +22,6 @@
                     <input
                         id="Password"
                         v-model="password"
-                        v-validate="'required'"
                         :placeholder="$t('password')"
                         name="password"
                         type="password"
@@ -96,7 +94,10 @@ export default Vue.extend({
                             this.$router.push('/world');
                         },
                         (error) => {
-                            this.message = error.response.statusText;
+                            this.message = /<pre>(.*?)<\/pre>/g
+                                .exec(error.response.data)[0]
+                                .replace(/<\/?pre>/g, '')
+                                .replace(/&\/?quot;/g, '');
                         },
                     );
                 }
