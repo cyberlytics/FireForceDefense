@@ -5,7 +5,7 @@ metadata:
     app: backend
     name: backend
   name: backend-svc
-  namespace: ffd-prod
+  namespace: fireforcedefense-27426248
 spec:
   ports:
   - protocol: TCP
@@ -22,7 +22,7 @@ metadata:
     app: backend
     name: backend
   name: backend
-  namespace: ffd-prod
+  namespace: fireforcedefense-27426248
 spec:
   replicas: 1
   selector:
