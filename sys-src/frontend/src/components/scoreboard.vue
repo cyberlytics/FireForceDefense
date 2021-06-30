@@ -85,7 +85,6 @@ export default Vue.extend({
             scoreboardService.getData(level).then((response) => {
                 this.items = response;
             });
-
         },
         goToMap() {
             this.$router.push('/world');
