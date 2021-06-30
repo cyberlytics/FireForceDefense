@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: frontend
+    name: frontend
+  name: frontend-svc
+  namespace: fireforcedefense-27426248
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: frontend
+    name: frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: frontend
+    name: frontend
+  name: frontend
+  namespace: fireforcedefense-27426248
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+      name: frontend
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: frontend
+        name: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: 285302907374.dkr.ecr.eu-central-1.amazonaws.com/frontend
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 80
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  labels:
+    app: frontend
+    name: frontend
+  name: frontend
+  namespace: fireforcedefense-27426248
+spec:
+  rules:
+  - host: a2366a6bda4cb4833b2497d8e04d18e4-f701077091d9e48b.elb.eu-central-1.amazonaws.com
+    http:
+      paths:
+      - backend:
+          serviceName: frontend-svc
+          servicePort: 80
+        path: /
