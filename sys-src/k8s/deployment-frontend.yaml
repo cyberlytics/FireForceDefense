@@ -5,7 +5,7 @@ metadata:
     app: frontend
     name: frontend
   name: frontend-svc
-  namespace: ffd-prod
+  namespace: fireforcedefense-27426248
 spec:
   ports:
   - protocol: TCP
@@ -22,7 +22,7 @@ metadata:
     app: frontend
     name: frontend
   name: frontend
-  namespace: ffd-prod
+  namespace: fireforcedefense-27426248
 spec:
   replicas: 1
   selector:
@@ -51,7 +51,7 @@ metadata:
     app: frontend
     name: frontend
   name: frontend
-  namespace: ffd-prod
+  namespace: fireforcedefense-27426248
 spec:
   rules:
   - host: a2366a6bda4cb4833b2497d8e04d18e4-f701077091d9e48b.elb.eu-central-1.amazonaws.com
@@ -61,4 +61,3 @@ spec:
           serviceName: frontend-svc
           servicePort: 80
         path: /
----

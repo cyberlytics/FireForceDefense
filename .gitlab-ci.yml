@@ -93,9 +93,7 @@ build_docker_backend:
         - aws --version
     script:
         - cd sys-src/backend
-        - docker build --build-arg DB_KEY=$DB_KEY --build-arg SECRET_KEY=$SECRET_KEY
-          -t $DOCKER_REGISTRY/frontend:latest
-          -t $DOCKER_REGISTRY/frontend:$CI_PIPELINE_IID .
+        - docker build -t $DOCKER_REGISTRY/frontend:latest -t $DOCKER_REGISTRY/frontend:$CI_PIPELINE_IID .
         - docker build -t $DOCKER_REGISTRY/backend:latest -t $DOCKER_REGISTRY/backend:$CI_PIPELINE_IID .
         - docker push $DOCKER_REGISTRY/backend:latest
         - docker push $DOCKER_REGISTRY/backend:$CI_PIPELINE_IID
@@ -114,9 +112,7 @@ build_docker_frontend:
         - aws --version
     script:
         - cd sys-src/frontend
-        - docker build --build-arg API_URL=$API_URL
-          -t $DOCKER_REGISTRY/frontend:latest
-          -t $DOCKER_REGISTRY/frontend:$CI_PIPELINE_IID .
+        - docker build -t $DOCKER_REGISTRY/frontend:latest -t $DOCKER_REGISTRY/frontend:$CI_PIPELINE_IID .
         - docker push $DOCKER_REGISTRY/frontend:latest
         - docker push $DOCKER_REGISTRY/frontend:$CI_PIPELINE_IID
 
@@ -129,6 +125,6 @@ deploy_production:
     only:
         - main
     script:
-        - kubectl config set-context --current --namespace=ffd-prod
-        - kubectl set image deployment frontend frontend=$DOCKER_REGISTRY/frontend:latest --namespace=ffd-prod
-        - kubectl set image deployment backend backend=$DOCKER_REGISTRY/backend:latest --namespace=ffd-prod
+        - kubectl config set-context --current --namespace=fireforcedefense-27426248
+        - kubectl set image deployment frontend frontend=$DOCKER_REGISTRY/frontend:latest --namespace=fireforcedefense-27426248
+        - kubectl set image deployment backend backend=$DOCKER_REGISTRY/backend:latest --namespace=fireforcedefense-27426248
