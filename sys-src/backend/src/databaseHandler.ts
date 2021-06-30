@@ -8,7 +8,7 @@ jest.useFakeTimers();
 /**
  * Connect to the in-memory database.
  */
-export async function connect() {
+export async function connect(): Promise<void> {
     const uri = await mongod.getUri();
     //Disconnect real mongo database
     await mongoose.disconnect();
@@ -41,7 +41,7 @@ export async function connect() {
 /**
  *  close the connection and stop mongod.
  */
-export async function closeDatabase() {
+export async function closeDatabase(): Promise<void> {
     await mongoose.disconnect();
     await mongod.stop();
 }
