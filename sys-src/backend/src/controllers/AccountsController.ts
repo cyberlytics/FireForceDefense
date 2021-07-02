@@ -13,23 +13,11 @@ export default class AccountsController {
 
     //Initialize routes and endpoints
     constructor() {
-        this.router.get(`${this.path}/:id`, this.getAccountById);
-        this.router.delete(`${this.path}/:id`, this.deleteAccountById);
         this.router.post(`${this.path}/login`, this.loginSchema, this.login);
         this.router.post(`${this.path}/register`, this.registerSchema, this.register);
         this.router.post(`${this.path}/refresh-token`, this.refreshTokenSchema, this.refreshToken);
         this.router.post(`${this.path}/revoke-token`, this.revokeTokenSchema, this.revokeToken);
     }
-
-    private getAccountById = (req: Request, res: Response) => {
-        // TODO
-        return res.status(200).json({ message: 'Get account by id' });
-    };
-
-    private deleteAccountById = (req: Request, res: Response) => {
-        // TODO
-        return res.status(200).json({ message: 'Delete account by id' });
-    };
 
     //Validate register post request
     private registerSchema = (req: Request, res: Response, next: NextFunction) => {
