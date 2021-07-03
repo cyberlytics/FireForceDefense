@@ -73,7 +73,7 @@ export default Vue.extend({
         return {
             items: null,
             levelFilter: null,
-            username: localStorage.getItem('username'),
+            username: JSON.parse(localStorage.getItem('user')).username,
         };
     },
     mounted() {

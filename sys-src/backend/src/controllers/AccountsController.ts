@@ -11,26 +11,15 @@ export default class AccountsController {
     public path = '/accounts';
     public router = Router();
 
+    //Initialize routes and endpoints
     constructor() {
-        this.router.get(`${this.path}/:id`, this.getAccountById);
-        this.router.delete(`${this.path}/:id`, this.deleteAccountById);
-
         this.router.post(`${this.path}/login`, this.loginSchema, this.login);
         this.router.post(`${this.path}/register`, this.registerSchema, this.register);
         this.router.post(`${this.path}/refresh-token`, this.refreshTokenSchema, this.refreshToken);
         this.router.post(`${this.path}/revoke-token`, this.revokeTokenSchema, this.revokeToken);
     }
 
-    private getAccountById = (req: Request, res: Response) => {
-        // TODO
-        return res.status(200).json({ message: 'Get account by id' });
-    };
-
-    private deleteAccountById = (req: Request, res: Response) => {
-        // TODO
-        return res.status(200).json({ message: 'Delete account by id' });
-    };
-
+    //Validate register post request
     private registerSchema = (req: Request, res: Response, next: NextFunction) => {
         const schema = Joi.object({
             username: Joi.string().required(),
@@ -39,7 +28,7 @@ export default class AccountsController {
         });
         validateRequestSchema(req, next, schema);
     };
-
+    //Handle register post request and response with user data
     private register = (req: Request, res: Response, next: NextFunction) => {
         const { username, email, password } = req.body;
         const ip = req.ip;
@@ -51,7 +40,7 @@ export default class AccountsController {
             })
             .catch(next);
     };
-
+    //Validate login post request
     private loginSchema = (req: Request, res: Response, next: NextFunction) => {
         const schema = Joi.object({
             username: Joi.string().optional(),
@@ -60,7 +49,7 @@ export default class AccountsController {
         });
         validateRequestSchema(req, next, schema);
     };
-
+    //Handle login post request and response with user data
     private login = (req: Request, res: Response, next: NextFunction) => {
         const { username, email, password } = req.body;
         const ip = req.ip;
@@ -73,6 +62,7 @@ export default class AccountsController {
             .catch(next);
     };
 
+    //Validate token post request
     private refreshTokenSchema = (req: Request, res: Response, next: NextFunction) => {
         const schema = Joi.object({
             token: Joi.string().empty(''),
@@ -80,7 +70,7 @@ export default class AccountsController {
         });
         validateRequestSchema(req, next, schema);
     };
-
+    //Handle refresh token post request and response with new token
     private refreshToken = (req: Request, res: Response, next: NextFunction) => {
         const ip = req.ip;
         const token = req.cookies.refreshToken;
@@ -103,6 +93,7 @@ export default class AccountsController {
         res.cookie('refreshToken', token, cookieOptions);
     };
 
+    //Validate token post request
     private revokeTokenSchema = (req: Request, res: Response, next: NextFunction) => {
         const schema = Joi.object({
             token: Joi.string().empty(''),
@@ -110,6 +101,7 @@ export default class AccountsController {
         validateRequestSchema(req, next, schema);
     };
 
+    //Handle revoke token and response with status message
     private revokeToken = (req: Request, res: Response, next: NextFunction) => {
         const token = req.body.token || req.cookies.refreshToken;
         if (!token) {

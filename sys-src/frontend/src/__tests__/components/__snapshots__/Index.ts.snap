@@ -73,12 +73,6 @@ exports[`Index.vue index matches snapshot 1`] = `
       <!---->
        
       <a>
-        Forgot password? 
-      </a>
-      
-            ·
-            
-      <a>
         register
       </a>
        
