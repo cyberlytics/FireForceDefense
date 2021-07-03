@@ -42,8 +42,6 @@
                     {{ message }}
                 </div>
 
-                <router-link class="" to="/">{{ $t('Forgot password?') }} </router-link>
-                ·
                 <router-link class="" to="/registration">{{ $t('register') }}</router-link>
                 <hr class="mb-3" />
                 <div>
