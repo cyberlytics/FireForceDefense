@@ -63,6 +63,14 @@ In beiden Teilprojekten stehen jeweils folgende Kommandos zur Verfügung:
 |`npm run test`|Führt die Tests aus.|
 |`docker-compose up`| Führt das Projekt in Docker Container aus.|
 
+Bevor die Teilprojekte gestartet werden können, ist es nötig, dass die Umgebungsvariablen richtig gesetzt werden.
+Die Variablen, die keiner Geheimhaltung bedürfen, sind in den jeweiligen `.env`-Dateien zu finden und werden dort bereits berücksichtigt.
+Im Backend sind außerdem geheime Zugangsdaten vonnöten.
+Die Variablennamen finden sich in der Datei `.env.local.template`.
+Vor dem Start des Backends müssen diese Variablen noch mit den richtigen Werten befüllt werden;
+dies passiert am besten in der lokal anzulegenden Datei `.env.local`.
+Falls die Zugangsdaten benötigt werden, bitte per Mail bei einem Teammitglied nachfragen (z.B. <a href="mailto:t.stangl1@oth-aw.de">t.stangl1@oth-aw.de</a>).
+
 ### Entwicklung einer Änderung
 
 1. Auschecken des `main`-Zweiges als Basis:  
